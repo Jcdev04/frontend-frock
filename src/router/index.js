@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import LoginView from '@/views/auth/Login.vue'
+import RegisterView from '@/views/auth/Register.vue'
+import CompanyRegisterView from '@/views/auth/Company-register.vue'
 
 // Importamos un componente placeholder para las rutas que aún no están implementadas
 const PlaceholderView = {
@@ -39,16 +42,25 @@ const routes = [
         name: 'Paraderos',
         component: PlaceholderView
     },
-
     {
         path: '/rutas',
         name: 'Rutas',
-        // component: RutasView
+        component: PlaceholderView
     },
     {
         path: '/login',
         name: 'Login',
-        component: PlaceholderView
+        component: LoginView // Actualizado para usar el componente de login
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: RegisterView // Nueva ruta para el registro
+    },
+    {
+        path: '/register-company',
+        name: 'RegisterCompany',
+        component: CompanyRegisterView // Nueva ruta para el registro de empresa
     },
     // Ruta para manejar rutas no encontradas
     {

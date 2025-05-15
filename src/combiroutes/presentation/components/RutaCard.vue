@@ -3,7 +3,7 @@
     <div class="paraderos">
       <div class="paradero">
         <div class="paradero-icon"></div>
-        <span class="paradero-label">Paradero origen</span>
+        <span class="paradero-label">{{ ruta.origenNombre || 'Paradero origen' }}</span>
       </div>
 
       <div class="bus-icon">
@@ -18,7 +18,7 @@
 
       <div class="paradero">
         <div class="paradero-icon"></div>
-        <span class="paradero-label">Paradero destino</span>
+        <span class="paradero-label">{{ ruta.destinoNombre || 'Paradero destino' }}</span>
       </div>
     </div>
 
@@ -79,8 +79,7 @@ export default {
   border-radius: 8px;
   padding: 20px;
   background-color: white;
-  width: 300px;
-  flex-shrink: 0;
+  width: 100%;
 }
 
 .paraderos {

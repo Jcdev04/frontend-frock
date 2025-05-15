@@ -2,7 +2,7 @@
   <div class="rutas-container">
     <div class="rutas-header">
       <h1 class="rutas-title">Rutas</h1>
-      <button class="nuevo-paradero-btn" @click="abrirModalNuevoParadero">
+      <button class="nuevo-paradero-btn" @click="abrirModalNuevaRuta">
         <span class="plus-icon">+</span> Nuevo Paradero
       </button>
     </div>
@@ -14,22 +14,32 @@
           :ruta="ruta"
       />
     </div>
+
+    <!-- Modal para nueva ruta -->
+    <nueva-ruta-modal
+        :visible="modalVisible"
+        @cerrar="cerrarModal"
+        @agregar="agregarNuevaRuta"
+    />
   </div>
 </template>
 
 <script>
 import RutaCard from '../components/RutaCard.vue';
+import NuevaRutaModal from '../components/NuevaRutaModal.vue';
 import { RutaService } from '../../application/services/RutaService';
 
 export default {
   name: 'RutasView',
   components: {
-    RutaCard
+    RutaCard,
+    NuevaRutaModal
   },
   data() {
     return {
       rutas: [],
-      rutaService: new RutaService()
+      rutaService: new RutaService(),
+      modalVisible: false
     }
   },
   created() {
@@ -43,9 +53,21 @@ export default {
         console.error('Error al cargar rutas:', error);
       }
     },
-    abrirModalNuevoParadero() {
-      // Implementar lógica para abrir modal de nuevo paradero
-      console.log('Abrir modal de nuevo paradero');
+    abrirModalNuevaRuta() {
+      this.modalVisible = true;
+    },
+    cerrarModal() {
+      this.modalVisible = false;
+    },
+    async agregarNuevaRuta(rutaData) {
+      try {
+        // Añadimos la ruta a través del servicio y luego recargamos todas las rutas
+        await this.rutaService.crearRuta(rutaData);
+        // Recargamos todas las rutas para evitar duplicados
+        await this.cargarRutas();
+      } catch (error) {
+        console.error('Error al agregar nueva ruta:', error);
+      }
     }
   }
 }
@@ -91,9 +113,22 @@ export default {
 }
 
 .rutas-grid {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  overflow-x: auto;
+}
+
+/* Responsive para tablets */
+@media (max-width: 1024px) {
+  .rutas-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Responsive para móviles */
+@media (max-width: 640px) {
+  .rutas-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

@@ -2,11 +2,12 @@
 
 import AppToolbarStops from "@/components/shared/component/AppToolbarStops.vue";
 import StopCard from "@/components/stops/component/StopCard.vue";
+
 </script>
 
 <template>
   <app-toolbar-stops />
-  <Form
+
   <div class="container-stops">
     <stop-card/>
     <stop-card/>

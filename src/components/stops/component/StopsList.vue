@@ -6,7 +6,7 @@ import StopCard from "@/components/stops/component/StopCard.vue";
 
 <template>
   <app-toolbar-stops />
-
+  <Form
   <div class="container-stops">
     <stop-card/>
     <stop-card/>

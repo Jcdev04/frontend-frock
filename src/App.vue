@@ -2,14 +2,13 @@
   <div id="app">
     <!-- El toolbar solo se muestra si el usuario está autenticado y no estamos en una página de auth -->
     <app-toolbar v-if="isAuthenticated && !isAuthPage" />
-
     <!-- Router view para mostrar el contenido de cada ruta -->
     <router-view />
   </div>
 </template>
 
 <script>
-import AppToolbar from './components/AppToolbar.vue'
+import AppToolbar from './components/shared/component/AppToolbar.vue'
 
 export default {
   name: 'App',
@@ -20,7 +19,7 @@ export default {
     return {
       // Por ahora lo dejamos como true para desarrollo
       // En producción, esto vendría de un store o servicio de autenticación
-      isAuthenticated: true
+      isAuthenticated: false
     }
   },
   computed: {

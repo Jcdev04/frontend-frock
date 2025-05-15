@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/auth/Login.vue'
 import RegisterView from '@/views/auth/Register.vue'
 import CompanyRegisterView from '@/views/auth/Company-register.vue'
+import StopsList from "@/components/stops/component/StopsList.vue";
 
 // Importamos un componente placeholder para las rutas que aún no están implementadas
 const PlaceholderView = {
@@ -30,7 +31,8 @@ const PlaceholderView = {
 const routes = [
     {
         path: '/',
-        redirect: '/inicio'
+        name:"Stops-List",
+        component: StopsList
     },
     {
         path: '/inicio',
@@ -68,7 +70,6 @@ const routes = [
         redirect: '/inicio'
     }
 ]
-
 const router = createRouter({
     history: createWebHistory(),
     routes

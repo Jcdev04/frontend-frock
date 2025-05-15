@@ -8,7 +8,12 @@ import StopCard from "@/components/stops/component/StopCard.vue";
   <app-toolbar-stops />
 
   <div class="container-stops">
-
+    <stop-card/>
+    <stop-card/>
+    <stop-card/>
+    <stop-card/>
+    <stop-card/>
+    <stop-card/>
   </div>
 </template>
 

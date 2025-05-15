@@ -1,0 +1,25 @@
+* [33m83fa5bb[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/allStops[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/dev[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mdev[m[33m)[m chore: db.json added
+* [33m7a58396[m feat(auth): create company registration component
+* [33mafbd12d[m feat(auth): create user registration component
+* [33m00285da[m feat(auth): create login component
+* [33m01c32e8[m feat(index): update config for auth routes
+* [33m6708c16[m feat(app): add logic to detect auth page for customers or workers
+* [33mff68259[m feat(toolbar): created toolbar component
+* [33mdf647ed[m feat(app): added toolbar application.
+* [33m996d5dd[m feat(index): added router paths.
+* [33m97b17c6[m chore: added router import.
+* [33m4c589c6[m feat(router): added router dependecy.
+[31m|[m * [33m4a63d36[m[33m ([m[1;31morigin/feature/combiroutes[m[33m)[m feat(routeRepository): added localStorage.
+[31m|[m * [33m61d59dc[m refactor: fix columns error.
+[31m|[m * [33maaaa12a[m feat(components): added correctly design.
+[31m|[m * [33m63912a0[m feat(styles): added styles.
+[31m|[m * [33m980045a[m feat(View): added routes view components.
+[31m|[m * [33m072d584[m feat(RutaService): added routes services.
+[31m|[m * [33m91e7d8a[m feat(RutaRepository): added routes repository.
+[31m|[m * [33m8681e81[m feat(RutaCard): added routes cards components.
+[31m|[m * [33mc317429[m feat(ruta): added routes models.
+[31m|[m * [33m95f1277[m feat(paradero): added stops models.
+[31m|[m * [33me9a025e[m feat(Appvue): added application codes.
+[31m|[m[31m/[m  
+* [33mf047e25[m refactor: delete all unnecessary files.
+* [33md6bb51f[m first commit

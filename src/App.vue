@@ -19,7 +19,7 @@ export default {
     return {
       // Por ahora lo dejamos como true para desarrollo
       // En producción, esto vendría de un store o servicio de autenticación
-      isAuthenticated: false
+      isAuthenticated: true
     }
   },
   computed: {

@@ -90,16 +90,14 @@ export default {
   },
   methods: {
     handleRegister() {
-      // Validar que se haya seleccionado un tipo de usuario
       if (!this.userType) {
         this.showTypeError = true;
-        return; // Detener el envío del formulario
+        return;
       }
 
       // Ocultar mensaje de error si todo está bien
       this.showTypeError = false;
 
-      // Solo navegación, sin lógica de backend
       if (this.userType === 'empresa') {
         this.$router.push('/register-company');
       } else {

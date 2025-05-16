@@ -61,9 +61,7 @@ export default {
     },
     async agregarNuevaRuta(rutaData) {
       try {
-        // Añadimos la ruta a través del servicio y luego recargamos todas las rutas
         await this.rutaService.crearRuta(rutaData);
-        // Recargamos todas las rutas para evitar duplicados
         await this.cargarRutas();
       } catch (error) {
         console.error('Error al agregar nueva ruta:', error);
@@ -75,8 +73,8 @@ export default {
 
 <style scoped>
 .rutas-container {
-  padding: 20px;
-  max-width: 1200px;
+  padding: 30px;
+  max-width: 1300px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
   background-color: white;
@@ -86,7 +84,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .rutas-title {
@@ -101,7 +99,7 @@ export default {
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 8px 16px;
+  padding: 10px 18px;
   font-size: 14px;
   cursor: pointer;
   display: flex;
@@ -109,19 +107,27 @@ export default {
 }
 
 .plus-icon {
-  margin-right: 4px;
+  margin-right: 6px;
 }
 
 .rutas-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 30px;
 }
 
 /* Responsive para tablets */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .rutas-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+}
+
+@media (max-width: 992px) {
   .rutas-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 }
 
@@ -129,6 +135,10 @@ export default {
 @media (max-width: 640px) {
   .rutas-grid {
     grid-template-columns: 1fr;
+  }
+
+  .rutas-container {
+    padding: 20px;
   }
 }
 </style>

@@ -28,11 +28,16 @@
               v-model="companyName"
               placeholder="Nombre de su empresa"
               class="form-input"
+              required
           />
         </div>
 
-        <button type="submit" class="btn-primary">
-          Continuar
+        <div v-if="error" class="error-message">
+          {{ error }}
+        </div>
+
+        <button type="submit" class="btn-primary" :disabled="isLoading">
+          {{ isLoading ? 'Procesando...' : 'Continuar' }}
         </button>
       </form>
     </div>
@@ -46,7 +51,9 @@ export default {
     return {
       companyName: '',
       companyLogo: null,
-      previewImage: null
+      previewImage: null,
+      error: null,
+      isLoading: false
     }
   },
   methods: {
@@ -60,9 +67,47 @@ export default {
         this.previewImage = URL.createObjectURL(file);
       }
     },
-    handleCompanyRegister() {
-      // Solo navegación, sin lógica de backend
-      this.$router.push('/');
+    async handleCompanyRegister() {
+      if (!this.companyName) {
+        this.error = 'Por favor ingrese el nombre de su empresa';
+        return;
+      }
+
+      this.isLoading = true;
+      this.error = null;
+
+      try {
+        // Aquí iría la lógica real para guardar la información de la empresa
+        // Por ahora, simulamos un proceso exitoso
+
+        // Simulación de una llamada a API (reemplazar con tu lógica real)
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Guardar información de la empresa (simulado)
+        const companyInfo = {
+          name: this.companyName,
+          logoUrl: this.previewImage // En una implementación real, esto sería la URL del logo subido al servidor
+        };
+
+        // Guardar en localStorage para simular persistencia
+        localStorage.setItem('company_info', JSON.stringify(companyInfo));
+
+        // Asegurarse de que el token de autenticación esté establecido
+        if (!localStorage.getItem('auth_token')) {
+          localStorage.setItem('auth_token', 'ejemplo_token_jwt');
+        }
+
+        // Emitir evento de registro exitoso
+        this.$emit('register-success');
+
+        // Redireccionar a la página principal donde se muestra el toolbar
+        this.$router.push('/rutas');
+      } catch (error) {
+        console.error('Error al registrar empresa:', error);
+        this.error = 'Ocurrió un error al registrar la empresa';
+      } finally {
+        this.isLoading = false;
+      }
     }
   }
 }
@@ -144,6 +189,13 @@ export default {
   font-size: 1rem;
 }
 
+.error-message {
+  color: #e53935;
+  margin-bottom: 16px;
+  font-size: 14px;
+  text-align: left;
+}
+
 .btn-primary {
   width: 100%;
   padding: 0.75rem;
@@ -154,5 +206,10 @@ export default {
   font-size: 1rem;
   cursor: pointer;
   margin-top: 0.5rem;
+}
+
+.btn-primary:disabled {
+  background-color: #999;
+  cursor: not-allowed;
 }
 </style>

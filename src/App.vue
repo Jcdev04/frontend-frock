@@ -3,8 +3,11 @@
     <!-- El toolbar solo se muestra si el usuario está autenticado y no estamos en una página de auth -->
     <app-toolbar v-if="isAuthenticated && !isAuthPage" />
 
-    <!-- Router view para mostrar el contenido de cada ruta -->
-    <router-view />
+    <!-- Router view para mostrar el componente correspondiente a la ruta actual -->
+    <router-view
+        @login-success="handleLoginSuccess"
+        @register-success="handleRegisterSuccess"
+    />
   </div>
 </template>
 
@@ -18,13 +21,34 @@ export default {
   },
   data() {
     return {
-      // Por ahora lo dejamos como true para desarrollo
-      // En producción, esto vendría de un store o servicio de autenticación
-      isAuthenticated: true
+      isAuthenticated: false
+    }
+  },
+  created() {
+    // Verificar si hay un token almacenado para determinar si el usuario está autenticado
+    this.checkAuthentication();
+
+    // Forzar redirección a login si estamos en la ruta raíz
+    if (this.$route.path === '/') {
+      this.$router.push('/login');
+    }
+  },
+  methods: {
+    checkAuthentication() {
+      // Verificar si hay un token en localStorage
+      const token = localStorage.getItem('auth_token');
+      this.isAuthenticated = !!token;
+    },
+    handleLoginSuccess() {
+      this.isAuthenticated = true;
+      this.$router.push('/rutas');
+    },
+    handleRegisterSuccess() {
+      this.isAuthenticated = true;
+      this.$router.push('/rutas');
     }
   },
   computed: {
-    // Comprueba si estamos en una página de autenticación
     isAuthPage() {
       const authRoutes = ['/login', '/register', '/register-company'];
       return authRoutes.includes(this.$route.path);

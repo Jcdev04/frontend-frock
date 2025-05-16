@@ -1,70 +1,67 @@
 <template>
-  <div class="auth-container">
-    <div class="auth-card">
+  <div class="register-container">
+    <div class="register-card">
       <div class="logo-container">
-        <div class="logo-placeholder">
-          <img src="@/assets/logo-chapaturuta.png" alt="Logo" class="logo" />
-        </div>
+        <img src="@/assets/logo-chapaturuta.png" alt="Logo" class="logo" />
       </div>
-      <h2 class="title">Iniciar Sesión</h2>
+      <h1>Crear Cuenta</h1>
 
       <form @submit.prevent="handleRegister">
         <div class="form-group">
+          <label for="name">Nombre completo</label>
           <input
               type="text"
-              v-model="nombres"
-              placeholder="Nombres"
-              class="form-input"
+              id="name"
+              v-model="name"
+              placeholder="Ingrese su nombre completo"
               required
           />
         </div>
 
         <div class="form-group">
-          <input
-              type="text"
-              v-model="apellidos"
-              placeholder="Apellidos"
-              class="form-input"
-              required
-          />
-        </div>
-
-        <div class="form-group">
+          <label for="email">Correo electrónico</label>
           <input
               type="email"
+              id="email"
               v-model="email"
-              placeholder="Email"
-              class="form-input"
+              placeholder="Ingrese su correo electrónico"
               required
           />
         </div>
 
         <div class="form-group">
+          <label for="password">Contraseña</label>
           <input
               type="password"
+              id="password"
               v-model="password"
-              placeholder="Password"
-              class="form-input"
+              placeholder="Ingrese su contraseña"
               required
           />
         </div>
 
         <div class="form-group">
-          <select v-model="userType" class="form-input" required>
-            <option value="" disabled selected>Registrarse como</option>
-            <option value="usuario">Usuario</option>
-            <option value="empresa">Empresa</option>
-          </select>
-          <p v-if="showTypeError" class="error-message">Por favor selecciona cómo quieres registrarte</p>
+          <label for="confirmPassword">Confirmar contraseña</label>
+          <input
+              type="password"
+              id="confirmPassword"
+              v-model="confirmPassword"
+              placeholder="Confirme su contraseña"
+              required
+          />
         </div>
 
-        <button type="submit" class="btn-primary" :disabled="!isFormValid">
-          Ingresar
+        <div v-if="error" class="error-message">
+          {{ error }}
+        </div>
+
+        <button type="submit" class="btn-register" :disabled="isLoading">
+          {{ isLoading ? 'Procesando...' : 'Registrarse' }}
         </button>
       </form>
 
       <div class="login-link">
-        <router-link to="/login" class="link">¿Ya tienes una cuenta? Inicia Sesión</router-link>
+        ¿Ya tienes una cuenta? <router-link to="/login">Iniciar Sesión</router-link>
       </div>
     </div>
   </div>
@@ -75,33 +72,55 @@ export default {
   name: 'RegisterView',
   data() {
     return {
-      nombres: '',
-      apellidos: '',
+      name: '',
       email: '',
       password: '',
-      userType: '',
-      showTypeError: false
-    }
-  },
-  computed: {
-    isFormValid() {
-      return this.nombres && this.apellidos && this.email && this.password && this.userType;
+      confirmPassword: '',
+      error: null,
+      isLoading: false
     }
   },
   methods: {
-    handleRegister() {
-      if (!this.userType) {
-        this.showTypeError = true;
-        return;
-      }
+    async handleRegister() {
+      this.isLoading = true;
+      this.error = null;
 
-      // Ocultar mensaje de error si todo está bien
-      this.showTypeError = false;
+      try {
+        // Validar que las contraseñas coincidan
+        if (this.password !== this.confirmPassword) {
+          this.error = 'Las contraseñas no coinciden';
+          return;
+        }
 
-      if (this.userType === 'empresa') {
-        this.$router.push('/register-company');
-      } else {
-        this.$router.push('/');
+        // Aquí iría la lógica real de registro con tu backend
+        // Por ahora, simulamos un registro exitoso
+
+        // Simulación de una llamada a API (reemplazar con tu lógica real)
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Verificar datos (esto es solo un ejemplo)
+        if (this.name && this.email && this.password) {
+          // Guardar información del usuario (simulado)
+          const userInfo = {
+            name: this.name,
+            email: this.email
+          };
+
+          localStorage.setItem('user_info', JSON.stringify(userInfo));
+
+          // Nota: No establecemos el token de autenticación aquí,
+          // ya que primero debe completar el registro de la empresa
+
+          // Redireccionar a la página de registro de empresa
+          this.$router.push('/register-company');
+        } else {
+          this.error = 'Por favor complete todos los campos';
+        }
+      } catch (error) {
+        console.error('Error durante el registro:', error);
+        this.error = 'Ocurrió un error al intentar registrarse';
+      } finally {
+        this.isLoading = false;
       }
     }
   }
@@ -109,7 +128,7 @@ export default {
 </script>
 
 <style scoped>
-.auth-container {
+.register-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -117,88 +136,87 @@ export default {
   background-color: #f5f5f5;
 }
 
-.auth-card {
-  background: white;
-  padding: 2rem;
+.register-card {
+  background-color: white;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 400px;
+  max-width: 90%;
 }
 
 .logo-container {
-  margin-bottom: 1rem;
   display: flex;
   justify-content: center;
-}
-
-.logo-placeholder {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-bottom: 20px;
 }
 
 .logo {
-  width: 100%;
-  height: 100%;
+  width: 80px;
+  height: 80px;
 }
 
-.title {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
+h1 {
+  text-align: center;
+  margin-bottom: 24px;
   color: #333;
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
 }
 
-.form-input {
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #555;
+}
+
+input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 14px;
 }
 
-.btn-primary {
+.btn-register {
   width: 100%;
-  padding: 0.75rem;
+  padding: 12px;
   background-color: #333;
   color: white;
   border: none;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 0.5rem;
+  margin-top: 10px;
 }
 
-.btn-primary:disabled {
+.btn-register:disabled {
   background-color: #999;
   cursor: not-allowed;
 }
 
-.login-link {
-  margin-top: 1rem;
-}
-
-.link {
-  color: #333;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.link:hover {
-  text-decoration: underline;
-}
-
 .error-message {
-  color: #e74c3c;
-  font-size: 0.8rem;
-  margin-top: 0.25rem;
-  text-align: left;
+  color: #e53935;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #555;
+}
+
+.login-link a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
 }
 </style>

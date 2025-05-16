@@ -1,29 +1,22 @@
 <template>
   <div id="app">
-
-    <RutasView />
-
     <!-- El toolbar solo se muestra si el usuario está autenticado y no estamos en una página de auth -->
     <app-toolbar v-if="isAuthenticated && !isAuthPage" />
 
-    <router-view />
-
+    <!-- Router view para mostrar el componente correspondiente a la ruta actual -->
+    <router-view
+        @login-success="handleLoginSuccess"
+        @register-success="handleRegisterSuccess"
+    />
   </div>
 </template>
 
 <script>
-
-import RutasView from './combiroutes/presentation/views/RutasView.vue'
-
 import AppToolbar from './components/AppToolbar.vue'
-
 
 export default {
   name: 'App',
   components: {
-
-    RutasView
-
     AppToolbar
   },
   data() {
@@ -32,8 +25,27 @@ export default {
     }
   },
   created() {
+    // Verificar si hay un token almacenado para determinar si el usuario está autenticado
+    this.checkAuthentication();
+
+    // Forzar redirección a login si estamos en la ruta raíz
     if (this.$route.path === '/') {
       this.$router.push('/login');
+    }
+  },
+  methods: {
+    checkAuthentication() {
+      // Verificar si hay un token en localStorage
+      const token = localStorage.getItem('auth_token');
+      this.isAuthenticated = !!token;
+    },
+    handleLoginSuccess() {
+      this.isAuthenticated = true;
+      this.$router.push('/rutas');
+    },
+    handleRegisterSuccess() {
+      this.isAuthenticated = true;
+      this.$router.push('/rutas');
     }
   },
   computed: {
@@ -41,7 +53,6 @@ export default {
       const authRoutes = ['/login', '/register', '/register-company'];
       return authRoutes.includes(this.$route.path);
     }
-
   }
 }
 </script>

@@ -17,12 +17,16 @@
     </div>
 
     <div class="toolbar-right">
-      <div class="profile-icon">
+      <div class="profile-icon" @click="toggleDropdown">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
         <span>Perfil</span>
+
+        <div v-if="showDropdown" class="dropdown-menu">
+          <div class="dropdown-item" @click="logout">Cerrar sesión</div>
+        </div>
       </div>
     </div>
   </div>
@@ -30,7 +34,24 @@
 
 <script>
 export default {
-  name: 'AppToolbar'
+  name: 'AppToolbar',
+  data() {
+    return {
+      showDropdown: false
+    }
+  },
+  methods: {
+    toggleDropdown() {
+      this.showDropdown = !this.showDropdown;
+    },
+    logout() {
+      // Eliminar el token de autenticación
+      localStorage.removeItem('auth_token');
+
+      // Redireccionar a la página de login
+      this.$router.push('/login');
+    }
+  }
 }
 </script>
 
@@ -90,9 +111,35 @@ export default {
   gap: 8px;
   justify-content: flex-end;
   cursor: pointer;
+  position: relative;
 }
 
 .profile-icon span {
   font-size: 14px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  min-width: 150px;
+  margin-top: 8px;
+  z-index: 100;
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
 }
 </style>

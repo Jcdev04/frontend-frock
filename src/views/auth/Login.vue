@@ -3,7 +3,7 @@
     <div class="auth-card">
       <div class="logo-container">
         <div class="logo-placeholder">
-          <img src="@/assets/logo.svg" alt="Logo" class="logo" />
+          <img src="@/assets/logo-chapaturuta.png" alt="Logo" class="logo" />
         </div>
       </div>
       <h2 class="title">Iniciar Sesión</h2>
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     handleLogin() {
-      // Solo navegación, sin lógica de backend
+      this.$root.$data.isAuthenticated = true;
       this.$router.push('/');
     }
   }

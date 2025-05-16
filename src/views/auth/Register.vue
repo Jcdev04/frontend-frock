@@ -3,7 +3,7 @@
     <div class="auth-card">
       <div class="logo-container">
         <div class="logo-placeholder">
-          <img src="@/assets/logo.svg" alt="Logo" class="logo" />
+          <img src="@/assets/logo-chapaturuta.png" alt="Logo" class="logo" />
         </div>
       </div>
       <h2 class="title">Iniciar Sesión</h2>
@@ -15,6 +15,7 @@
               v-model="nombres"
               placeholder="Nombres"
               class="form-input"
+              required
           />
         </div>
 
@@ -24,6 +25,7 @@
               v-model="apellidos"
               placeholder="Apellidos"
               class="form-input"
+              required
           />
         </div>
 
@@ -33,6 +35,7 @@
               v-model="email"
               placeholder="Email"
               class="form-input"
+              required
           />
         </div>
 
@@ -42,18 +45,20 @@
               v-model="password"
               placeholder="Password"
               class="form-input"
+              required
           />
         </div>
 
         <div class="form-group">
-          <select v-model="userType" class="form-input">
+          <select v-model="userType" class="form-input" required>
             <option value="" disabled selected>Registrarse como</option>
             <option value="usuario">Usuario</option>
             <option value="empresa">Empresa</option>
           </select>
+          <p v-if="showTypeError" class="error-message">Por favor selecciona cómo quieres registrarte</p>
         </div>
 
-        <button type="submit" class="btn-primary">
+        <button type="submit" class="btn-primary" :disabled="!isFormValid">
           Ingresar
         </button>
       </form>
@@ -74,11 +79,26 @@ export default {
       apellidos: '',
       email: '',
       password: '',
-      userType: ''
+      userType: '',
+      showTypeError: false
+    }
+  },
+  computed: {
+    isFormValid() {
+      return this.nombres && this.apellidos && this.email && this.password && this.userType;
     }
   },
   methods: {
     handleRegister() {
+      // Validar que se haya seleccionado un tipo de usuario
+      if (!this.userType) {
+        this.showTypeError = true;
+        return; // Detener el envío del formulario
+      }
+
+      // Ocultar mensaje de error si todo está bien
+      this.showTypeError = false;
+
       // Solo navegación, sin lógica de backend
       if (this.userType === 'empresa') {
         this.$router.push('/register-company');
@@ -158,6 +178,11 @@ export default {
   margin-top: 0.5rem;
 }
 
+.btn-primary:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
 .login-link {
   margin-top: 1rem;
 }
@@ -170,5 +195,12 @@ export default {
 
 .link:hover {
   text-decoration: underline;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  text-align: left;
 }
 </style>

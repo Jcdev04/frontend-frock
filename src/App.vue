@@ -3,7 +3,6 @@
     <!-- El toolbar solo se muestra si el usuario está autenticado y no estamos en una página de auth -->
     <app-toolbar v-if="isAuthenticated && !isAuthPage" />
 
-    <!-- Router view para mostrar el contenido de cada ruta -->
     <router-view />
   </div>
 </template>
@@ -18,13 +17,15 @@ export default {
   },
   data() {
     return {
-      // Por ahora lo dejamos como true para desarrollo
-      // En producción, esto vendría de un store o servicio de autenticación
-      isAuthenticated: true
+      isAuthenticated: false
+    }
+  },
+  created() {
+    if (this.$route.path === '/') {
+      this.$router.push('/login');
     }
   },
   computed: {
-    // Comprueba si estamos en una página de autenticación
     isAuthPage() {
       const authRoutes = ['/login', '/register', '/register-company'];
       return authRoutes.includes(this.$route.path);

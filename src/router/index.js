@@ -3,7 +3,6 @@ import LoginView from '@/views/auth/Login.vue'
 import RegisterView from '@/views/auth/Register.vue'
 import CompanyRegisterView from '@/views/auth/Company-register.vue'
 
-// Importamos un componente placeholder para las rutas que aún no están implementadas
 const PlaceholderView = {
     template: '<div class="placeholder"><h2>Esta página está en desarrollo</h2><p>Próximamente disponible</p></div>',
     style: `
@@ -26,7 +25,6 @@ const PlaceholderView = {
   `
 }
 
-// Definimos las rutas
 const routes = [
     {
         path: '/',
@@ -50,19 +48,19 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
-        component: LoginView // Actualizado para usar el componente de login
+        component: LoginView
     },
     {
         path: '/register',
         name: 'Register',
-        component: RegisterView // Nueva ruta para el registro
+        component: RegisterView
     },
     {
         path: '/register-company',
         name: 'RegisterCompany',
-        component: CompanyRegisterView // Nueva ruta para el registro de empresa
+        component: CompanyRegisterView
     },
-    // Ruta para manejar rutas no encontradas
+
     {
         path: '/:pathMatch(.*)*',
         redirect: '/inicio'
@@ -73,20 +71,5 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
-
-// Aquí puedes agregar guardias de navegación para verificar la autenticación
-// Por ejemplo:
-/*
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('token') !== null
-
-  // Si la ruta requiere autenticación y el usuario no está autenticado
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    next('/login')
-  } else {
-    next()
-  }
-})
-*/
 
 export default router

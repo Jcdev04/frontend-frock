@@ -1,16 +1,47 @@
 <template>
   <div id="app">
+
     <RutasView />
+
+    <!-- El toolbar solo se muestra si el usuario está autenticado y no estamos en una página de auth -->
+    <app-toolbar v-if="isAuthenticated && !isAuthPage" />
+
+    <router-view />
+
   </div>
 </template>
 
 <script>
+
 import RutasView from './combiroutes/presentation/views/RutasView.vue'
+
+import AppToolbar from './components/AppToolbar.vue'
+
 
 export default {
   name: 'App',
   components: {
+
     RutasView
+
+    AppToolbar
+  },
+  data() {
+    return {
+      isAuthenticated: false
+    }
+  },
+  created() {
+    if (this.$route.path === '/') {
+      this.$router.push('/login');
+    }
+  },
+  computed: {
+    isAuthPage() {
+      const authRoutes = ['/login', '/register', '/register-company'];
+      return authRoutes.includes(this.$route.path);
+    }
+
   }
 }
 </script>

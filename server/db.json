@@ -1,0 +1,243 @@
+{
+  "regions": [
+    {
+      "id": "reg-1",
+      "name": "Región Metropolitana"
+    },
+    {
+      "id": "reg-2",
+      "name": "Región de Valparaíso"
+    },
+    {
+      "id": "reg-3",
+      "name": "Región del Maule"
+    }
+  ],
+  "provinces": [
+    {
+      "id": "prov-1",
+      "name": "Santiago",
+      "fk_id_regions": "reg-1"
+    },
+    {
+      "id": "prov-2",
+      "name": "Valparaíso",
+      "fk_id_regions": "reg-2"
+    },
+    {
+      "id": "prov-3",
+      "name": "Talca",
+      "fk_id_regions": "reg-3"
+    }
+  ],
+  "districts": [
+    {
+      "id": "dist-1",
+      "name": "Santiago Centro",
+      "fk_id_province": "prov-1"
+    },
+    {
+      "id": "dist-2",
+      "name": "Providencia",
+      "fk_id_province": "prov-1"
+    },
+    {
+      "id": "dist-3",
+      "name": "Valparaíso",
+      "fk_id_province": "prov-2"
+    }
+  ],
+  "localities": [
+    {
+      "id": "loc-1",
+      "name": "Plaza de Armas",
+      "fk_id_district": "dist-1"
+    },
+    {
+      "id": "loc-2",
+      "name": "Barrio Bellavista",
+      "fk_id_district": "dist-2"
+    },
+    {
+      "id": "loc-3",
+      "name": "Cerro Alegre",
+      "fk_id_district": "dist-3"
+    }
+  ],
+  "locations": [
+    {
+      "id": "locat-1",
+      "longitude": -70.64827,
+      "latitude": -33.4372,
+      "reference": "Frente a la Catedral",
+      "fk_id_locality": "loc-1"
+    },
+    {
+      "id": "locat-2",
+      "longitude": -70.63224,
+      "latitude": -33.4325,
+      "reference": "Cerca de Patio Bellavista",
+      "fk_id_locality": "loc-2"
+    },
+    {
+      "id": "locat-3",
+      "longitude": -71.6275,
+      "latitude": -33.0461,
+      "reference": "Mirador Paseo Yugoslavo",
+      "fk_id_locality": "loc-3"
+    }
+  ],
+  "users": [
+    {
+      "id": "user-1",
+      "created_at": "2023-05-15T10:30:00Z",
+      "email": "carlos.mendoza@example.com",
+      "name": "Carlos Mendoza",
+      "password": "hashedpassword123",
+      "role": "admin"
+    },
+    {
+      "id": "user-2",
+      "created_at": "2023-06-20T14:45:00Z",
+      "email": "sofia.gonzalez@example.com",
+      "name": "Sofía González",
+      "password": "hashedpassword456",
+      "role": "company"
+    },
+    {
+      "id": "user-3",
+      "created_at": "2023-07-10T09:15:00Z",
+      "email": "javier.rodriguez@example.com",
+      "name": "Javier Rodríguez",
+      "password": "hashedpassword789",
+      "role": "user"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp-1",
+      "name": "Turismo Andino",
+      "logo_url": "https://example.com/logos/turismo-andino.png",
+      "fk_user_id": "user-2"
+    },
+    {
+      "id": "comp-2",
+      "name": "Rutas del Pacífico",
+      "logo_url": "https://example.com/logos/rutas-pacifico.png",
+      "fk_user_id": "user-1"
+    }
+  ],
+  "stops": [
+    {
+      "id": "stop-1",
+      "name": "Café Haití",
+      "google_maps_url": "https://goo.gl/maps/example1",
+      "image_url": "https://example.com/images/cafe-haiti.jpg",
+      "phone": "+56912345678",
+      "fk_id_company": "comp-1",
+      "fk_id_location": "locat-2"
+    },
+    {
+      "id": "stop-2",
+      "name": "Museo de Bellas Artes",
+      "google_maps_url": "https://goo.gl/maps/example2",
+      "image_url": "https://example.com/images/bellas-artes.jpg",
+      "phone": "+56987654321",
+      "fk_id_company": "comp-1",
+      "fk_id_location": "locat-1"
+    },
+    {
+      "id": "stop-3",
+      "name": "La Sebastiana",
+      "google_maps_url": "https://goo.gl/maps/example3",
+      "image_url": "https://example.com/images/sebastiana.jpg",
+      "phone": "+56955556666",
+      "fk_id_company": "comp-2",
+      "fk_id_location": "locat-3"
+    }
+  ],
+  "schedules": [
+    {
+      "id": "sched-1",
+      "day": "Lunes",
+      "time_from": "09:00",
+      "time_to": "18:00",
+      "is_available": true,
+      "fk_id_stop": "stop-1"
+    },
+    {
+      "id": "sched-2",
+      "day": "Martes",
+      "time_from": "10:00",
+      "time_to": "17:00",
+      "is_available": true,
+      "fk_id_stop": "stop-2"
+    },
+    {
+      "id": "sched-3",
+      "day": "Miércoles",
+      "time_from": "08:30",
+      "time_to": "19:00",
+      "is_available": false,
+      "fk_id_stop": "stop-3"
+    }
+  ],
+  "routes": [
+    {
+      "id": "route-1",
+      "price": 15000.50,
+      "duration_min": 120
+    },
+    {
+      "id": "route-2",
+      "price": 20000.00,
+      "duration_min": 180
+    },
+    {
+      "id": "route-3",
+      "price": 7500.75,
+      "duration_min": 90
+    }
+  ],
+  "stops_routes": [
+    {
+      "id": "sr-1",
+      "fk_id_route": "route-1",
+      "fk_id_stop": "stop-1"
+    },
+    {
+      "id": "sr-2",
+      "fk_id_route": "route-1",
+      "fk_id_stop": "stop-2"
+    },
+    {
+      "id": "sr-3",
+      "fk_id_route": "route-2",
+      "fk_id_stop": "stop-3"
+    }
+  ],
+  "itineraries": [
+    {
+      "id": "itin-1",
+      "name": "Tour Cultural Santiago",
+      "id_user": "user-3"
+    },
+    {
+      "id": "itin-2",
+      "name": "Paseo por Valparaíso",
+      "id_user": "user-1"
+    }
+  ],
+  "itineraries_routes": [
+    {
+      "id": "ir-1",
+      "id_itinerary": "itin-1",
+      "id_route": "route-1"
+    },
+    {
+      "id": "ir-2",
+      "id_itinerary": "itin-2",
+      "id_route": "route-2"
+    }
+  ]
+}

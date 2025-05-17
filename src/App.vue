@@ -29,9 +29,9 @@ export default {
     this.checkAuthentication();
 
     // Forzar redirección a login si estamos en la ruta raíz
-    if (this.$route.path === '/') {
+   /* if (this.$route.path === '/') {
       this.$router.push('/login');
-    }
+    }*/
   },
   methods: {
     checkAuthentication() {

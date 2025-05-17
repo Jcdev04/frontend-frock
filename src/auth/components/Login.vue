@@ -1,23 +1,12 @@
 <template>
-  <div class="register-container">
-    <div class="register-card">
+  <div class="login-container">
+    <div class="login-card">
       <div class="logo-container">
-        <img src="@/assets/logo-chapaturuta.png" alt="Logo" class="logo" />
+        <img src="../../assets/logo-chapaturuta.png" alt="Logo" class="logo" />
       </div>
-      <h1>Crear Cuenta</h1>
+      <h1>Iniciar Sesión</h1>
 
-      <form @submit.prevent="handleRegister">
-        <div class="form-group">
-          <label for="name">Nombre completo</label>
-          <input
-              type="text"
-              id="name"
-              v-model="name"
-              placeholder="Ingrese su nombre completo"
-              required
-          />
-        </div>
-
+      <form @submit.prevent="handleLogin">
         <div class="form-group">
           <label for="email">Correo electrónico</label>
           <input
@@ -40,28 +29,17 @@
           />
         </div>
 
-        <div class="form-group">
-          <label for="confirmPassword">Confirmar contraseña</label>
-          <input
-              type="password"
-              id="confirmPassword"
-              v-model="confirmPassword"
-              placeholder="Confirme su contraseña"
-              required
-          />
-        </div>
-
         <div v-if="error" class="error-message">
           {{ error }}
         </div>
 
-        <button type="submit" class="btn-register" :disabled="isLoading">
-          {{ isLoading ? 'Procesando...' : 'Registrarse' }}
+        <button type="submit" class="btn-login" :disabled="isLoading">
+          {{ isLoading ? 'Procesando...' : 'Ingresar' }}
         </button>
       </form>
 
-      <div class="login-link">
-        ¿Ya tienes una cuenta? <router-link to="/login">Iniciar Sesión</router-link>
+      <div class="register-link">
+        ¿No tienes una cuenta? <router-link to="/register">Crear Cuenta</router-link>
       </div>
     </div>
   </div>
@@ -69,56 +47,43 @@
 
 <script>
 export default {
-  name: 'RegisterView',
+  name: 'LoginView',
   data() {
     return {
-      name: '',
       email: '',
       password: '',
-      confirmPassword: '',
       error: null,
       isLoading: false
     }
   },
   methods: {
-    async handleRegister() {
+    async handleLogin() {
       this.isLoading = true;
       this.error = null;
 
       try {
-        // Validar que las contraseñas coincidan
-        if (this.password !== this.confirmPassword) {
-          this.error = 'Las contraseñas no coinciden';
-          return;
-        }
-
-        // Aquí iría la lógica real de registro con tu backend
-        // Por ahora, simulamos un registro exitoso
+        // Aquí iría la lógica real de autenticación con tu backend
+        // Por ahora, simulamos un login exitoso
 
         // Simulación de una llamada a API (reemplazar con tu lógica real)
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Verificar datos (esto es solo un ejemplo)
-        if (this.name && this.email && this.password) {
-          // Guardar información del usuario (simulado)
-          const userInfo = {
-            name: this.name,
-            email: this.email
-          };
+        // Verificar credenciales (esto es solo un ejemplo)
+        if (this.email && this.password) {
+          // Guardar token en localStorage (simulado)
+          localStorage.setItem('auth_token', 'ejemplo_token_jwt');
 
-          localStorage.setItem('user_info', JSON.stringify(userInfo));
+          // Emitir evento de login exitoso
+          this.$emit('login-success');
 
-          // Nota: No establecemos el token de autenticación aquí,
-          // ya que primero debe completar el registro de la empresa
-
-          // Redireccionar a la página de registro de empresa
-          this.$router.push('/register-company');
+          // Redireccionar a la página principal donde se muestra el toolbar
+          this.$router.push('/rutas');
         } else {
-          this.error = 'Por favor complete todos los campos';
+          this.error = 'Correo o contraseña incorrectos';
         }
       } catch (error) {
-        console.error('Error durante el registro:', error);
-        this.error = 'Ocurrió un error al intentar registrarse';
+        console.error('Error durante el login:', error);
+        this.error = 'Ocurrió un error al intentar iniciar sesión';
       } finally {
         this.isLoading = false;
       }
@@ -128,7 +93,7 @@ export default {
 </script>
 
 <style scoped>
-.register-container {
+.login-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -136,7 +101,7 @@ export default {
   background-color: #f5f5f5;
 }
 
-.register-card {
+.login-card {
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -154,12 +119,14 @@ export default {
 .logo {
   width: 80px;
   height: 80px;
+  object-fit: contain;
 }
 
 h1 {
   text-align: center;
   margin-bottom: 24px;
   color: #333;
+  font-size: 24px;
 }
 
 .form-group {
@@ -181,7 +148,7 @@ input {
   font-size: 14px;
 }
 
-.btn-register {
+.btn-login {
   width: 100%;
   padding: 12px;
   background-color: #333;
@@ -193,7 +160,7 @@ input {
   margin-top: 10px;
 }
 
-.btn-register:disabled {
+.btn-login:disabled {
   background-color: #999;
   cursor: not-allowed;
 }
@@ -204,19 +171,19 @@ input {
   font-size: 14px;
 }
 
-.login-link {
+.register-link {
   text-align: center;
-  margin-top: 16px;
+  margin-top: 20px;
   font-size: 14px;
   color: #555;
 }
 
-.login-link a {
+.register-link a {
   color: var(--color-primary);
   text-decoration: none;
 }
 
-.login-link a:hover {
+.register-link a:hover {
   text-decoration: underline;
 }
 </style>

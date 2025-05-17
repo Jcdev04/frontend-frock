@@ -127,35 +127,6 @@
       "fk_user_id": "user-1"
     }
   ],
-  "stops": [
-    {
-      "id": "stop-1",
-      "name": "Café Haití",
-      "google_maps_url": "https://goo.gl/maps/example1",
-      "image_url": "https://example.com/images/cafe-haiti.jpg",
-      "phone": "+56912345678",
-      "fk_id_company": "comp-1",
-      "fk_id_location": "locat-2"
-    },
-    {
-      "id": "stop-2",
-      "name": "Museo de Bellas Artes",
-      "google_maps_url": "https://goo.gl/maps/example2",
-      "image_url": "https://example.com/images/bellas-artes.jpg",
-      "phone": "+56987654321",
-      "fk_id_company": "comp-1",
-      "fk_id_location": "locat-1"
-    },
-    {
-      "id": "stop-3",
-      "name": "La Sebastiana",
-      "google_maps_url": "https://goo.gl/maps/example3",
-      "image_url": "https://example.com/images/sebastiana.jpg",
-      "phone": "+56955556666",
-      "fk_id_company": "comp-2",
-      "fk_id_location": "locat-3"
-    }
-  ],
   "schedules": [
     {
       "id": "sched-1",
@@ -182,40 +153,6 @@
       "fk_id_stop": "stop-3"
     }
   ],
-  "routes": [
-    {
-      "id": "route-1",
-      "price": 15000.50,
-      "duration_min": 120
-    },
-    {
-      "id": "route-2",
-      "price": 20000.00,
-      "duration_min": 180
-    },
-    {
-      "id": "route-3",
-      "price": 7500.75,
-      "duration_min": 90
-    }
-  ],
-  "stops_routes": [
-    {
-      "id": "sr-1",
-      "fk_id_route": "route-1",
-      "fk_id_stop": "stop-1"
-    },
-    {
-      "id": "sr-2",
-      "fk_id_route": "route-1",
-      "fk_id_stop": "stop-2"
-    },
-    {
-      "id": "sr-3",
-      "fk_id_route": "route-2",
-      "fk_id_stop": "stop-3"
-    }
-  ],
   "itineraries": [
     {
       "id": "itin-1",
@@ -226,6 +163,91 @@
       "id": "itin-2",
       "name": "Paseo por Valparaíso",
       "id_user": "user-1"
+    }
+  ],
+  "stops": [
+    {
+      "id": "stop-1",
+      "name": "Paradero A",
+      "google_maps_url": "https://goo.gl/maps/aaa111",
+      "fk_id_company": "comp-1",
+      "fk_id_location": "locat-1"
+    },
+    {
+      "id": "stop-2",
+      "name": "Paradero B",
+      "google_maps_url": "https://goo.gl/maps/bbb222",
+      "image_url": "https://example.com/images/stop-b.jpg",
+      "phone": "+56900000002",
+      "fk_id_company": "comp-1",
+      "fk_id_location": "locat-2"
+    },
+    {
+      "id": "stop-3",
+      "name": "Paradero C",
+      "google_maps_url": "https://goo.gl/maps/ccc333",
+      "image_url": "https://example.com/images/stop-c.jpg",
+      "phone": "+56900000003",
+      "fk_id_company": "comp-2",
+      "fk_id_location": "locat-3"
+    },
+    {
+      "id": "stop-4",
+      "name": "Paradero D",
+      "google_maps_url": "https://goo.gl/maps/ddd444",
+      "image_url": "https://example.com/images/stop-d.jpg",
+      "phone": "+56900000004",
+      "fk_id_company": "comp-2",
+      "fk_id_location": "locat-1"
+    }
+  ],
+  "stops_routes": [
+    {
+      "id": "sr-A1",
+      "fk_id_route": "route-A",
+      "fk_id_stop": "stop-1"
+    },
+    {
+      "id": "sr-A2",
+      "fk_id_route": "route-A",
+      "fk_id_stop": "stop-2"
+    },
+    {
+      "id": "sr-B1",
+      "fk_id_route": "route-B",
+      "fk_id_stop": "stop-1"
+    },
+    {
+      "id": "sr-B3",
+      "fk_id_route": "route-B",
+      "fk_id_stop": "stop-3"
+    },
+    {
+      "id": "sr-C2",
+      "fk_id_route": "route-C",
+      "fk_id_stop": "stop-2"
+    },
+    {
+      "id": "sr-C3",
+      "fk_id_route": "route-C",
+      "fk_id_stop": "stop-3"
+    }
+  ],
+  "routes": [
+    {
+      "id": "route-A",
+      "price": 15000.50,
+      "duration_min": 60
+    },
+    {
+      "id": "route-B",
+      "price": 12000.00,
+      "duration_min": 45
+    },
+    {
+      "id": "route-C",
+      "price": 18000.75,
+      "duration_min": 75
     }
   ],
   "itineraries_routes": [

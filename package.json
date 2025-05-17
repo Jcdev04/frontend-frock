@@ -10,6 +10,7 @@
     "json-server": "json-server --watch server/db.json --port 3000"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.2.0",
     "axios": "^1.9.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.1"

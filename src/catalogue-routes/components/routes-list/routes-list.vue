@@ -1,8 +1,10 @@
 <script>
 import { RouteService } from "../../services/routes-api.service.js";
+import RouteCard from "@/catalogue-routes/components/routes-list/route-card.vue";
 
 export default {
   name: "route-component",
+  components: {RouteCard},
   data() {
     return {
       routes: [], // Almacena las rutas obtenidas
@@ -13,8 +15,9 @@ export default {
   async created() {
     const routeService = new RouteService();
     try {
-      const response = await routeService.getAllRoutes();
-      this.routes = response.data; // Asigna las rutas obtenidas
+      const response = await routeService.getRouteLinks();
+      console.log(response);
+      this.routes = response; // Asigna las rutas obtenidas
     } catch (err) {
       this.error = "Failed to load routes.";
     } finally {
@@ -42,17 +45,15 @@ export default {
     <h1>Available Routes</h1>
     <div v-if="isLoading" class="loading">Loading routes...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
-    <div v-else class="route-list">
+    <div v-else class="container-stops">
       <div
           v-for="route in routes"
           :key="route.id"
           class="route-card"
-          @click="viewRouteDetails(route.id)"
       >
-        <h2 class="route-title">Route Details</h2>
-        <p><strong>Route ID:</strong> {{ route.id }}</p>
-        <p><strong>Price:</strong> {{ formatPrice(route.price) }}</p>
-        <p><strong>Duration:</strong> {{ formatDuration(route.duration_min) }}</p>
+        <route-card :start="route.start"
+                    :route-info="route.route"
+                    :end="route.end"  @click="viewRouteDetails(route.route.id)"/>
       </div>
     </div>
   </div>
@@ -72,22 +73,14 @@ export default {
   color: red;
 }
 
-.route-list {
+.container-stops{
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;              /* Espacio minimalista entre tarjetas */
+  padding: 1rem 0;        /* Separación vertical opcional */
+  width: 100%;
+  max-width: 1280px;
+  margin: 20px auto;
 }
 
-.route-card {
-  padding: 15px;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.route-title {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: #333;
-}
 </style>

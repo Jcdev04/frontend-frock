@@ -170,6 +170,7 @@
       "id": "stop-1",
       "name": "Paradero A",
       "google_maps_url": "https://goo.gl/maps/aaa111",
+      "image_url": "https://www.enelx.com/content/dam/local-chile/enel-x---content-manager/1_ParaderosInteligenteso_4tonivel_1440x768.png",
       "fk_id_company": "comp-1",
       "fk_id_location": "locat-1"
     },
@@ -177,7 +178,7 @@
       "id": "stop-2",
       "name": "Paradero B",
       "google_maps_url": "https://goo.gl/maps/bbb222",
-      "image_url": "https://example.com/images/stop-b.jpg",
+      "image_url": "https://portal.andina.pe/EDPfotografia2/Thumbnail/2012/06/19/000185417W.jpg",
       "phone": "+56900000002",
       "fk_id_company": "comp-1",
       "fk_id_location": "locat-2"
@@ -186,7 +187,7 @@
       "id": "stop-3",
       "name": "Paradero C",
       "google_maps_url": "https://goo.gl/maps/ccc333",
-      "image_url": "https://example.com/images/stop-c.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/SG_bus_stop_2.JPG/1200px-SG_bus_stop_2.JPG",
       "phone": "+56900000003",
       "fk_id_company": "comp-2",
       "fk_id_location": "locat-3"
@@ -195,7 +196,7 @@
       "id": "stop-4",
       "name": "Paradero D",
       "google_maps_url": "https://goo.gl/maps/ddd444",
-      "image_url": "https://example.com/images/stop-d.jpg",
+      "image_url": "https://www.mupa.com.mx/blog/wp-content/uploads/2024/04/20240330_055_BLOG_870x395_MUPA_ParaderosCiudadesSustentables.jpg",
       "phone": "+56900000004",
       "fk_id_company": "comp-2",
       "fk_id_location": "locat-1"

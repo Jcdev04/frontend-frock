@@ -7,6 +7,7 @@ import RoutesList from "@/catalogue-routes/components/routes-list/routes-list.vu
 import RouteCompleteDetailsComponent from "@/catalogue-routes/pages/route-complete-details.component.vue";
 import StopsPage from "@/company-management/pages/StopsPage.vue";
 import HomePage from "@/company-management/pages/HomePage.vue";
+import CompanyPage from "@/company-management/pages/CompanyPage.vue";
 
 // Definimos las rutas
 const routes = [
@@ -38,24 +39,28 @@ const routes = [
         component: CompanyRegisterView,
     },
     {
-        path: 'company',
-
-    },
-    {
-        path: "/home",
-        name: "Home",
-        component: HomePage
-    },
-    {
-        path: "/stops",
-        name: 'Stops',
-        component: StopsPage,
-    },
-    {
-        path: '/rutas',
-        name: 'Rutas',
-        component: RoutesPage,
-        /*meta: { requiresAuth: true }*/
+        path: '/company',
+        redirect: "/company/home",
+        name: "Company",
+        component: CompanyPage,
+        children: [
+            {
+                path: "home",
+                name: "Home",
+                component: HomePage
+            },
+            {
+                path: "stops",
+                name: 'Stops',
+                component: StopsPage,
+            },
+            {
+                path: 'routes',
+                name: 'Rutas',
+                component: RoutesPage,
+                /*meta: { requiresAuth: true }*/
+            }
+        ]
     },
     // RouteEntity para manejar rutas no encontradas
     {

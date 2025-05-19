@@ -11,9 +11,9 @@
     </div>
 
     <div class="toolbar-center">
-      <router-link to="/inicio" class="nav-item">Inicio</router-link>
-      <router-link to="/paraderos" class="nav-item">Paraderos</router-link>
-      <router-link to="/rutas" class="nav-item">Rutas</router-link>
+      <router-link to="/company/home" class="nav-item">Inicio</router-link>
+      <router-link to="/company/stops" class="nav-item">Paraderos</router-link>
+      <router-link to="/company/routes" class="nav-item">Rutas</router-link>
     </div>
 
     <div class="toolbar-right">

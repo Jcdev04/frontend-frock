@@ -39,7 +39,7 @@ export default {
     <div class="route-header">
       <div class="route-icon">
       </div>
-      <h1 class="route-title">Ruta Procedencia a Destino</h1>
+      <h1 class="route-title">RouteEntity Procedencia a Destino</h1>
       <div class="route-actions">
         <pv-button
             label="Agregar a mis rutas"

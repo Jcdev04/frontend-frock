@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import AppToolbar from './components/AppToolbar.vue'
+import AppToolbar from '@/shared/components/AppToolbar.vue'
 
 export default {
   name: 'App',

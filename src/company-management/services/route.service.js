@@ -1,9 +1,9 @@
-import { RutaRepository } from '../../infrastructure/repositories/RutaRepository';
-import { Ruta } from '../../domain/models/Ruta';
+import { RouteRepository } from './route.repository.js';
+import { RouteEntity } from '../models/route.entity.js';
 
-export class RutaService {
+export class RouteService {
     constructor() {
-        this.rutaRepository = new RutaRepository();
+        this.rutaRepository = new RouteRepository();
     }
 
     obtenerRutas() {
@@ -15,7 +15,7 @@ export class RutaService {
     }
 
     crearRuta(rutaData) {
-        const nuevaRuta = new Ruta(
+        const nuevaRuta = new RouteEntity(
             null, // El ID se generará en el repositorio
             rutaData.origenId,
             rutaData.destinoId,

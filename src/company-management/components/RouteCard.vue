@@ -3,7 +3,7 @@
     <div class="paraderos">
       <div class="paradero">
         <div class="paradero-icon"></div>
-        <span class="paradero-label">{{ ruta.origenNombre || 'Paradero origen' }}</span>
+        <span class="paradero-label">{{ ruta.origenNombre || 'StopEntity origen' }}</span>
       </div>
 
       <div class="bus-icon">
@@ -18,7 +18,7 @@
 
       <div class="paradero">
         <div class="paradero-icon"></div>
-        <span class="paradero-label">{{ ruta.destinoNombre || 'Paradero destino' }}</span>
+        <span class="paradero-label">{{ ruta.destinoNombre || 'StopEntity destino' }}</span>
       </div>
     </div>
 

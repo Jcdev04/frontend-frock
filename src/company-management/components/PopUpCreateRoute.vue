@@ -2,14 +2,14 @@
   <div v-if="visible" class="modal-overlay">
     <div class="modal-container">
       <div class="modal-header">
-        <h2>Nueva Ruta</h2>
+        <h2>Nueva RouteEntity</h2>
         <button class="close-button" @click="cerrarModal">×</button>
       </div>
 
       <div class="modal-body">
         <form @submit.prevent="agregarRuta">
           <div class="form-group">
-            <label for="origenNombre">Paradero origen</label>
+            <label for="origenNombre">StopEntity origen</label>
             <input
                 type="text"
                 id="origenNombre"
@@ -20,7 +20,7 @@
           </div>
 
           <div class="form-group">
-            <label for="destinoNombre">Paradero destino</label>
+            <label for="destinoNombre">StopEntity destino</label>
             <input
                 type="text"
                 id="destinoNombre"
@@ -78,7 +78,7 @@
 
 <script>
 export default {
-  name: 'NuevaRutaModal',
+  name: 'PopUpCreateRoute',
   props: {
     visible: {
       type: Boolean,

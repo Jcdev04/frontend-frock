@@ -1,6 +1,6 @@
-import { Ruta } from '../../domain/models/Ruta';
+import { RouteEntity } from '../models/route.entity.js';
 
-export class RutaRepository {
+export class RouteRepository {
     constructor() {
         this.storageKey = 'combiroutes_rutas';
         this.rutas = this.cargarRutasDesdeStorage();
@@ -8,9 +8,9 @@ export class RutaRepository {
         // Si no hay rutas en localStorage, inicializamos con datos de ejemplo
         if (this.rutas.length === 0) {
             this.rutas = [
-                new Ruta(1, 1, 2, 20, 8.00, 20, 'Paradero A', 'Paradero B'),
-                new Ruta(2, 3, 4, 20, 8.00, 20, 'Paradero C', 'Paradero D'),
-                new Ruta(3, 5, 6, 20, 8.00, 20, 'Paradero E', 'Paradero F')
+                new RouteEntity(1, 1, 2, 20, 8.00, 20, 'StopEntity A', 'StopEntity B'),
+                new RouteEntity(2, 3, 4, 20, 8.00, 20, 'StopEntity C', 'StopEntity D'),
+                new RouteEntity(3, 5, 6, 20, 8.00, 20, 'StopEntity E', 'StopEntity F')
             ];
             this.guardarRutasEnStorage();
         }
@@ -22,7 +22,7 @@ export class RutaRepository {
 
         try {
             const rutasData = JSON.parse(rutasJson);
-            return rutasData.map(data => new Ruta(
+            return rutasData.map(data => new RouteEntity(
                 data.id,
                 data.origenId,
                 data.destinoId,
@@ -57,7 +57,7 @@ export class RutaRepository {
 
     guardar(ruta) {
         const newId = Math.max(...this.rutas.map(r => r.id), 0) + 1;
-        const newRuta = new Ruta(
+        const newRuta = new RouteEntity(
             newId,
             ruta.origenId,
             ruta.destinoId,
@@ -79,7 +79,7 @@ export class RutaRepository {
             this.guardarRutasEnStorage();
             return Promise.resolve({ ...ruta });
         }
-        return Promise.reject(new Error('Ruta no encontrada'));
+        return Promise.reject(new Error('RouteEntity no encontrada'));
     }
 
     eliminar(id) {
@@ -89,6 +89,6 @@ export class RutaRepository {
             this.guardarRutasEnStorage();
             return Promise.resolve(true);
         }
-        return Promise.reject(new Error('Ruta no encontrada'));
+        return Promise.reject(new Error('RouteEntity no encontrada'));
     }
 }

@@ -3,7 +3,7 @@
     <div class="rutas-header">
       <h1 class="rutas-title">Rutas</h1>
       <button class="nuevo-paradero-btn" @click="abrirModalNuevaRuta">
-        <span class="plus-icon">+</span> Nuevo Paradero
+        <span class="plus-icon">+</span> Nuevo StopEntity
       </button>
     </div>
 
@@ -25,20 +25,20 @@
 </template>
 
 <script>
-import RutaCard from '../components/RutaCard.vue';
-import NuevaRutaModal from '../components/NuevaRutaModal.vue';
-import { RutaService } from '../../application/services/RutaService';
+import RouteCard from '../components/RouteCard.vue';
+import PopUpCreateRoute from '../components/PopUpCreateRoute.vue';
+import { RouteService } from '../services/route.service.js';
 
 export default {
-  name: 'RutasView',
+  name: 'RoutesPage',
   components: {
-    RutaCard,
-    NuevaRutaModal
+    RutaCard: RouteCard,
+    CreateRoutePopUp: PopUpCreateRoute
   },
   data() {
     return {
       rutas: [],
-      rutaService: new RutaService(),
+      rutaService: new RouteService(),
       modalVisible: false
     }
   },

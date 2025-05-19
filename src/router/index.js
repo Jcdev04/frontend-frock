@@ -2,9 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/auth/components/Login.vue'
 import RegisterView from '@/auth/components/Register.vue'
 import CompanyRegisterView from '@/auth/components/Company-register.vue'
-import RutasView from '@/combiroutes/presentation/views/RutasView.vue'
+import RoutesPage from '@/company-management/pages/RoutesPage.vue'
 import RoutesList from "@/catalogue-routes/components/routes-list/routes-list.vue";
 import RouteCompleteDetailsComponent from "@/catalogue-routes/pages/route-complete-details.component.vue";
+import StopsPage from "@/company-management/pages/StopsPage.vue";
+import HomePage from "@/company-management/pages/HomePage.vue";
 
 // Definimos las rutas
 const routes = [
@@ -36,12 +38,26 @@ const routes = [
         component: CompanyRegisterView,
     },
     {
+        path: 'company',
+
+    },
+    {
+        path: "/home",
+        name: "Home",
+        component: HomePage
+    },
+    {
+        path: "/stops",
+        name: 'Stops',
+        component: StopsPage,
+    },
+    {
         path: '/rutas',
         name: 'Rutas',
-        component: RutasView,
+        component: RoutesPage,
         /*meta: { requiresAuth: true }*/
     },
-    // Ruta para manejar rutas no encontradas
+    // RouteEntity para manejar rutas no encontradas
     {
         path: '/:pathMatch(.*)*',
         redirect: '/'

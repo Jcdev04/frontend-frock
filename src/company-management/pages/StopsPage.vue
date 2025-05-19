@@ -1,29 +1,49 @@
 <script setup>
 
 import StopCard from "@/company-management/components/StopCard.vue";
+import StopsList from "@/company-management/components/StopsList.vue";
 </script>
 
 <template>
-  <div class="container">
-    <h1>¡Usuario, te damos la bienvenida!</h1>
-    <section class="container-paraderos">
-      <stop-card />
-      <stop-card />
-      <stop-card />
-    </section>
+  <div class="stops-header">
+    <h1 class="stops-title">Paraderos</h1>
+    <button class="nuevo-paradero-btn" >
+      <span class="plus-icon">+</span> Agregar paradero
+    </button>
   </div>
+  <stops-list/>
 </template>
 
 <style scoped>
-.container{
-  max-width: 1280px;
-  width: 100%;
-  padding: 10px;
-  margin: 0px auto;
+
+.stops-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
 }
-.container-paraderos {
-  width: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
+
+.stops-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
 }
+
+.nuevo-paradero-btn {
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 18px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.plus-icon {
+  margin-right: 6px;
+}
+
 </style>

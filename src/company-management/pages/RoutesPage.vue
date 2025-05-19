@@ -3,7 +3,7 @@
     <div class="rutas-header">
       <h1 class="rutas-title">Rutas</h1>
       <button class="nuevo-paradero-btn" @click="abrirModalNuevaRuta">
-        <span class="plus-icon">+</span> Nuevo StopEntity
+        <span class="plus-icon">+</span>Agregar ruta
       </button>
     </div>
 
@@ -16,7 +16,7 @@
     </div>
 
     <!-- Modal para nueva ruta -->
-    <nueva-ruta-modal
+    <PopUpCreateRoute
         :visible="modalVisible"
         @cerrar="cerrarModal"
         @agregar="agregarNuevaRuta"
@@ -26,12 +26,13 @@
 
 <script>
 import RouteCard from '../components/RouteCard.vue';
-import PopUpCreateRoute from '../components/PopUpCreateRoute.vue';
 import { RouteService } from '../services/route.service.js';
+import PopUpCreateRoute from "@/company-management/components/PopUpCreateRoute.vue";
 
 export default {
   name: 'RoutesPage',
   components: {
+    PopUpCreateRoute,
     RutaCard: RouteCard,
     CreateRoutePopUp: PopUpCreateRoute
   },
@@ -72,13 +73,7 @@ export default {
 </script>
 
 <style scoped>
-.rutas-container {
-  padding: 30px;
-  max-width: 1300px;
-  margin: 0 auto;
-  font-family: Arial, sans-serif;
-  background-color: white;
-}
+
 
 .rutas-header {
   display: flex;
@@ -88,7 +83,7 @@ export default {
 }
 
 .rutas-title {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 600;
   color: #333;
   margin: 0;

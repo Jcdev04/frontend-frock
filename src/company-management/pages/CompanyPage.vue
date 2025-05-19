@@ -5,9 +5,16 @@ import AppToolbar from "@/shared/components/AppToolbar.vue";
 
 <template>
   <AppToolbar />
-  <router-view />
+  <main class="container">
+    <router-view />
+  </main>
 </template>
 
 <style scoped>
-
+  .container{
+    max-width: 1280px;
+    width: 100%;
+    padding: 30px;
+    margin: 0 auto;
+}
 </style>

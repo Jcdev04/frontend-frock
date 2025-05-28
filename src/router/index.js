@@ -5,6 +5,7 @@ import CompanyRegisterView from '@/auth/components/Company-register.vue'
 import RoutesPage from '@/company-management/pages/RoutesPage.vue'
 import RoutesList from "@/catalogue-routes/components/routes-list/routes-list.vue";
 import RouteCompleteDetailsComponent from "@/catalogue-routes/pages/route-complete-details.component.vue";
+import ScheduleDayComponent from "@/onboarding/pages/attention-schedule.component.vue"
 import StopsPage from "@/company-management/pages/StopsPage.vue";
 import HomePage from "@/company-management/pages/HomePage.vue";
 import CompanyPage from "@/company-management/pages/CompanyPage.vue";
@@ -20,6 +21,15 @@ const routes = [
         name: 'RouteDetail',
         component: RouteCompleteDetailsComponent,
         props: (route) => ({ routeId: route.params.id })
+    },
+    {
+        path: '/config/attention',
+        name: 'AttentionSchedule',
+        component: ScheduleDayComponent,
+        meta: {
+            title: 'Horarios de Atención',
+            /*requiresAuth: true */
+        }
     },
     {
         path: '/login',

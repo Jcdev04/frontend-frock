@@ -1,11 +1,16 @@
+// Configuración simple para PrimeVue v4+
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-
-// Forzar la eliminación del token de autenticación al iniciar la aplicación
-// Esto asegura que siempre comience en la página de login
-localStorage.removeItem('auth_token');
+import PrimeVue from 'primevue/config'
+import ToastService from 'primevue/toastservice'
 
 const app = createApp(App)
+
 app.use(router)
+app.use(PrimeVue, {
+    unstyled: false
+})
+app.use(ToastService)
+
 app.mount('#app')

@@ -1,5 +1,5 @@
 <script>
-/*import { Schedule } from "../../models/schedule.entity.js";*/
+/*import { schedule } from "../../models/schedule.entity.js";*/
 
 export default {
   name: "schedule-detail-item",

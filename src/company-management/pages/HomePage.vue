@@ -21,12 +21,11 @@ import StopsListComponent from "@/company-management/components/stops-page-compo
   <section class="stops-container">
     <div class="button-edit-stops">
       <h2>Tus paraderos</h2>
-      <button>
-        <span>Editar Paraderos </span>
+      <pb-Button>
+        <span style="background-color: #CCCCFF">Editar Paraderos</span>
         <ArrowRightIcon class="icon"/>
-      </button>
+      </pb-Button>
     </div>
-    <stops-list-component />
   </section>
 </template>
 

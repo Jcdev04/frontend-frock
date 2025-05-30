@@ -13,7 +13,8 @@ import CompanyPage from "@/company-management/pages/CompanyPage.vue";
 const routes = [
     {
         path: '/',
-        component: RoutesList
+        component: RoutesList,
+        redirect: {name: 'Company'}
     },
     {
         path: '/route/:id',
@@ -65,7 +66,7 @@ const routes = [
     // RouteEntity para manejar rutas no encontradas
     {
         path: '/:pathMatch(.*)*',
-        redirect: '/'
+        redirect: '/company'
     }
 ]
 

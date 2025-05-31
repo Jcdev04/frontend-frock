@@ -30,6 +30,8 @@ import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Message from 'primevue/message';
+import SplitButton from 'primevue/splitbutton';
+
 
 //FORMS
 import { Form } from '@primevue/forms';
@@ -74,6 +76,7 @@ app.component('pb-Dialog', Dialog);
 app.component('pb-InputText', InputText);
 app.component('pb-InputNumber', InputNumber);
 app.component('pb-Message', Message);
+app.component('pb-SplitButton', SplitButton);
 
 //FOR DATATABLE COMPONENT
 app.component('pb-DataTable', DataTable);

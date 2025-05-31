@@ -1,21 +1,27 @@
-<script setup>
+<script>
+import companyToolbar from "@/shared/components/company-toolbar/toolbar-company.component.vue";
 
-import AppToolbar from "@/shared/components/AppToolbar.vue";
+export default {
+  components: {
+    companyToolbar,
+  }
+}
 </script>
 
-<template>
-  <AppToolbar />
 
+
+<template>
+  <company-toolbar/>
   <main class="page-container">
     <div class="container">
       <router-view />
     </div>
   </main>
-
 </template>
 
-<style scoped>
 
+
+<style scoped>
 .page-container {  /*Basicamente la utilidad de esta page container es para centrar a otro container que tiene un tamaño fixed*/
   display: flex;
   justify-content: center;

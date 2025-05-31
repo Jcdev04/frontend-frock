@@ -39,13 +39,9 @@ export default {
         </div>
 
         <div class="main-button-frame">
-          <pb-Button class="edit-button">
-            <i class="pi pi-pencil" style="font-size: 1rem; color: #478BFF"></i>
-          </pb-Button>
+          <pb-Button class="edit-button" icon="pi pi-pencil"/>
 
-          <pb-Button class="delete-button">
-            <i class="pi pi-trash" style="font-size: 1rem; color: #FF2C2C"></i>
-          </pb-Button>
+          <pb-Button class="delete-button" icon="pi pi-trash"/>
         </div>
 
 
@@ -197,23 +193,23 @@ export default {
 }
 
 .edit-button{
-  background-color: transparent;
-  border-color: #478BFF;
+  background-color: #478BFF;
+  border-color: transparent;
 }
 
 .delete-button{
-  background-color: transparent;
-  border-color: #FF2C2C;
+  background-color: #FF2C2C;
+  border-color: transparent;
 }
 
 .edit-button.p-button:hover{
   background-color: lightblue;
-  border-color: #478BFF;
+  border-color: transparent;
 }
 
 .delete-button.p-button:hover {
   background-color: lightcoral;
-  border-color: #FF2C2C;
+  border-color: transparent;
 }
 
 

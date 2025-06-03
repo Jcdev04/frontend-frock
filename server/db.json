@@ -206,32 +206,32 @@
   "stops_routes": [
     {
       "id": "sr-A1",
-      "fk_id_route": "route-A",
+      "fk_id_route": "route-1",
       "fk_id_stop": "stop-1"
     },
     {
       "id": "sr-A2",
-      "fk_id_route": "route-A",
+      "fk_id_route": "route-1",
       "fk_id_stop": "stop-2"
     },
     {
       "id": "sr-B1",
-      "fk_id_route": "route-B",
+      "fk_id_route": "route-2",
       "fk_id_stop": "stop-1"
     },
     {
-      "id": "sr-B3",
-      "fk_id_route": "route-B",
+      "id": "sr-B2",
+      "fk_id_route": "route-2",
       "fk_id_stop": "stop-3"
     },
     {
-      "id": "sr-C2",
-      "fk_id_route": "route-C",
+      "id": "sr-C1",
+      "fk_id_route": "route-3",
       "fk_id_stop": "stop-2"
     },
     {
-      "id": "sr-C3",
-      "fk_id_route": "route-C",
+      "id": "sr-C2",
+      "fk_id_route": "route-3",
       "fk_id_stop": "stop-3"
     }
   ],

@@ -162,7 +162,7 @@
     {
       "id": "itin-2",
       "name": "Paseo por Valparaíso",
-      "id_user": "user-1"
+      "fk_user_id": "user-1"
     }
   ],
   "stops": [

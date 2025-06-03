@@ -157,7 +157,7 @@
     {
       "id": "itin-1",
       "name": "Tour Cultural Santiago",
-      "id_user": "user-3"
+      "fk_user_id": "user-3"
     },
     {
       "id": "itin-2",

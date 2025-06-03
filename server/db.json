@@ -39,12 +39,12 @@
     {
       "id": "dist-2",
       "name": "Providencia",
-      "fk_id_province": "prov-1"
+      "fk_id_province": "prov-2"
     },
     {
       "id": "dist-3",
       "name": "Valparaíso",
-      "fk_id_province": "prov-2"
+      "fk_id_province": "prov-3"
     }
   ],
   "localities": [

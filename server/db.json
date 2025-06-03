@@ -255,13 +255,13 @@
   "itineraries_routes": [
     {
       "id": "ir-1",
-      "id_itinerary": "itin-1",
-      "id_route": "route-1"
+      "fk_id_itinerary": "itin-1",
+      "fk_id_route": "route-1"
     },
     {
       "id": "ir-2",
-      "id_itinerary": "itin-2",
-      "id_route": "route-2"
+      "fk_id_itinerary": "itin-2",
+      "fk_id_route": "route-2"
     }
   ]
 }

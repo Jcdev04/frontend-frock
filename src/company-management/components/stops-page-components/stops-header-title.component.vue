@@ -10,7 +10,7 @@ export default {
 
     <h1>Paraderos</h1>
 
-    <pb-Button class="nuevo-paradero-button" label="+ Nuevo Paradero"/>
+    <pb-Button class="nuevo-paradero-button" icon="pi pi-plus" label="Nuevo Paradero"/>
 
   </div>
 </template>

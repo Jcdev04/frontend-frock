@@ -10,7 +10,7 @@ export default {
       <div class="test-container">
 
         <div class="image-container">
-          <img src="https://picsum.photos/165/360" alt="Girl in a jacket" width="360" height="165">
+          <img src="https://picsum.photos/360/165" alt="test-image" width="360" height="165">
         </div>
 
         <div class="details-container">
@@ -55,7 +55,7 @@ export default {
 
 .stop-card { /*Por no decir todos, toda esta configuracion fue traida desde el figma pero de manera manual*/
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: center;
 
   /*Dimensiones*/
@@ -63,7 +63,7 @@ export default {
   height: 215px;
 
   /*Padding*/
-  padding: 20px 25px;
+  padding: 20px 0;
 
   /*Borders*/
   border-color: #CCCCFF;
@@ -170,7 +170,7 @@ export default {
   width: 30%;
 
   /*Text Format*/
-  font-size: 12px;
+  font-size: 14px;
   font-family: Poppins, sans-serif;
   color: white;
 }

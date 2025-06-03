@@ -1,8 +1,22 @@
 <script>
+
+import { ref } from "vue"; //principalmente lo usamos para el atributo visible del button
+import popUpNewStop from "../stops-page-components/stop-popUps/newStop-popup.component.vue"; //popUp para cuando se clickee "nuevo paradero"
+
 export default {
   name: 'stopsHeaderTitle',
-}
 
+  components: {
+    popUpNewStop
+  },
+
+  setup() {
+    const visible = ref(false); //variable visible que controlara la aparicion del popUp
+
+
+    return {visible}
+  },
+}
 </script>
 
 <template>

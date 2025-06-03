@@ -1,13 +1,23 @@
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script>
+export default {
+  name: "popUpNewStop",
 
-export default defineComponent({
-  name: "newStop-popup.component.vue"
-})
+}
 </script>
 
 <template>
+  <pb-Dialog>
+    <template #header>
 
+
+    </template>
+
+
+    <template #footer>
+
+
+    </template>
+  </pb-Dialog>
 </template>
 
 <style scoped>

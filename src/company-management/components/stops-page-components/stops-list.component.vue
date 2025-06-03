@@ -17,9 +17,6 @@ export default {
   <section class="container-paraderos">
     <stop-card/>
     <stop-card/>
-    <stop-card/>
-    <stop-card/>
-    <stop-card/>
   </section>
 </template>
 

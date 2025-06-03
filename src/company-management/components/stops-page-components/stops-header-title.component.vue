@@ -45,7 +45,7 @@ export default {
   max-height: 40px;
   height: 100%;
 
-  max-width: 180px;
+  max-width: 200px;
   width: 100%;
 
   /*Text Format*/

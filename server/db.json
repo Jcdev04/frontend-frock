@@ -171,6 +171,7 @@
       "name": "Paradero A",
       "google_maps_url": "https://goo.gl/maps/aaa111",
       "image_url": "https://www.enelx.com/content/dam/local-chile/enel-x---content-manager/1_ParaderosInteligenteso_4tonivel_1440x768.png",
+      "phone": "+51312123132",
       "fk_id_company": "comp-1",
       "fk_id_location": "locat-1"
     },

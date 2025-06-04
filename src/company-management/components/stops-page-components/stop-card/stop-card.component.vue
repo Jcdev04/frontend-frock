@@ -1,6 +1,9 @@
 <script>
 export default {
-  name: "stopCard"
+  name: "stopCard",
+
+  //objeto stop
+  props: ['stop'],
 }
 </script>
 
@@ -16,8 +19,8 @@ export default {
         <div class="details-container">
 
           <div class="header-details-container">
-            <h1>Nombre del paradero</h1>
-            <h2>Region, Provincia, distrito, localidad</h2>
+            <h1>{{ stop.name }}</h1>
+            <h2> {{ stop.location }}</h2>
           </div>
 
           <div class="description-details-container">

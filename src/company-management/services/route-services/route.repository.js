@@ -1,4 +1,4 @@
-import { RouteEntity } from '../models/route.entity.js';
+import { RouteEntity } from '../../models/route.entity.js';
 
 export class RouteRepository {
     constructor() {

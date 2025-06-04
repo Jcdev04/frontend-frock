@@ -1,5 +1,5 @@
 import { RouteRepository } from './route.repository.js';
-import { RouteEntity } from '../models/route.entity.js';
+import { RouteEntity } from '../../models/route.entity.js';
 
 export class RouteService {
     constructor() {

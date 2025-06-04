@@ -26,7 +26,7 @@
 
 <script>
 import RouteCard from '../components/RouteCard.vue';
-import { RouteService } from '../services/route.service.js';
+import { RouteService } from '../services/route-services/route.service.js';
 import PopUpCreateRoute from "@/company-management/components/PopUpCreateRoute.vue";
 
 export default {

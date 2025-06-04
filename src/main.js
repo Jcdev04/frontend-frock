@@ -31,7 +31,7 @@ import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Message from 'primevue/message';
 import SplitButton from 'primevue/splitbutton';
-
+import ProgressSpinner from 'primevue/progressspinner';
 
 //FORMS
 import { Form } from '@primevue/forms';
@@ -77,6 +77,7 @@ app.component('pb-InputText', InputText);
 app.component('pb-InputNumber', InputNumber);
 app.component('pb-Message', Message);
 app.component('pb-SplitButton', SplitButton);
+app.component('pb-ProgressSpinner', ProgressSpinner);
 
 //FOR DATATABLE COMPONENT
 app.component('pb-DataTable', DataTable);

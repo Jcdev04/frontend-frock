@@ -17,17 +17,17 @@
     {
       "id": "prov-1",
       "name": "Santiago",
-      "fk_id_regions": "reg-1"
+      "fk_id_region": "reg-1"
     },
     {
       "id": "prov-2",
       "name": "Valparaíso",
-      "fk_id_regions": "reg-2"
+      "fk_id_region": "reg-2"
     },
     {
       "id": "prov-3",
       "name": "Talca",
-      "fk_id_regions": "reg-3"
+      "fk_id_region": "reg-3"
     }
   ],
   "districts": [
@@ -201,6 +201,15 @@
       "phone": "+56900000004",
       "fk_id_company": "comp-2",
       "fk_id_location": "locat-1"
+    },
+    {
+      "id": "stop-1749007063936",
+      "name": "Paradero Test",
+      "phone": "+56998765432",
+      "fk_id_company": "comp-1",
+      "fk_id_location": "locat-1",
+      "google_maps_url": null,
+      "image_url": null
     }
   ],
   "stops_routes": [
@@ -238,12 +247,12 @@
   "routes": [
     {
       "id": "route-1",
-      "price": 15000.50,
+      "price": 15000.5,
       "duration_min": 60
     },
     {
       "id": "route-2",
-      "price": 12000.00,
+      "price": 12000,
       "duration_min": 45
     },
     {

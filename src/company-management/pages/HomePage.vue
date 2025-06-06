@@ -9,15 +9,15 @@ import {ArrowRightIcon} from "@heroicons/vue/16/solid/index.js";
 import {PhotoIcon} from "@heroicons/vue/16/solid/index.js";
 import StopCard from "@/company-management/components/StopCard.vue";
 import StopsList from "@/company-management/components/StopsList.vue";
-
-
+import CompanyInfoCard from "@/company-management/components/CompanyEditCard.vue";
+import AttentionScheduleButton from "@/company-management/components/AttentionScheduleButton.vue";
 
 </script>
 
 <template>
-   <div class="home-page-header">
+  <div class="home-page-header">
     <h1>¡Usuario, te damos la bienvenida!</h1>
-   </div>
+  </div>
   <section class="kpi-container">
     <h2>Resumen General</h2>
     <div class="kpi-grid">
@@ -43,6 +43,15 @@ import StopsList from "@/company-management/components/StopsList.vue";
       />
     </div>
   </section>
+
+  <section class="company-info-container">
+    <CompanyInfoCard />
+  </section>
+
+  <section class="attention-schedule-container">
+    <AttentionScheduleButton />
+  </section>
+
   <section class="stops-container">
     <div class="button-edit-stops">
       <h2>Tus paraderos</h2>
@@ -60,7 +69,6 @@ import StopsList from "@/company-management/components/StopsList.vue";
   margin-bottom: 40px;
   font-size: 2.5rem;
 }
-
 
 .kpi-container{
   display: flex;
@@ -97,6 +105,7 @@ import StopsList from "@/company-management/components/StopsList.vue";
   font-size: 1.75rem;
   font-weight: 600;
 }
+
 .button-edit-stops button{
   display: flex;
   background-color: white;
@@ -105,8 +114,22 @@ import StopsList from "@/company-management/components/StopsList.vue";
   align-items: center;
   gap: 0.5rem;
 }
+
 .button-edit-stops .icon{
   width: 1rem;
 }
-</style>
 
+.company-info-container{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.attention-schedule-container{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+</style>

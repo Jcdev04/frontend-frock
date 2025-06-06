@@ -11,7 +11,7 @@ async function testGetStops() {
         const stops = await service.getStops();
         console.log('Paraderos obtenidos:', stops);
         stops.forEach(stop => {
-            console.log(`- ${stop.name}: ${stop.companyName}, ${stop.location}`);
+            console.log(`- ${stop.name}: ${stop.companyName}, ${stop.address}, ${stop.reference}, ${stop.location}`);
         });
     } catch (error) {
         console.error('Error en getStops:', error.message);
@@ -21,18 +21,55 @@ async function testGetStops() {
 async function testCreateStop() {
     console.log('\nProbando createStop...');
     const newStop = {
-        id: `stop-${Date.now()}`, // ID único
+        id: `stop-${Date.now()}`,
         name: 'Paradero Test',
-        phone: '+56998765432',
-        fk_id_company: 'comp-1', // Asegúrate de que exista en /companies
-        fk_id_location: 'locat-1' // Asegúrate de que exista en /locations
+        phone: '+51987654321',
+        address: 'Av. Test 789',
+        reference: 'Frente al Teatro',
+        fk_id_company: 'comp-1',
+        fk_id_locality: 'loc-1'
     };
     try {
         const created = await service.createStop(newStop);
         console.log('Paradero creado:', created);
-        console.log(`- ${created.name}: ${created.companyName}, ${created.location}`);
+        console.log(`- ${created.name}: ${created.companyName}, ${created.address}, ${created.reference}, ${created.location}`);
+        return created.id;
     } catch (error) {
         console.error('Error en createStop:', error.message);
+    }
+}
+
+async function testUpdateStop(createdId) {
+    console.log('\nProbando updateStop...');
+    const stopId = 'stop-1749240577840';
+    const originalStop = await service.getStops().then(stops => stops.find(s => s.id === stopId));
+    const updatedData = {
+        name: 'Paradero Actualizado',
+        phone: '+51912345678',
+        address: 'Av. Actualizada 101',
+        reference: 'Frente al Museo'
+    };
+    try {
+        const updated = await service.updateStop(stopId, updatedData);
+        console.log('Paradero actualizado:', updated);
+        console.log(`- ${updated.name}: ${updated.companyName}, ${updated.address}, ${updated.reference}, ${updated.location}`);
+        const companyPreserved = originalStop.companyName === updated.companyName;
+        const locationPreserved = originalStop.location === updated.location;
+        console.log(`fk_id_company preservado: ${companyPreserved}`);
+        console.log(`fk_id_locality preservado: ${locationPreserved}`);
+    } catch (error) {
+        console.error('Error en updateStop:', error.message);
+    }
+}
+
+async function testDeleteStop() {
+    console.log('\nProbando deleteStop...');
+    const stopId = 'stop-1749240577840'; // Asegúrate de que exista en /stops
+    try {
+        await service.deleteStop(stopId);
+        console.log(`Paradero ${stopId} eliminado con éxito`);
+    } catch (error) {
+        console.error('Error en deleteStop:', error.message);
     }
 }
 
@@ -47,22 +84,24 @@ async function testGetCompanies() {
     }
 }
 
-async function testGetLocations() {
-    console.log('\nProbando getLocations...');
+async function testGetLocalities() {
+    console.log('\nProbando getLocalities...');
     try {
-        const locations = await service.getLocations();
-        console.log('Ubicaciones obtenidas:', locations);
-        locations.forEach(l => console.log(`- ${l.label} (${l.value})`));
+        const localities = await service.getLocalities();
+        console.log('Localidades obtenidas:', localities);
+        localities.forEach(l => console.log(`- ${l.label} (${l.value})`));
     } catch (error) {
-        console.error('Error en getLocations:', error.message);
+        console.error('Error en getLocalities:', error.message);
     }
 }
 
 async function runTests() {
-    await testGetStops();
+    //await testGetStops();
     //await testCreateStop();
+    //await testUpdateStop();
+    //await testDeleteStop();
     //await testGetCompanies();
     //await testGetLocations();
 }
 
-runTests();
+//runTests();

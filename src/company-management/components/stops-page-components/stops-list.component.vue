@@ -17,6 +17,7 @@ export default {
   },
 
   methods: {
+
     async loadStops() {
       this.isLoading = true;
       this.error = null;
@@ -45,13 +46,15 @@ export default {
 
 <template>
   <pb-Toast/>
-  <pb-Progress-spinner v-if="isLoading" />
+  <pb-ProgressSpinner v-if="isLoading" />
   <pb-Message v-if="error" severity="error" :closable="false">
     {{ error }}
   </pb-Message>
   <section v-for="stop in stops" :key="stop.id" class="container-paraderos">
     <stop-card :stop="stop" />
   </section>
+  <pb-ConfirmDialog/>
+
 </template>
 
 <style scoped>

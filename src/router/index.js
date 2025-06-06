@@ -9,6 +9,7 @@ import ScheduleDayComponent from "@/onboarding/pages/attention-schedule.componen
 import StopsPage from "@/company-management/pages/StopsPage.vue";
 import HomePage from "@/company-management/pages/HomePage.vue";
 import CompanyPage from "@/company-management/pages/CompanyPage.vue";
+import CompanyInformation from "@/company-management/pages/Company-information.vue";
 
 // Definimos las rutas
 const routes = [
@@ -69,6 +70,12 @@ const routes = [
                 name: 'Rutas',
                 component: RoutesPage,
                 /*meta: { requiresAuth: true }*/
+            },
+            {
+                path: '/company-information',
+                name: 'CompanyInformation',
+                component: CompanyInformation,
+                /*meta: { requiresAuth: true} */
             }
         ]
     },

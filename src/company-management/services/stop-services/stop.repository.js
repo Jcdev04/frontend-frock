@@ -13,7 +13,9 @@ export class StopRepository {
                 item.image_url,
                 item.phone,
                 item.fk_id_company,
-                item.fk_id_location
+                item.fk_id_locality,
+                item.address,
+                item.reference
             ));
         } catch (error) {
             throw new Error(`Failed to fetch stops: ${error.message}`);
@@ -23,10 +25,15 @@ export class StopRepository {
     async createStop(data) {
         try {
             const { data: created } = await http.post('/stops', {
-                ...data,
-                google_maps_url: null,
-                image_url: null,
-                phone: data.phone || ''
+                id: data.id,
+                name: data.name,
+                google_maps_url: data.google_maps_url || null,
+                image_url: data.image_url || null,
+                phone: data.phone,
+                fk_id_company: data.fk_id_company,
+                fk_id_locality: data.fk_id_locality,
+                address: data.address,
+                reference: data.reference
             });
 
             return new StopEntity(
@@ -36,10 +43,54 @@ export class StopRepository {
                 created.image_url,
                 created.phone,
                 created.fk_id_company,
-                created.fk_id_location
+                created.fk_id_locality,
+                created.address,
+                created.reference
             );
         } catch (error) {
             throw new Error(`Failed to create stop: ${error.message}`);
+        }
+    }
+
+    async updateStop(id, data) {
+        try {
+            // Obtener el paradero original
+            const { data: original } = await http.get(`/stops/${id}`);
+            // Combinar datos nuevos con originales
+            const updatedData = {
+                id,
+                name: data.name,
+                phone: data.phone,
+                address: data.address,
+                reference: data.reference,
+                google_maps_url: original.google_maps_url,
+                image_url: original.image_url,
+                fk_id_company: original.fk_id_company,
+                fk_id_locality: original.fk_id_locality
+            };
+            // Enviar PUT con el objeto completo
+            const { data: updated } = await http.put(`/stops/${id}`, updatedData);
+            return new StopEntity(
+                updated.id,
+                updated.name,
+                updated.google_maps_url,
+                updated.image_url,
+                updated.phone,
+                updated.fk_id_company,
+                updated.fk_id_locality,
+                updated.address,
+                updated.reference
+            );
+        } catch (error) {
+            throw new Error(`Failed to update stop: ${error.message}`);
+        }
+    }
+
+    async deleteStop(id) {
+        try {
+            await http.delete(`/stops/${id}`);
+        } catch (error) {
+            throw new Error(`Failed to delete stop: ${error.message}`);
         }
     }
 
@@ -50,15 +101,6 @@ export class StopRepository {
             return data;
         } catch (error) {
             throw new Error(`Failed to fetch companies: ${error.message}`);
-        }
-    }
-
-    async getLocations() {
-        try {
-            const { data } = await http.get('/locations');
-            return data;
-        } catch (error) {
-            throw new Error(`Failed to fetch locations: ${error.message}`);
         }
     }
 

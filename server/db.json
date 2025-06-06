@@ -43,7 +43,7 @@
     },
     {
       "id": "dist-3",
-      "name": "Valparaíso",
+      "name": "Valparaíso Centro",
       "fk_id_province": "prov-3"
     }
   ],
@@ -62,29 +62,6 @@
       "id": "loc-3",
       "name": "Cerro Alegre",
       "fk_id_district": "dist-3"
-    }
-  ],
-  "locations": [
-    {
-      "id": "locat-1",
-      "longitude": -70.64827,
-      "latitude": -33.4372,
-      "reference": "Frente a la Catedral",
-      "fk_id_locality": "loc-1"
-    },
-    {
-      "id": "locat-2",
-      "longitude": -70.63224,
-      "latitude": -33.4325,
-      "reference": "Cerca de Patio Bellavista",
-      "fk_id_locality": "loc-2"
-    },
-    {
-      "id": "locat-3",
-      "longitude": -71.6275,
-      "latitude": -33.0461,
-      "reference": "Mirador Paseo Yugoslavo",
-      "fk_id_locality": "loc-3"
     }
   ],
   "users": [
@@ -173,7 +150,9 @@
       "image_url": "https://www.enelx.com/content/dam/local-chile/enel-x---content-manager/1_ParaderosInteligenteso_4tonivel_1440x768.png",
       "phone": "+51312123132",
       "fk_id_company": "comp-1",
-      "fk_id_location": "locat-1"
+      "fk_id_locality": "loc-1",
+      "address": "Av. 123",
+      "reference": "Frente a la Catedral"
     },
     {
       "id": "stop-2",
@@ -182,7 +161,9 @@
       "image_url": "https://portal.andina.pe/EDPfotografia2/Thumbnail/2012/06/19/000185417W.jpg",
       "phone": "+56900000002",
       "fk_id_company": "comp-1",
-      "fk_id_location": "locat-2"
+      "fk_id_locality": "loc-2",
+      "address": "Av. Nose PRO",
+      "reference": "Cerca de Patio Bellavista"
     },
     {
       "id": "stop-3",
@@ -191,7 +172,9 @@
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/SG_bus_stop_2.JPG/1200px-SG_bus_stop_2.JPG",
       "phone": "+56900000003",
       "fk_id_company": "comp-2",
-      "fk_id_location": "locat-3"
+      "fk_id_locality": "loc-3",
+      "address": "Av. El GOAT",
+      "reference": "Mirador Paseo Yugoslavo"
     },
     {
       "id": "stop-4",
@@ -200,16 +183,20 @@
       "image_url": "https://www.mupa.com.mx/blog/wp-content/uploads/2024/04/20240330_055_BLOG_870x395_MUPA_ParaderosCiudadesSustentables.jpg",
       "phone": "+56900000004",
       "fk_id_company": "comp-2",
-      "fk_id_location": "locat-1"
+      "fk_id_locality": "loc-1",
+      "address": "Av. Capo",
+      "reference": "Referencia test"
     },
     {
-      "id": "stop-1749007063936",
-      "name": "Paradero Test",
-      "phone": "+56998765432",
-      "fk_id_company": "comp-1",
-      "fk_id_location": "locat-1",
+      "id": "stop-1749246119876",
+      "name": "Amir",
       "google_maps_url": null,
-      "image_url": null
+      "image_url": null,
+      "phone": "947379321",
+      "fk_id_company": "comp-1",
+      "fk_id_locality": "loc-1",
+      "address": "av. proverbiosde",
+      "reference": "al lado de mi jato"
     }
   ],
   "stops_routes": [

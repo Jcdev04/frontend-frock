@@ -32,6 +32,11 @@ import InputNumber from 'primevue/inputnumber';
 import Message from 'primevue/message';
 import SplitButton from 'primevue/splitbutton';
 import ProgressSpinner from 'primevue/progressspinner';
+import Select from 'primevue/select';
+
+//confirm dialog
+import ConfirmDialog from 'primevue/confirmdialog';
+import ConfirmationService from 'primevue/confirmationservice';
 
 //FORMS
 import { Form } from '@primevue/forms';
@@ -67,6 +72,10 @@ app.use(router)
 app.use(ToastService);
 app.component('pb-Toast', Toast);
 
+//confirm dialog
+app.component('pb-ConfirmDialog', ConfirmDialog);
+app.use(ConfirmationService);
+
 //MAS COMPONENTES PRIMEVUE
 app.component('pb-Toolbar', Toolbar);
 app.component('pb-Button', Button);
@@ -78,6 +87,7 @@ app.component('pb-InputNumber', InputNumber);
 app.component('pb-Message', Message);
 app.component('pb-SplitButton', SplitButton);
 app.component('pb-ProgressSpinner', ProgressSpinner);
+app.component('pb-Select', Select);
 
 //FOR DATATABLE COMPONENT
 app.component('pb-DataTable', DataTable);

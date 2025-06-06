@@ -1,6 +1,11 @@
 <script>
+
+import deleteStopPopUp from "../stop-popUps/deleteStop-popup.component.vue"
+
 export default {
   name: "stopCard",
+
+  components: { deleteStopPopUp },
 
   //objeto stop
   props: ['stop'],
@@ -27,13 +32,13 @@ export default {
             <div class="address-container">
               <i class="pi pi-map-marker" style="font-size: 1rem; color: #484848"></i>
 
-              <h2>Address</h2>
+              <h2>{{stop.address}}</h2>
             </div>
 
             <div class="reference-container">
               <i class="pi pi-question-circle" style="font-size: 1rem; color: #484848"></i>
 
-              <h2>Reference</h2>
+              <h2>{{ stop.reference }}</h2>
             </div>
           </div>
 
@@ -43,8 +48,7 @@ export default {
 
         <div class="main-button-frame">
           <pb-Button class="edit-button" icon="pi pi-pencil"/>
-
-          <pb-Button class="delete-button" icon="pi pi-trash"/>
+          <delete-stop-pop-up :stop-id="stop.id"/>
         </div>
 
 
@@ -200,21 +204,10 @@ export default {
   border-color: transparent;
 }
 
-.delete-button{
-  background-color: #FF2C2C;
-  border-color: transparent;
-}
-
 .edit-button.p-button:hover{
   background-color: lightblue;
   border-color: transparent;
 }
-
-.delete-button.p-button:hover {
-  background-color: lightcoral;
-  border-color: transparent;
-}
-
 
 
 </style>

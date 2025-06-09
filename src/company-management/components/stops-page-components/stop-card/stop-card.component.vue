@@ -1,11 +1,12 @@
 <script>
 
 import deleteStopPopUp from "../stop-popUps/deleteStop-popup.component.vue"
+import editStopPopUp from "../stop-popUps/editStop-popup.component.vue"
 
 export default {
   name: "stopCard",
 
-  components: { deleteStopPopUp },
+  components: { deleteStopPopUp, editStopPopUp },
 
   //objeto stop
   props: ['stop'],
@@ -47,7 +48,7 @@ export default {
         </div>
 
         <div class="main-button-frame">
-          <pb-Button class="edit-button" icon="pi pi-pencil"/>
+          <edit-stop-pop-up :stop="stop"/>
           <delete-stop-pop-up :stop-id="stop.id"/>
         </div>
 
@@ -198,16 +199,5 @@ export default {
 
   gap: 13px;
 }
-
-.edit-button{
-  background-color: #478BFF;
-  border-color: transparent;
-}
-
-.edit-button.p-button:hover{
-  background-color: lightblue;
-  border-color: transparent;
-}
-
 
 </style>

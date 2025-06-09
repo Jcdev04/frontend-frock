@@ -2,16 +2,18 @@
 import { ref } from "vue"; //principalmente lo usamos para el atributo visible del button
 import { StopService } from '../../../services/stop-services/stop.service.js';
 
-
 export default {
   name: "popUpNewStop",
 
   setup() {
     const visiblePop = ref(false); //variable visible que controlara la aparicion del popUp
+
+
     return { visiblePop };
   },
 
   props: ['value'],
+
   emits: ['update:value', 'created'],
 
   data() {
@@ -26,15 +28,12 @@ export default {
       },
       companies: [],
       localities: [],
+      locationHierarchy: [],
       submitted: false
     };
   },
 
   computed: {
-    visible: {
-      get() { return this.value; },
-      set(val) { this.$emit('update:value', val); }
-    },
     isFormValid() {
       return this.paradero.name &&
           this.paradero.phone &&
@@ -50,7 +49,7 @@ export default {
       try {
         const service = new StopService();
         this.companies = await service.getCompanies();
-        this.localities = await service.getLocalities();
+        this.locationHierarchy = await service.getLocationHierarchy();
       } catch (err) {
         this.$toast.add({
           severity: 'error',
@@ -60,6 +59,7 @@ export default {
         });
       }
     },
+
     async createStop() {
       this.submitted = true;
       if (!this.isFormValid) {
@@ -81,7 +81,10 @@ export default {
           detail: 'Paradero creado correctamente',
           life: 3000
         });
-        this.visible = false;
+
+        //cuando se cree el paradero vamos a cerrar el popup
+        this.visiblePop = false;
+
         this.paradero = {
           name: '',
           phone: '',
@@ -101,8 +104,9 @@ export default {
       }
     }
   },
+
   mounted() {
-    this.loadDropdowns();
+    this.loadDropdowns(); //desde aqui pre-cargamos los datos para los dropdowns
   }
 };
 </script>
@@ -110,61 +114,51 @@ export default {
 <template>
   <pb-Button class="nuevo-paradero-button" icon="pi pi-plus" label="Nuevo Paradero" @click="visiblePop = true"/>
 
-  <pb-Dialog v-model:visible="visiblePop" modal header="Nuevo Paradero" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '175vw', '575px': '90vw' }">
+  <pb-Dialog v-model:visible="visiblePop" modal header="Nuevo Paradero" :style="{ width: '50rem' }">
     <template #header>
-      <div class="dialog-header-container">
-        <div class="title-container">
-          <h1>Nuevo Paradero</h1>
-        </div>
-      </div>
+      <h1 class="title">Nuevo Paradero</h1>
     </template>
 
     <pb-Form @submit="createStop">
-      <div class="p-field">
+      <pb-IftaLabel>
         <label for="name">Nombre</label>
-        <pb-InputText id="name" v-model="paradero.name" :class="{ 'p-invalid': !paradero.name && submitted }" required />
-        <small v-if="!paradero.name && submitted" class="p-error">El nombre es obligatorio</small>
-      </div>
-      <div class="p-field">
+        <pb-InputText id="name" v-model="paradero.name" class="w-full" variant="filled"/>
+      </pb-IftaLabel>
+
+      <pb-IftaLabel>
         <label for="phone">Teléfono</label>
-        <pb-InputText id="phone" v-model="paradero.phone" :class="{ 'p-invalid': !paradero.phone && submitted }" required />
-        <small v-if="!paradero.phone && submitted" class="p-error">El teléfono es obligatorio</small>
-      </div>
-      <div class="p-field">
+        <pb-InputText id="phone" v-model="paradero.phone" class="w-full" variant="filled"/>
+      </pb-IftaLabel>
+
+      <pb-IftaLabel>
         <label for="address">Dirección</label>
-        <pb-InputText id="address" v-model="paradero.address" placeholder="Ej. Av. Norte 789" :class="{ 'p-invalid': !paradero.address && submitted }" required />
-        <small v-if="!paradero.address && submitted" class="p-error">La dirección es obligatoria</small>
-      </div>
-      <div class="p-field">
+        <pb-InputText id="address" v-model="paradero.address" placeholder="Ej: Av. Norte 789" class="w-full" variant="filled"/>
+      </pb-IftaLabel>
+
+      <pb-IftaLabel>
         <label for="reference">Referencia</label>
-        <pb-InputText id="reference" v-model="paradero.reference" placeholder="Ej. Frente al Teatro" :class="{ 'p-invalid': !paradero.reference && submitted }" required />
-        <small v-if="!paradero.reference && submitted" class="p-error">La referencia es obligatoria</small>
-      </div>
+        <pb-InputText id="reference" v-model="paradero.reference" placeholder="Ej: Frente al Teatro" class="w-full" variant="filled"/>
+      </pb-IftaLabel>
+
+      <pb-IftaLabel class="w-full md:w-56">
+        <pb-CascadeSelect inputId="locality" v-model="paradero.fk_id_locality" :options="locationHierarchy" option-label="name" option-value="code" option-group-label="name" :option-group-children="['provinces', 'districts', 'localities']"  placeholder="Selecciona la ubicación"/>
+        <label for="locality">Localidad</label>
+      </pb-IftaLabel>
+
       <div class="p-field">
         <label for="company">Empresa</label>
-        <pb-Select id="company" v-model="paradero.fk_id_company" :options="companies" option-label="label" option-value="value" :class="{ 'p-invalid': !paradero.fk_id_company && submitted }" />
-        <small v-if="!paradero.fk_id_company && submitted" class="p-error">La empresa es obligatoria</small>
-      </div>
-      <div class="p-field">
-        <label for="locality">Localidad</label>
-        <pb-Select id="locality" v-model="paradero.fk_id_locality" :options="localities" option-label="label" option-value="value" :class="{ 'p-invalid': !paradero.fk_id_locality && submitted }" />
-        <small v-if="!paradero.fk_id_locality && submitted" class="p-error">La localidad es obligatoria</small>
+        <pb-Select id="company" v-model="paradero.fk_id_company" :options="companies" option-label="label" option-value="value" />
       </div>
 
-      <pb-Button label="Cancelar" icon="pi pi-times" class="p-button-text" @click="visible = false" />
+      <pb-Button label="Cancelar" icon="pi pi-times" class="p-button-text" @click="visiblePop = false" />
       <pb-Button label="Crear" icon="pi pi-check" type="submit" :disabled="!isFormValid && !submitted" />
     </pb-Form>
   </pb-Dialog>
 </template>
 
 <style scoped>
-.dialog-header-container{
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
 
-.title-container{
+.title{
   color: #7A78FF;
   border-bottom: #7A78FF solid 1px;
   padding: 10px;

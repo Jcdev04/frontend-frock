@@ -211,4 +211,41 @@ export class StopService {
             throw new Error(`Failed to get regions: ${error.message}`);
         }
     }
+
+    async getLocationHierarchy() {
+        try {
+            const regions = await this.#repository.getRegions();
+            const provinces = await this.#repository.getProvinces();
+            const districts = await this.#repository.getDistricts();
+            const localities = await this.#repository.getLocalities();
+
+            // Construir jerarquía
+            const hierarchy = regions.map(region => ({
+                name: region.name,
+                code: region.id,
+                provinces: provinces
+                    .filter(prov => prov.fk_id_region === region.id)
+                    .map(prov => ({
+                        name: prov.name,
+                        code: prov.id,
+                        districts: districts
+                            .filter(dist => dist.fk_id_province === prov.id)
+                            .map(dist => ({
+                                name: dist.name,
+                                code: dist.id,
+                                localities: localities
+                                    .filter(loc => loc.fk_id_district === dist.id)
+                                    .map(loc => ({
+                                        name: loc.name,
+                                        code: loc.id
+                                    }))
+                            }))
+                    }))
+            }));
+
+            return hierarchy;
+        } catch (error) {
+            throw new Error(`Failed to load location hierarchy: ${error.message}`);
+        }
+    }
 }

@@ -33,6 +33,8 @@ import Message from 'primevue/message';
 import SplitButton from 'primevue/splitbutton';
 import ProgressSpinner from 'primevue/progressspinner';
 import Select from 'primevue/select';
+import IftaLabel from 'primevue/iftalabel';
+import CascadeSelect from 'primevue/cascadeselect';
 
 //confirm dialog
 import ConfirmDialog from 'primevue/confirmdialog';
@@ -88,6 +90,8 @@ app.component('pb-Message', Message);
 app.component('pb-SplitButton', SplitButton);
 app.component('pb-ProgressSpinner', ProgressSpinner);
 app.component('pb-Select', Select);
+app.component('pb-IftaLabel', IftaLabel);
+app.component('pb-CascadeSelect', CascadeSelect);
 
 //FOR DATATABLE COMPONENT
 app.component('pb-DataTable', DataTable);

@@ -8,6 +8,7 @@ export default {
 
   setup() {
     const visiblePop = ref(false); //variable visible que controlara la aparicion del popUp
+
     return { visiblePop };
   },
 
@@ -33,15 +34,12 @@ export default {
       },
       initialParadero: null,
       companies: [],
-      localities: [],
+      locationHierarchy: [],
+      selectedLocality: null,
       submitted: false
     };
   },
   computed: {
-    visible: {
-      get() { return this.value; },
-      set(val) { this.emit('update:value', val); }
-    },
     isFormValid() {
       return this.paradero.name &&
           this.paradero.phone &&
@@ -60,7 +58,8 @@ export default {
       try {
         const service = new StopService();
         this.companies = await service.getCompanies();
-        this.localities = await service.getLocalities();
+        this.locationHierarchy = await service.getLocationHierarchy();
+        this.preselectLocality();
       } catch (err) {
         this.toast.add({
           severity: 'error',
@@ -70,6 +69,29 @@ export default {
         });
       }
     },
+
+    findLocalityInHierarchy(localityId) {
+      if (!localityId || !this.locationHierarchy) return null;
+      for (const region of this.locationHierarchy) {
+        for (const province of region.provinces || []) {
+          for (const district of province.districts || []) {
+            for (const locality of district.localities || []) {
+              if (locality.code === localityId) {
+                return locality;
+              }
+            }
+          }
+        }
+      }
+      return null;
+    },
+
+    preselectLocality() {
+      if (this.paradero.fk_id_locality) {
+        this.selectedLocality = this.findLocalityInHierarchy(this.paradero.fk_id_locality);
+      }
+    },
+
     async updateStop() {
       this.submitted = true;
       if (!this.isFormValid) {
@@ -91,7 +113,7 @@ export default {
           detail: 'Paradero actualizado correctamente',
           life: 3000
         });
-        this.visible = false;
+        this.visiblePop = false;
         this.submitted = false;
       } catch (err) {
         this.toast.add({
@@ -124,6 +146,13 @@ export default {
           this.loadDropdowns();
         }
       }
+    },
+
+    selectedLocality: {
+      handler(newLocality) {
+        this.paradero.fk_id_locality = newLocality ? newLocality.code : '';
+      },
+      deep: true
     }
   }
 };
@@ -133,46 +162,123 @@ export default {
 <template>
   <pb-Button class="edit-button" icon="pi pi-pencil" @click="visiblePop = true"/>
 
-  <pb-Dialog v-model:visible="visiblePop" header="Editar Paradero" :modal="true" :style="{ width: '30rem' }">
+  <pb-Dialog v-model:visible="visiblePop" header="Editar Paradero" :modal="true" :style="{ width: '50rem' }">
+
+    <template #header>
+      <h1 class="title">Editar Paradero</h1>
+    </template>
+
     <pb-Form @submit="updateStop">
-      <div class="p-field">
-        <label for="name">Nombre</label>
-        <pb-InputText id="name" v-model="paradero.name" :class="{ 'p-invalid': !paradero.name && submitted }" required />
-        <small v-if="!paradero.name && submitted" class="p-error">El nombre es obligatorio</small>
+
+      <div class="form-container">
+        <pb-IftaLabel class="labelSelectField">
+          <label for="name">Nombre</label>
+          <pb-InputText id="name" v-model="paradero.name" class="input-field"/>
+        </pb-IftaLabel>
+
+        <pb-IftaLabel class="labelSelectField">
+          <label for="phone">Teléfono</label>
+          <pb-InputText id="phone" v-model="paradero.phone" class="input-field"/>
+        </pb-IftaLabel>
+
+        <pb-IftaLabel class="labelSelectField">
+          <label for="address">Dirección</label>
+          <pb-InputText id="address" v-model="paradero.address" placeholder="Ej. Av. Norte 789" class="input-field"/>
+        </pb-IftaLabel>
+
+        <pb-IftaLabel class="labelSelectField">
+          <label for="reference">Referencia</label>
+          <pb-InputText id="reference" v-model="paradero.reference" placeholder="Ej. Frente al Teatro" class="input-field"/>
+        </pb-IftaLabel>
+
+        <pb-IftaLabel class="labelSelectField">
+          <pb-CascadeSelect class="cascade-field" inputId="locality" v-model="paradero.fk_id_locality" :options="locationHierarchy" option-label="name" option-value="code" option-group-label="name" :option-group-children="['provinces', 'districts', 'localities']"  placeholder="Selecciona la ubicación"/>
+          <label for="locality">Localidad</label>
+        </pb-IftaLabel>
+
+        <div class="p-field">
+          <label for="company">Empresa</label>
+          <pb-Select id="company" v-model="paradero.fk_id_company" :options="companies" option-label="label" option-value="value" :class="{ 'p-invalid': !paradero.fk_id_company && submitted }" />
+          <small v-if="!paradero.fk_id_company && submitted" class="p-error">La empresa es obligatoria</small>
+        </div>
+
+        <div class="button-container">
+          <pb-Button label="Cancelar" icon="pi pi-times" class="cancel-button" @click="visiblePop = false" />
+          <pb-Button label="Guardar Cambios" class="save-button" icon="pi pi-check" type="submit" :disabled="!isFormValid || !hasChanges || submitted" />
+        </div>
       </div>
-      <div class="p-field">
-        <label for="phone">Teléfono</label>
-        <pb-InputText id="phone" v-model="paradero.phone" :class="{ 'p-invalid': !paradero.phone && submitted }" required />
-        <small v-if="!paradero.phone && submitted" class="p-error">El teléfono es obligatorio</small>
-      </div>
-      <div class="p-field">
-        <label for="address">Dirección</label>
-        <pb-InputText id="address" v-model="paradero.address" placeholder="Ej. Av. Norte 789" :class="{ 'p-invalid': !paradero.address && submitted }" required />
-        <small v-if="!paradero.address && submitted" class="p-error">La dirección es obligatoria</small>
-      </div>
-      <div class="p-field">
-        <label for="reference">Referencia</label>
-        <pb-InputText id="reference" v-model="paradero.reference" placeholder="Ej. Frente al Teatro" :class="{ 'p-invalid': !paradero.reference && submitted }" required />
-        <small v-if="!paradero.reference && submitted" class="p-error">La referencia es obligatoria</small>
-      </div>
-      <div class="p-field">
-        <label for="company">Empresa</label>
-        <pb-Select id="company" v-model="paradero.fk_id_company" :options="companies" option-label="label" option-value="value" :class="{ 'p-invalid': !paradero.fk_id_company && submitted }" />
-        <small v-if="!paradero.fk_id_company && submitted" class="p-error">La empresa es obligatoria</small>
-      </div>
-      <div class="p-field">
-        <label for="locality">Localidad</label>
-        <pb-Select id="locality" v-model="paradero.fk_id_locality" :options="localities" option-label="label" option-value="value" :class="{ 'p-invalid': !paradero.fk_id_locality && submitted }" />
-        <small v-if="!paradero.fk_id_locality && submitted" class="p-error">La localidad es obligatoria</small>
-      </div>
-      <pb-Button label="Cancelar" icon="pi pi-times" class="p-button-text" @click="visible = false" />
-      <pb-Button label="Guardar Cambios" icon="pi pi-check" type="submit" :disabled="!isFormValid || !hasChanges || submitted" />
     </pb-Form>
   </pb-Dialog>
 
 </template>
 
 <style scoped>
+
+.title{
+  color: #7A78FF;
+  border-bottom: #7A78FF solid 1px;
+  padding: 10px;
+}
+
+.cascade-field {
+  border-color: #CCCCFF;
+  --p-cascadeselect-focus-border-color: #7A78FF;
+}
+
+.labelSelectField{
+  --p-iftalabel-color: #484848;
+  --p-iftalabel-focus-color: #7A78FF;
+}
+
+.input-field {
+  border-color: #CCCCFF;
+  --p-inputtext-focus-border-color: #7A78FF;
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.button-container button{
+  width: 100%;
+}
+
+.cancel-button{
+  background-color: #FFCDBA;
+  border: none;
+}
+
+.cancel-button.p-button:hover{
+  background-color: #f3a88c;
+  border: none;
+}
+
+.save-button{
+  background-color: #66e1a3;
+  border: none;
+}
+
+.save-button.p-button:disabled
+{
+  background-color: #66e1a3;
+  border: none;
+}
+
+.save-button.p-button:hover
+{
+  background-color: #00A652;
+  border: none;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
 .edit-button{
   background-color: #478BFF;
   border-color: transparent;

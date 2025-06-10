@@ -11,8 +11,6 @@ export default {
     return { visiblePop };
   },
 
-  props: ['value'],
-
   emits: ['update:value', 'created'],
 
   data() {

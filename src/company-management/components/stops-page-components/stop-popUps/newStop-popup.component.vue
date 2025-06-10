@@ -40,11 +40,6 @@ export default {
           this.paradero.fk_id_company &&
           this.paradero.fk_id_locality;
     },
-
-    visiblePop: {
-      get() { return this.value; },
-      set(val) { this.$emit('update:value', val); }
-    }
   },
 
   methods: {

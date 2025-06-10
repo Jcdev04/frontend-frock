@@ -34,7 +34,7 @@ export default {
               detail: 'Paradero eliminado',
               life: 3000
             });
-            emit('deleted', props.stopId);
+            this.$emit('deleted', props.stopId);
           } catch (error) {
             toast.add({
               severity: 'error',

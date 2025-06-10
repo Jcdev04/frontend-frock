@@ -1,5 +1,5 @@
 <script>
-import popUpNewStop from "../stops-page-components/stop-popUps/newStop-popup.component.vue"; //popUp para cuando se clickee "nuevo paradero"
+import popUpNewStop from "../stops-page-components/stop-popUps/newStop-popup.component.vue";
 
 export default {
   name: 'stopsHeaderTitle',
@@ -7,14 +7,18 @@ export default {
   components: {
     popUpNewStop
   },
+
+  emits: ['created'],
+
 }
 </script>
 
 <template>
   <div class="container">
     <h1>Paraderos</h1>
-    <pop-up-new-stop/>
-
+    <pop-up-new-stop
+        @created="$emit('created', $event)"
+    />
   </div>
 </template>
 

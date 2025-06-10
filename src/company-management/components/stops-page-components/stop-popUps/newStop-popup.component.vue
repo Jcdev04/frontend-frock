@@ -8,7 +8,6 @@ export default {
   setup() {
     const visiblePop = ref(false); //variable visible que controlara la aparicion del popUp
 
-
     return { visiblePop };
   },
 
@@ -27,7 +26,6 @@ export default {
         fk_id_locality: ''
       },
       companies: [],
-      localities: [],
       locationHierarchy: [],
       submitted: false
     };
@@ -41,6 +39,11 @@ export default {
           this.paradero.reference &&
           this.paradero.fk_id_company &&
           this.paradero.fk_id_locality;
+    },
+
+    visiblePop: {
+      get() { return this.value; },
+      set(val) { this.$emit('update:value', val); }
     }
   },
 

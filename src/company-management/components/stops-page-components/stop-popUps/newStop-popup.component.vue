@@ -120,43 +120,106 @@ export default {
     </template>
 
     <pb-Form @submit="createStop">
-      <pb-IftaLabel>
-        <label for="name">Nombre</label>
-        <pb-InputText id="name" v-model="paradero.name" class="w-full" variant="filled"/>
-      </pb-IftaLabel>
 
-      <pb-IftaLabel>
-        <label for="phone">Teléfono</label>
-        <pb-InputText id="phone" v-model="paradero.phone" class="w-full" variant="filled"/>
-      </pb-IftaLabel>
+      <div class="form-container">
+        <pb-IftaLabel class="labelSelectField">
+          <label for="name">Nombre</label>
+          <pb-InputText id="name" v-model="paradero.name" class="input-field" />
+        </pb-IftaLabel>
 
-      <pb-IftaLabel>
-        <label for="address">Dirección</label>
-        <pb-InputText id="address" v-model="paradero.address" placeholder="Ej: Av. Norte 789" class="w-full" variant="filled"/>
-      </pb-IftaLabel>
+        <pb-IftaLabel class="labelSelectField">
+          <label for="phone">Teléfono</label>
+          <pb-InputText id="phone" v-model="paradero.phone" class="input-field"/>
+        </pb-IftaLabel>
 
-      <pb-IftaLabel>
-        <label for="reference">Referencia</label>
-        <pb-InputText id="reference" v-model="paradero.reference" placeholder="Ej: Frente al Teatro" class="w-full" variant="filled"/>
-      </pb-IftaLabel>
+        <pb-IftaLabel class="labelSelectField">
+          <label for="address">Dirección</label>
+          <pb-InputText id="address" v-model="paradero.address" placeholder="Ej: Av. Norte 789" class="input-field"/>
+        </pb-IftaLabel>
 
-      <pb-IftaLabel class="w-full md:w-56">
-        <pb-CascadeSelect inputId="locality" v-model="paradero.fk_id_locality" :options="locationHierarchy" option-label="name" option-value="code" option-group-label="name" :option-group-children="['provinces', 'districts', 'localities']"  placeholder="Selecciona la ubicación"/>
-        <label for="locality">Localidad</label>
-      </pb-IftaLabel>
+        <pb-IftaLabel class="labelSelectField">
+          <label for="reference">Referencia</label>
+          <pb-InputText id="reference" v-model="paradero.reference" placeholder="Ej: Frente al Teatro" class="input-field"/>
+        </pb-IftaLabel>
 
-      <div class="p-field">
-        <label for="company">Empresa</label>
-        <pb-Select id="company" v-model="paradero.fk_id_company" :options="companies" option-label="label" option-value="value" />
+        <pb-IftaLabel class="labelSelectField">
+          <pb-CascadeSelect class="cascade-field" inputId="locality" v-model="paradero.fk_id_locality" :options="locationHierarchy" option-label="name" option-value="code" option-group-label="name" :option-group-children="['provinces', 'districts', 'localities']"  placeholder="Selecciona la ubicación"/>
+          <label for="locality">Localidad</label>
+        </pb-IftaLabel>
+
+        <div class="p-field">
+          <label for="company">Empresa</label>
+          <pb-Select id="company" v-model="paradero.fk_id_company" :options="companies" option-label="label" option-value="value" />
+        </div>
+
+        <div class="button-container">
+          <pb-Button label="Cancelar" icon="pi pi-times" class="cancel-button" @click="visiblePop = false" />
+          <pb-Button label="Crear" icon="pi pi-check" class="create-button" type="submit" :disabled="!isFormValid && !submitted" />
+        </div>
       </div>
-
-      <pb-Button label="Cancelar" icon="pi pi-times" class="p-button-text" @click="visiblePop = false" />
-      <pb-Button label="Crear" icon="pi pi-check" type="submit" :disabled="!isFormValid && !submitted" />
     </pb-Form>
   </pb-Dialog>
 </template>
 
 <style scoped>
+.cascade-field {
+  border-color: #CCCCFF;
+  --p-cascadeselect-focus-border-color: #7A78FF;
+}
+
+.labelSelectField{
+  --p-iftalabel-color: #484848;
+  --p-iftalabel-focus-color: #7A78FF;
+}
+
+.input-field {
+  border-color: #CCCCFF;
+  --p-inputtext-focus-border-color: #7A78FF;
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.button-container button{
+  width: 100%;
+}
+
+.cancel-button{
+  background-color: #FFCDBA;
+  border: none;
+}
+
+.cancel-button.p-button:hover{
+  background-color: #f3a88c;
+  border: none;
+}
+
+.create-button{
+  background-color: #66e1a3;
+  border: none;
+}
+
+.create-button.p-button:disabled
+{
+  background-color: #66e1a3;
+  border: none;
+}
+
+.create-button.p-button:hover
+{
+  background-color: #00A652;
+  border: none;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
 
 .title{
   color: #7A78FF;

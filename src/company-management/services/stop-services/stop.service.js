@@ -36,6 +36,8 @@ export class StopService {
                     reference: stop.reference || '',
                     google_maps_url: stop.google_maps_url || '',
                     image_url: stop.image_url || '',
+                    fk_id_company: stop.fk_id_company || '',
+                    fk_id_locality: stop.fk_id_locality || '',
                     companyName: companyMap[stop.fk_id_company] || 'Desconocido',
                     location: `${locality.name}, ${district.name}, ${province.name}, ${region.name}`
                 };
@@ -120,7 +122,9 @@ export class StopService {
                 name: data.name,
                 phone: data.phone,
                 address: data.address,
-                reference: data.reference
+                reference: data.reference,
+                fk_id_company: data.fk_id_company,
+                fk_id_locality: data.fk_id_locality
             });
 
             const companies = await this.#repository.getCompanies();

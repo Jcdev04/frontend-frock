@@ -65,8 +65,8 @@ export class StopRepository {
                 reference: data.reference,
                 google_maps_url: original.google_maps_url,
                 image_url: original.image_url,
-                fk_id_company: original.fk_id_company,
-                fk_id_locality: original.fk_id_locality
+                fk_id_company: data.fk_id_company,
+                fk_id_locality: data.fk_id_locality
             };
             // Enviar PUT con el objeto completo
             const { data: updated } = await http.put(`/stops/${id}`, updatedData);

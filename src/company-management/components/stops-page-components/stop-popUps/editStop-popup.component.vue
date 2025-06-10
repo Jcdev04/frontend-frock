@@ -59,7 +59,6 @@ export default {
         const service = new StopService();
         this.companies = await service.getCompanies();
         this.locationHierarchy = await service.getLocationHierarchy();
-        this.preselectLocality();
       } catch (err) {
         this.toast.add({
           severity: 'error',
@@ -70,32 +69,10 @@ export default {
       }
     },
 
-    findLocalityInHierarchy(localityId) {
-      if (!localityId || !this.locationHierarchy) return null;
-      for (const region of this.locationHierarchy) {
-        for (const province of region.provinces || []) {
-          for (const district of province.districts || []) {
-            for (const locality of district.localities || []) {
-              if (locality.code === localityId) {
-                return locality;
-              }
-            }
-          }
-        }
-      }
-      return null;
-    },
-
-    preselectLocality() {
-      if (this.paradero.fk_id_locality) {
-        this.selectedLocality = this.findLocalityInHierarchy(this.paradero.fk_id_locality);
-      }
-    },
-
     async updateStop() {
       this.submitted = true;
       if (!this.isFormValid) {
-        this.toast.add({
+        this.$toast.add({
           severity: 'warn',
           summary: 'Advertencia',
           detail: 'Por favor completa todos los campos requeridos',
@@ -106,17 +83,18 @@ export default {
       try {
         const service = new StopService();
         const updated = await service.updateStop(this.paradero.id, this.paradero);
-        this.emit('updated', updated);
-        this.toast.add({
+        this.$emit('updated', updated);
+        this.$toast.add({
           severity: 'success',
           summary: 'Éxito',
           detail: 'Paradero actualizado correctamente',
           life: 3000
         });
         this.visiblePop = false;
+        this.initializeForm();
         this.submitted = false;
       } catch (err) {
-        this.toast.add({
+        this.$toast.add({
           severity: 'error',
           summary: 'Error',
           detail: `Error al actualizar paradero: ${err.message}`,
@@ -146,13 +124,6 @@ export default {
           this.loadDropdowns();
         }
       }
-    },
-
-    selectedLocality: {
-      handler(newLocality) {
-        this.paradero.fk_id_locality = newLocality ? newLocality.code : '';
-      },
-      deep: true
     }
   }
 };

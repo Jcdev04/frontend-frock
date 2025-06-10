@@ -8,6 +8,8 @@ export default {
 
   components: { deleteStopPopUp, editStopPopUp },
 
+  emits: ['updated', 'deleted'],
+
   //objeto stop
   props: ['stop'],
 }
@@ -48,8 +50,8 @@ export default {
         </div>
 
         <div class="main-button-frame">
-          <edit-stop-pop-up :stop="stop"/>
-          <delete-stop-pop-up :stop-id="stop.id"/>
+          <edit-stop-pop-up :stop="stop" @updated="$emit('updated', $event)"/>
+          <delete-stop-pop-up :stop-id="stop.id" @deleted="$emit('deleted', $event)"/>
         </div>
 
 

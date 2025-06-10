@@ -13,6 +13,9 @@ export default {
     }
   },
 
+  emits: ['update:value', 'deleted'],
+
+
   setup(props, {emit}) {
     const confirm = useConfirm();
     const toast = useToast();
@@ -28,13 +31,13 @@ export default {
         accept: async () => {
           try {
             await service.deleteStop(props.stopId);
+            emit('deleted');
             toast.add({
               severity: 'success',
               summary: 'Éxito',
               detail: 'Paradero eliminado',
               life: 3000
             });
-            this.$emit('deleted', props.stopId);
           } catch (error) {
             toast.add({
               severity: 'error',

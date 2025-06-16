@@ -22,6 +22,7 @@ export const APP_ROUTES = {
         HOME: 'home',
         STOPS: 'stops',
         ROUTES: 'routes',
-        PROFILE: 'profile'
+        PROFILE: 'profile',
+        INFORMATION: 'information',
     }
 }

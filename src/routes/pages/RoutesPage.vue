@@ -1,7 +1,7 @@
 <template>
   <div class="rutas-container">
     <div class="rutas-header">
-      <h1 class="rutas-title">Rutas</h1>
+      <h2 class="rutas-title">Rutas</h2>
       <button class="nuevo-paradero-btn" @click="abrirModalNuevaRuta">
         <span class="plus-icon">+</span>Agregar ruta
       </button>
@@ -83,10 +83,9 @@ export default {
 }
 
 .rutas-title {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 600;
-  color: #333;
-  margin: 0;
+  color: var(--color-primary);
 }
 
 .nuevo-paradero-btn {

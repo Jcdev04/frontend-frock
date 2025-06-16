@@ -10,6 +10,7 @@ import CompanyLayout from "@/shared/components/CompanyLayout.vue";
 import RoutesList from "@/discovery/components/routes-list/routes-list.vue"
 import TravellerLayout from "@/shared/components/TravellerLayout.vue";
 import {APP_ROUTES} from "@/shared/services/routes.js";
+import CompanyInformation from "@/transport-company/pages/CompanyInformation.vue";
 
 const routes = [
     /*ROUTES FOR PUBLIC AND TRAVELLER DASHBOARD*/
@@ -69,6 +70,10 @@ const routes = [
                         path: APP_ROUTES.COMPANY.ROUTES,
                         component: RoutesPage,
                     },
+                    {
+                        path: APP_ROUTES.COMPANY.INFORMATION,
+                        component: CompanyInformation,
+                    }
                 ]
 
             }

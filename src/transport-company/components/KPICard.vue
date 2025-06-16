@@ -1,7 +1,7 @@
 <!-- src/components/KpiCard.vue -->
 <template>
   <div class="kpi-card">
-    <component :is="icon" class="kpi-card__icon" />
+    <component :style="{ color }"  :is="icon" class="kpi-card__icon" />
     <section class="">
       <div class="kpi-card__value">{{ value }}</div>
       <div class="kpi-card__label">{{ label }}</div>
@@ -13,7 +13,8 @@
 defineProps({
   icon:   { type: Object, required: true },
   value:  { type: [String, Number], required: true },
-  label:  { type: String, required: true }
+  label:  { type: String, required: true },
+  color:  { type: String, required: true },
 })
 </script>
 
@@ -32,7 +33,6 @@ defineProps({
 .kpi-card__icon {
   width: 50px;
   height: 50px;
-  color: #4a5568; /* stroke color */
 }
 
 .kpi-card__value {

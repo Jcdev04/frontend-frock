@@ -51,7 +51,6 @@ import router from './router'
 // Esto asegura que siempre comience en la página de login
 localStorage.removeItem('auth_token');
 
-
 //APP COMO TAL
 const app = createApp(App)
 
@@ -105,4 +104,4 @@ app.component('pb-Image', Image);
 app.component('pb-Form', Form);
 
 
-    app.mount('#app')
+app.mount('#app')

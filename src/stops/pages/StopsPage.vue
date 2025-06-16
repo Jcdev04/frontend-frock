@@ -11,7 +11,6 @@ export default {
     StopsHeaderTitle,
     stopsList,
   },
-
   data() {
     return {
       stops: [],

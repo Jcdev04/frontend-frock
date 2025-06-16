@@ -30,9 +30,8 @@ export default {
 }
 
 .container h1{
-  font-family: Poppins, sans-serif;
   font-size: 36px;
   font-weight: bold;
-  color: #7A78FF;
+  color: var(--color-primary);
 }
 </style>

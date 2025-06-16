@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <!-- El toolbar solo se muestra si el usuario está autenticado y no estamos en una página de auth -->
-    <app-toolbar v-if="isAuthenticated && !isAuthPage" />
-
     <!-- Router view para mostrar el componente correspondiente a la ruta actual -->
     <router-view
         @login-success="handleLoginSuccess"
@@ -12,13 +9,9 @@
 </template>
 
 <script>
-import AppToolbar from '@/shared/components/AppToolbar.vue'
 
 export default {
   name: 'App',
-  components: {
-    AppToolbar
-  },
   data() {
     return {
       isAuthenticated: false
@@ -48,12 +41,6 @@ export default {
       this.$router.push('/rutas');
     }
   },
-  computed: {
-    isAuthPage() {
-      const authRoutes = ['/login', '/register', '/register-company'];
-      return authRoutes.includes(this.$route.path);
-    }
-  }
 }
 </script>
 

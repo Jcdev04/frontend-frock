@@ -1,72 +1,80 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '@/auth/components/Login.vue'
-import RegisterView from '@/auth/components/Register.vue'
-import CompanyRegisterView from '@/auth/components/Company-register.vue'
-import RoutesPage from '@/company-management/pages/RoutesPage.vue'
-import RoutesList from "@/catalogue-routes/components/routes-list/routes-list.vue";
-import RouteCompleteDetailsComponent from "@/catalogue-routes/pages/route-complete-details.component.vue";
-import StopsPage from "@/company-management/pages/StopsPage.vue";
-import HomePage from "@/company-management/pages/HomePage.vue";
-import CompanyPage from "@/company-management/pages/CompanyPage.vue";
+import LoginView from '@/access-and-identity/components/Login.vue'
+import RegisterView from '@/access-and-identity/components/Register.vue'
+import CompanyRegisterView from '@/transport-company/pages/CompanyRegister.vue'
+import RoutesPage from '@/routes/pages/RoutesPage.vue'
+import RouteCompleteDetailsComponent from "@/discovery/pages/route-complete-details.component.vue";
+import StopsPage from "@/stops/pages/StopsPage.vue";
+import HomePage from "@/transport-company/pages/HomePage.vue";
+import CompanyLayout from "@/shared/components/CompanyLayout.vue";
+import RoutesList from "@/discovery/components/routes-list/routes-list.vue"
+import TravellerLayout from "@/shared/components/TravellerLayout.vue";
+import {APP_ROUTES} from "@/shared/services/routes.js";
 
-// Definimos las rutas
 const routes = [
+    /*ROUTES FOR PUBLIC AND TRAVELLER DASHBOARD*/
     {
-        path: '/',
-        component: RoutesList
-    },
-    {
-        path: '/route/:id',
-        name: 'RouteDetail',
-        component: RouteCompleteDetailsComponent,
-        props: (route) => ({ routeId: route.params.id })
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: LoginView,
-        /*meta: { requiresAuth: false }*/
-    },
-    {
-        path: '/register',
-        name: 'Register',
-        component: RegisterView,
-        /*meta: { requiresAuth: false }*/
-    },
-    {
-        path: '/register-company',
-        name: 'CompanyRegister',
-        component: CompanyRegisterView,
-    },
-    {
-        path: '/company',
-        redirect: "/company/home",
-        name: "Company",
-        component: CompanyPage,
+        path: "/",
+        component: TravellerLayout,
         children: [
             {
-                path: "home",
-                name: "Home",
-                component: HomePage
+                path: APP_ROUTES.PUBLIC.ROOT,
+                component: RoutesList,
             },
             {
-                path: "stops",
-                name: 'Stops',
-                component: StopsPage,
-            },
-            {
-                path: 'routes',
-                name: 'Rutas',
-                component: RoutesPage,
-                /*meta: { requiresAuth: true }*/
+                path: APP_ROUTES.PUBLIC.ROUTES,
+                name: "route-detail",
+                component: RouteCompleteDetailsComponent,
+                props: true
             }
         ]
     },
-    // RouteEntity para manejar rutas no encontradas
+    /*ROUTES FOR AUTHENTICATION*/
     {
-        path: '/:pathMatch(.*)*',
-        redirect: '/'
-    }
+        path: APP_ROUTES.AUTH.ROOT,
+        redirect: APP_ROUTES.AUTH.ROOT +"/"+ APP_ROUTES.AUTH.LOGIN,
+        children: [
+            {
+                path: APP_ROUTES.AUTH.LOGIN,
+                name: "LoginView",
+                component: LoginView,
+            },
+            {
+                path: APP_ROUTES.AUTH.REGISTER,
+                component: RegisterView,
+            },
+        ]
+    },
+    /* ROUTES FOR COMPANY*/
+   {
+        path: "/"+APP_ROUTES.COMPANY.ROOT,
+        children: [
+            {
+                path: APP_ROUTES.COMPANY.ONBOARDING,
+                component: CompanyRegisterView,
+            },
+            {
+                path: "",
+                component: CompanyLayout,
+                children: [
+                    {
+                        path: APP_ROUTES.COMPANY.HOME,
+                        component: HomePage
+                    },
+                    {
+                        path: APP_ROUTES.COMPANY.STOPS,
+                        component: StopsPage,
+                    },
+                    {
+                        path: APP_ROUTES.COMPANY.ROUTES,
+                        component: RoutesPage,
+                    },
+                ]
+
+            }
+        ]
+    },
+
 ]
 
 const router = createRouter({

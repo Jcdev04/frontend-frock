@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login-card">
       <div class="logo-container">
-        <img src="../../assets/logo-chapaturuta.png" alt="Logo" class="logo" />
+        <img src="@/assets/logo-chapaturuta.png" alt="Logo" class="logo" />
       </div>
       <h1>Iniciar Sesión</h1>
 
@@ -39,22 +39,32 @@
       </form>
 
       <div class="register-link">
-        ¿No tienes una cuenta? <router-link to="/register">Crear Cuenta</router-link>
+        ¿No tienes una cuenta?
+        <router-link :to="APP_ROUTES.AUTH.REGISTER">
+          Crear Cuenta
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { APP_ROUTES } from '@/shared/services/routes.js';
+
 export default {
   name: 'LoginView',
+  computed: {
+    APP_ROUTES() {
+      return APP_ROUTES;
+    }
+  },
   data() {
     return {
       email: '',
       password: '',
       error: null,
       isLoading: false
-    }
+    };
   },
   methods: {
     async handleLogin() {
@@ -62,34 +72,25 @@ export default {
       this.error = null;
 
       try {
-        // Aquí iría la lógica real de autenticación con tu backend
-        // Por ahora, simulamos un login exitoso
-
-        // Simulación de una llamada a API (reemplazar con tu lógica real)
+        // Simula delay de API
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Verificar credenciales (esto es solo un ejemplo)
+        // Simula éxito si hay email y password
         if (this.email && this.password) {
-          // Guardar token en localStorage (simulado)
-          localStorage.setItem('auth_token', 'ejemplo_token_jwt');
-
-          // Emitir evento de login exitoso
           this.$emit('login-success');
-
-          // Redireccionar a la página principal donde se muestra el toolbar
-          this.$router.push('/rutas');
+          this.$router.push("/"+APP_ROUTES.COMPANY.ROOT+"/"+APP_ROUTES.COMPANY.HOME);
         } else {
           this.error = 'Correo o contraseña incorrectos';
         }
-      } catch (error) {
-        console.error('Error durante el login:', error);
+      } catch (err) {
+        console.error(err);
         this.error = 'Ocurrió un error al intentar iniciar sesión';
       } finally {
         this.isLoading = false;
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -104,7 +105,7 @@ export default {
 .login-card {
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 30px;
   width: 400px;
   max-width: 90%;
@@ -123,11 +124,9 @@ export default {
 }
 
 h1 {
-  text-align: center;
-  margin-bottom: 24px;
-  color: #333;
-  font-size: 24px;
-}
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+  color: #444;text-align: center}
 
 .form-group {
   margin-bottom: 20px;
@@ -179,7 +178,7 @@ input {
 }
 
 .register-link a {
-  color: var(--color-primary);
+  color: #6b63ff;
   text-decoration: none;
 }
 

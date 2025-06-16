@@ -1,6 +1,6 @@
 <script>
 import { RouteService } from "../../services/routes-api.service.js";
-import RouteCard from "@/catalogue-routes/components/routes-list/route-card.vue";
+import RouteCard from "@/discovery/components/routes-list/route-card.vue";
 
 export default {
   name: "route-component",
@@ -34,7 +34,7 @@ export default {
       return hours > 0 ? `${hours}hr ${mins > 0 ? mins + "min" : ""}` : `${mins}min`;
     },
     viewRouteDetails(routeId) {
-      this.$router.push({name: 'RouteDetail', params: {id: routeId}});
+      this.$router.push({name: 'route-detail', params: {routeId}});
     }
   },
 };

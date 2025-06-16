@@ -46,8 +46,8 @@ const routes = [
         ]
     },
     /* ROUTES FOR COMPANY*/
-   /* {
-        path: APP_ROUTES.COMPANY.ROOT,
+   {
+        path: "/"+APP_ROUTES.COMPANY.ROOT,
         children: [
             {
                 path: APP_ROUTES.COMPANY.ONBOARDING,
@@ -56,7 +56,6 @@ const routes = [
             {
                 path: "",
                 component: CompanyLayout,
-                redirect: APP_ROUTES.COMPANY.HOME,
                 children: [
                     {
                         path: APP_ROUTES.COMPANY.HOME,
@@ -70,14 +69,11 @@ const routes = [
                         path: APP_ROUTES.COMPANY.ROUTES,
                         component: RoutesPage,
                     },
-                    {
-
-                    }
                 ]
 
             }
         ]
-    },*/
+    },
 
 ]
 

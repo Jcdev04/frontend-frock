@@ -78,7 +78,7 @@ export default {
         // Simula éxito si hay email y password
         if (this.email && this.password) {
           this.$emit('login-success');
-          this.$router.push();
+          this.$router.push("/"+APP_ROUTES.COMPANY.ROOT+"/"+APP_ROUTES.COMPANY.HOME);
         } else {
           this.error = 'Correo o contraseña incorrectos';
         }

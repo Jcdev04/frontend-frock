@@ -35,7 +35,6 @@ export default {
           this.paradero.phone &&
           this.paradero.address &&
           this.paradero.reference &&
-          this.paradero.fk_id_company &&
           this.paradero.fk_id_locality;
     },
   },
@@ -86,7 +85,7 @@ export default {
           phone: '',
           address: '',
           reference: '',
-          fk_id_company: '',
+          fk_id_company: 'comp-1',
           fk_id_locality: ''
         };
         this.submitted = false;
@@ -143,10 +142,10 @@ export default {
           <label for="locality">Localidad</label>
         </pb-IftaLabel>
 
-        <div class="p-field">
+<!--        <div class="p-field">
           <label for="company">Empresa</label>
           <pb-Select id="company" v-model="paradero.fk_id_company" :options="companies" option-label="label" option-value="value" />
-        </div>
+        </div>-->
 
         <div class="button-container">
           <pb-Button label="Cancelar" icon="pi pi-times" class="cancel-button" @click="visiblePop = false" />
@@ -159,18 +158,20 @@ export default {
 
 <style scoped>
 .cascade-field {
-  border-color: #CCCCFF;
-  --p-cascadeselect-focus-border-color: #7A78FF;
+  border-color: var(--color-off);
+  --p-cascadeselect-focus-border-color: var(--color-primary);
+  max-height: 200px; /* Ajusta según lo necesario */
+  overflow-y: auto;
 }
 
 .labelSelectField{
-  --p-iftalabel-color: #484848;
-  --p-iftalabel-focus-color: #7A78FF;
+  --p-iftalabel-color: var(--color-slate-400);
+  --p-iftalabel-focus-color: var(--color-primary);
 }
 
 .input-field {
-  border-color: #CCCCFF;
-  --p-inputtext-focus-border-color: #7A78FF;
+  border-color: var(--color-off);
+  --p-inputtext-focus-border-color: var(--color-primary);
   width: 100%;
 }
 
@@ -218,8 +219,8 @@ export default {
 }
 
 .title{
-  color: #7A78FF;
-  border-bottom: #7A78FF solid 1px;
+  color: var(--color-primary);
+  border-bottom: var(--color-primary) solid 1px;
   padding: 10px;
 }
 
@@ -229,7 +230,7 @@ export default {
   align-items: center;
 
   /*Button en si*/
-  background-color: #7A78FF;
+  background-color: var(--color-primary);
 
   border: none;
   border-radius: 8px;
@@ -245,13 +246,13 @@ export default {
   /*Text Format*/
   font-size: 16px;
   font-family: Poppins, sans-serif;
-  color: white;
+  color: var(--color-white);
 }
 
 .nuevo-paradero-button.p-button:hover{
   cursor: pointer;
-  background-color: #CCF;
-  color: white;
+  background-color: var(--color-off);
+  color: var(--color-white);
   border: none;
 }
 

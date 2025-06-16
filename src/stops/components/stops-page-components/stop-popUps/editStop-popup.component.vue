@@ -45,7 +45,6 @@ export default {
           this.paradero.phone &&
           this.paradero.address &&
           this.paradero.reference &&
-          this.paradero.fk_id_company &&
           this.paradero.fk_id_locality;
     },
     hasChanges() {
@@ -109,7 +108,8 @@ export default {
         phone: this.stop.phone || '',
         address: this.stop.address || '',
         reference: this.stop.reference || '',
-        fk_id_company: this.stop.fk_id_company || '',
+        //temporal, el company se debería obtener de la sesión
+        fk_id_company: this.stop.fk_id_company || 'comp-1',
         fk_id_locality: this.stop.fk_id_locality || ''
       };
       this.initialParadero = { ...this.paradero };
@@ -167,11 +167,14 @@ export default {
           <label for="locality">Localidad</label>
         </pb-IftaLabel>
 
-        <div class="p-field">
+<!--
+    EL FK DEL COMPANY VIENE DE LA SESION
+
+    <div class="p-field">
           <label for="company">Empresa</label>
           <pb-Select id="company" v-model="paradero.fk_id_company" :options="companies" option-label="label" option-value="value" :class="{ 'p-invalid': !paradero.fk_id_company && submitted }" />
           <small v-if="!paradero.fk_id_company && submitted" class="p-error">La empresa es obligatoria</small>
-        </div>
+        </div>-->
 
         <div class="button-container">
           <pb-Button label="Cancelar" icon="pi pi-times" class="cancel-button" @click="visiblePop = false" />

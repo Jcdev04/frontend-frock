@@ -2,15 +2,59 @@
   "regions": [
     {
       "id": "reg-1",
-      "name": "Región Metropolitana"
+      "name": "Madre De Dios"
     },
     {
       "id": "reg-2",
-      "name": "Región de Valparaíso"
+      "name": "Lima"
     },
     {
       "id": "reg-3",
-      "name": "Región del Maule"
+      "name": "La Libertad"
+    },
+    {
+      "id": "reg-4",
+      "name": "Ancash"
+    },
+    {
+      "id": "reg-5",
+      "name": "Ica"
+    },
+    {
+      "id": "reg-6",
+      "name": "Puno"
+    },
+    {
+      "id": "reg-7",
+      "name": "Arequipa"
+    },
+    {
+      "id": "reg-8",
+      "name": "Cusco"
+    },
+    {
+      "id": "reg-9",
+      "name": "Huánuco"
+    },
+    {
+      "id": "reg-10",
+      "name": "Ayacucho"
+    },
+    {
+      "id": "reg-11",
+      "name": "Amazonas"
+    },
+    {
+      "id": "reg-12",
+      "name": "Lambayeque"
+    },
+    {
+      "id": "reg-13",
+      "name": "Tacna"
+    },
+    {
+      "id": "reg-14",
+      "name": "Junín"
     }
   ],
   "provinces": [
@@ -146,13 +190,13 @@
     {
       "id": "stop-1",
       "name": "Paradero A",
+      "phone": "+51312123132",
+      "address": "Av. 123",
+      "reference": "Frente a la Catedral",
       "google_maps_url": "https://goo.gl/maps/aaa111",
       "image_url": "https://www.enelx.com/content/dam/local-chile/enel-x---content-manager/1_ParaderosInteligenteso_4tonivel_1440x768.png",
-      "phone": "+51312123132",
       "fk_id_company": "comp-1",
-      "fk_id_locality": "loc-1",
-      "address": "Av. 123",
-      "reference": "Frente a la Catedral"
+      "fk_id_locality": "loc-2"
     },
     {
       "id": "stop-2",
@@ -175,28 +219,6 @@
       "fk_id_locality": "loc-3",
       "address": "Av. El GOAT",
       "reference": "Mirador Paseo Yugoslavo"
-    },
-    {
-      "id": "stop-4",
-      "name": "Paradero D",
-      "google_maps_url": "https://goo.gl/maps/ddd444",
-      "image_url": "https://www.mupa.com.mx/blog/wp-content/uploads/2024/04/20240330_055_BLOG_870x395_MUPA_ParaderosCiudadesSustentables.jpg",
-      "phone": "+56900000004",
-      "fk_id_company": "comp-2",
-      "fk_id_locality": "loc-1",
-      "address": "Av. Capo",
-      "reference": "Referencia test"
-    },
-    {
-      "id": "stop-1749246119876",
-      "name": "Amir",
-      "google_maps_url": null,
-      "image_url": null,
-      "phone": "947379321",
-      "fk_id_company": "comp-1",
-      "fk_id_locality": "loc-1",
-      "address": "av. proverbiosde",
-      "reference": "al lado de mi jato"
     }
   ],
   "stops_routes": [

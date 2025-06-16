@@ -33,13 +33,13 @@ export default {
 
           <div class="description-details-container">
             <div class="address-container">
-              <i class="pi pi-map-marker" style="font-size: 1rem; color: #484848"></i>
+              <i class="pi pi-map-marker" style="font-size: 1rem; color: var(--color-primary)"></i>
 
               <h2>{{stop.address}}</h2>
             </div>
 
             <div class="reference-container">
-              <i class="pi pi-question-circle" style="font-size: 1rem; color: #484848"></i>
+              <i class="pi pi-question-circle" style="font-size: 1rem; color: var(--color-primary)"></i>
 
               <h2>{{ stop.reference }}</h2>
             </div>
@@ -62,7 +62,6 @@ export default {
 </template>
 
 <style scoped>
-
 .stop-card { /*Por no decir todos, toda esta configuracion fue traida desde el figma pero de manera manual*/
   display: flex;
   align-items: center;
@@ -76,13 +75,13 @@ export default {
   padding: 20px 0;
 
   /*Borders*/
-  border-color: #CCCCFF;
+  border-color: var(--color-off);
   border-style: solid;
   border-width: 1px;
   border-radius: 8px;
 
   /*Background Color*/
-  background-color: white;
+  background-color: var(--color-white);
 }
 
 .test-container {
@@ -105,38 +104,34 @@ export default {
   border-radius: 5px;
 }
 
-
-
 .details-container {
   /**/
   display: flex;
   flex-direction: column;
-
   /**/
   gap: 10px;
-
   /**/
   width: 627px;
-
   /**/
   font-family: Poppins, sans-serif;
 }
+
 .header-details-container {
   display: flex;
   flex-direction: column;
 }
+
 .header-details-container h1{
-  color: #7A78FF;
+  color: var(--color-primary);
   font-weight: normal;
   font-size: 25px;
 }
+
 .header-details-container h2{
-  color: #B4B4B4;
+  color: var(--color-slate-400);
   font-weight: normal;
   font-size: 14px;
 }
-
-
 
 .description-details-container {
   display: flex;
@@ -177,18 +172,16 @@ export default {
   max-height: 34px;
   height: 100%;
 
-  width: 30%;
-
+  width: max-content;
   /*Text Format*/
   font-size: 14px;
   font-family: Poppins, sans-serif;
   color: white;
 }
-
 .ubicacion-button.p-button:hover{
   cursor: not-allowed;
-  background-color: #7A78FF;
-  color: white;
+  background-color: var(--color-off);
+  color: var(--color-white);
   border: none;
 }
 

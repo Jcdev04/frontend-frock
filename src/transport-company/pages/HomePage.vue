@@ -52,7 +52,7 @@ import CompanyInfoCard from "@/transport-company/components/CompanyEditCard.vue"
 <style scoped>
 .home-page-header h1{
   font-size: 2.5rem;
-  color: var(--color-slate-700);
+  color: var(--color-slate-300);
 }
 
 .kpi-container{

@@ -1,57 +1,46 @@
-<template>
-  <div class="rutas-container">
-    <div class="rutas-header">
-      <h2 class="rutas-title">Rutas</h2>
-      <button class="nuevo-paradero-btn" @click="abrirModalNuevaRuta">
-        <span class="plus-icon">+</span>Agregar ruta
-      </button>
-    </div>
-
-    <div class="rutas-grid">
-      <ruta-card
-          v-for="ruta in rutas"
-          :key="ruta.id"
-          :ruta="ruta"
-      />
-    </div>
-
-    <!-- Modal para nueva ruta -->
-    <PopUpCreateRoute
-        :visible="modalVisible"
-        @cerrar="cerrarModal"
-        @agregar="agregarNuevaRuta"
-    />
-  </div>
-</template>
-
 <script>
-import RouteCard from '../components/RouteCard.vue';
-import { RouteService } from '@/routes/services/route.service.js';
-import PopUpCreateRoute from "@/routes/components/PopUpCreateRoute.vue";
+import RouteCardComponent from '../components/route-card/route-card.component.vue';
+import {RouteService} from '@/routes/services/route.service.js';
+import PopUpCreateRouteComponent from "@/routes/components/routes-popUps/pop-up-create-route.component.vue";
+import RoutesHeaderTitle from "@/routes/components/routes-header-title.component.vue";
+import RoutesList from "@/routes/components/routes-list.component.vue";
 
 export default {
   name: 'RoutesPage',
   components: {
-    PopUpCreateRoute,
-    RutaCard: RouteCard,
-    CreateRoutePopUp: PopUpCreateRoute
+    RoutesList,
+    RoutesHeaderTitle,
+    PopUpCreateRoute: PopUpCreateRouteComponent,
+    RutaCard: RouteCardComponent,
+    CreateRoutePopUp: PopUpCreateRouteComponent
   },
   data() {
     return {
-      rutas: [],
-      rutaService: new RouteService(),
-      modalVisible: false
+      routes: [],
+      isLoading: false,
+      error: null
     }
   },
   created() {
-    this.cargarRutas();
+    this.loadRoutes();
   },
   methods: {
-    async cargarRutas() {
+    async loadRoutes() {
+      this.isLoading = true;
+      this.error = null;
       try {
-        this.rutas = await this.rutaService.obtenerRutas();
+        const routeService = new RouteService();
+        this.routes = await routeService.getAllRoutes();
       } catch (error) {
-        console.error('Error al cargar rutas:', error);
+        this.error = `Error al cargar rutas: ${error.message}`;
+        // Mostrar toast
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: this.error
+        });
+      } finally{
+        this.isLoading = false;
       }
     },
     abrirModalNuevaRuta() {
@@ -62,8 +51,8 @@ export default {
     },
     async agregarNuevaRuta(rutaData) {
       try {
-        await this.rutaService.crearRuta(rutaData);
-        await this.cargarRutas();
+        await this.routeService.crearRuta(rutaData);
+        await this.loadRoutes();
       } catch (error) {
         console.error('Error al agregar nueva ruta:', error);
       }
@@ -72,67 +61,12 @@ export default {
 }
 </script>
 
+<template>
+  <routes-header-title />
+  <routes-list :routes="routes" :isLoading="isLoading" :error="error"/>
+</template>
+
+
 <style scoped>
 
-
-.rutas-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.rutas-title {
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--color-primary);
-}
-
-.nuevo-paradero-btn {
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 18px;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.plus-icon {
-  margin-right: 6px;
-}
-
-.rutas-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
-}
-
-/* Responsive para tablets */
-@media (max-width: 1200px) {
-  .rutas-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-  }
-}
-
-@media (max-width: 992px) {
-  .rutas-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-}
-
-/* Responsive para móviles */
-@media (max-width: 640px) {
-  .rutas-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .rutas-container {
-    padding: 20px;
-  }
-}
 </style>

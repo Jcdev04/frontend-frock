@@ -6,7 +6,7 @@ export class RouteService {
         this.rutaRepository = new RouteRepository();
     }
 
-    obtenerRutas() {
+    getAllRoutes() {
         return this.rutaRepository.obtenerTodas();
     }
 

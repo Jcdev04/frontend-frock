@@ -7,9 +7,7 @@ export default {
   components: {
     popUpNewStop
   },
-
   emits: ['created'],
-
 }
 </script>
 

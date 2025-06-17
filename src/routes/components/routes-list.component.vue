@@ -31,7 +31,6 @@ export default {
   <pb-Message v-if="error" severity="error" :closable="false">
     {{ error }}
   </pb-Message>
-
   <section class="rutas-grid">
     <routeCard
         v-for="route in routes"

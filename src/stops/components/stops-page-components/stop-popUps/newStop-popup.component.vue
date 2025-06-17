@@ -109,7 +109,7 @@ export default {
 <template>
   <pb-Button class="nuevo-paradero-button" icon="pi pi-plus" label="Nuevo Paradero" @click="visiblePop = true"/>
 
-  <pb-Dialog v-model:visible="visiblePop" modal header="Nuevo Paradero" :style="{ width: '50rem' }">
+  <pb-Dialog v-model:visible="visiblePop" modal :style="{ width: '50rem' }">
     <template #header>
       <h1 class="title">Nuevo Paradero</h1>
     </template>

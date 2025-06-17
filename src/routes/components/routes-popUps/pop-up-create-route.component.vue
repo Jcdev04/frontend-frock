@@ -1,13 +1,65 @@
-<template>
-  <div v-if="visible" class="modal-overlay">
-    <div class="modal-container">
-      <div class="modal-header">
-        <h2>Nueva RouteEntity</h2>
-        <button class="close-button" @click="cerrarModal">×</button>
-      </div>
+<script>
+import { ref } from "vue"; //principalmente lo usamos para el atributo visible del button
 
-      <div class="modal-body">
-        <form @submit.prevent="agregarRuta">
+export default {
+  name: 'PopUpCreateRoute',
+  setup() {
+    const visiblePop = ref(false); //variable visible que controlara la aparicion del popUp
+    return { visiblePop };
+  },
+
+  data() {
+    return {
+      nuevaRuta: {
+        origenNombre: '',
+        destinoNombre: '',
+        duracion: 20,
+        tarifa: 8,
+        frecuencia: 20
+      }
+    }
+  },
+  methods: {
+    cerrarModal() {
+      this.$emit('cerrar');
+    },
+    agregarRuta() {
+      // Crear un objeto con los datos de la nueva ruta
+      const rutaData = {
+        origenId: Date.now(), // Simulamos un ID único
+        destinoId: Date.now() + 1, // Simulamos otro ID único
+        duracion: parseInt(this.nuevaRuta.duracion),
+        tarifa: parseFloat(this.nuevaRuta.tarifa),
+        frecuencia: parseInt(this.nuevaRuta.frecuencia),
+        // Añadimos los nombres para mostrarlos en la UI
+        origenNombre: this.nuevaRuta.origenNombre,
+        destinoNombre: this.nuevaRuta.destinoNombre
+      };
+
+      // Emitir evento con los datos de la nueva ruta
+      this.$emit('agregar', rutaData);
+
+      // Resetear el formulario
+      this.nuevaRuta = {
+        origenNombre: '',
+        destinoNombre: '',
+        duracion: 20,
+        tarifa: 8,
+        frecuencia: 20
+      };
+    }
+  }
+}
+</script>
+
+<template>
+  <pb-Button class="nueva-ruta-button" icon="pi pi-plus" label="Nueva ruta" @click="visiblePop = true"/>
+  <pb-Dialog v-model:visible="visiblePop" modal :style="{ width: '50rem' }">
+      <template #header>
+        <h1 class="title">Nueva Ruta</h1>
+      </template>
+      <pb-Form @submit.prevent="agregarRuta">
+        <div class="form-container">
           <div class="form-group">
             <label for="origenNombre">StopEntity origen</label>
             <input
@@ -70,111 +122,27 @@
             <button type="button" class="btn-cancelar" @click="cerrarModal">Cancelar</button>
             <button type="submit" class="btn-agregar">Añadir</button>
           </div>
-        </form>
-      </div>
-    </div>
-  </div>
+          </div>
+        </pb-Form>
+  </pb-Dialog>
 </template>
 
-<script>
-export default {
-  name: 'PopUpCreateRoute',
-  props: {
-    visible: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      nuevaRuta: {
-        origenNombre: '',
-        destinoNombre: '',
-        duracion: 20,
-        tarifa: 8,
-        frecuencia: 20
-      }
-    }
-  },
-  methods: {
-    cerrarModal() {
-      this.$emit('cerrar');
-    },
-    agregarRuta() {
-      // Crear un objeto con los datos de la nueva ruta
-      const rutaData = {
-        origenId: Date.now(), // Simulamos un ID único
-        destinoId: Date.now() + 1, // Simulamos otro ID único
-        duracion: parseInt(this.nuevaRuta.duracion),
-        tarifa: parseFloat(this.nuevaRuta.tarifa),
-        frecuencia: parseInt(this.nuevaRuta.frecuencia),
-        // Añadimos los nombres para mostrarlos en la UI
-        origenNombre: this.nuevaRuta.origenNombre,
-        destinoNombre: this.nuevaRuta.destinoNombre
-      };
-
-      // Emitir evento con los datos de la nueva ruta
-      this.$emit('agregar', rutaData);
-
-      // Resetear el formulario
-      this.nuevaRuta = {
-        origenNombre: '',
-        destinoNombre: '',
-        duracion: 20,
-        tarifa: 8,
-        frecuencia: 20
-      };
-    }
-  }
-}
-</script>
-
 <style scoped>
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+.form-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  flex-direction: column;
+  gap: 10px;
 }
-
-.modal-container {
-  background-color: white;
-  border-radius: 8px;
-  width: 500px;
-  max-width: 90%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e0e0e0;
+.title{
+  color: var(--color-primary);
+  border-bottom: var(--color-primary) solid 1px;
+  padding: 10px;
 }
 
 .modal-header h2 {
   margin: 0;
   font-size: 18px;
   color: #333;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #666;
-}
-
-.modal-body {
-  padding: 20px;
 }
 
 .form-group {
@@ -232,4 +200,37 @@ input {
   border: 1px solid #333;
   color: white;
 }
+
+.nueva-ruta-button{
+  /*Flex para centrar*/
+  display: flex;
+  align-items: center;
+
+  /*Button en si*/
+  background-color: var(--color-primary);
+
+  border: none;
+  border-radius: 8px;
+
+  padding: 8px 16px;
+
+  max-height: 40px;
+  height: 100%;
+
+  max-width: 200px;
+  width: 100%;
+
+  /*Text Format*/
+  font-size: 16px;
+  font-family: Poppins, sans-serif;
+  color: var(--color-white);
+}
+
+.nueva-ruta-button.p-button:hover{
+  cursor: pointer;
+  background-color: var(--color-off);
+  color: var(--color-white);
+  border: none;
+}
+
 </style>

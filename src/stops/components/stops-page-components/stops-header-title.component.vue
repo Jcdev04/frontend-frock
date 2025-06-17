@@ -3,7 +3,6 @@ import popUpNewStop from "./stop-popUps/newStop-popup.component.vue";
 
 export default {
   name: 'stopsHeaderTitle',
-
   components: {
     popUpNewStop
   },

@@ -1,17 +1,13 @@
-import { RouteRepository } from './route.repository.js';
 import { RouteEntity } from '../models/route.entity.js';
 
 export class RouteService {
     constructor() {
-        this.rutaRepository = new RouteRepository();
     }
 
     getAllRoutes() {
-        return this.rutaRepository.obtenerTodas();
     }
 
     obtenerRuta(id) {
-        return this.rutaRepository.obtenerPorId(id);
     }
 
     crearRuta(rutaData) {
@@ -26,14 +22,11 @@ export class RouteService {
             rutaData.destinoNombre
         );
 
-        return this.rutaRepository.guardar(nuevaRuta);
     }
 
     actualizarRuta(ruta) {
-        return this.rutaRepository.actualizar(ruta);
     }
 
     eliminarRuta(id) {
-        return this.rutaRepository.eliminar(id);
     }
 }

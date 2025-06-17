@@ -16,82 +16,68 @@ export default {
 </script>
 
 <template>
-  <pb-Card class="stop-card">
-    <template #content>
+  <div class="stop-card">
+    <div class="stop-card-content">
       <div class="test-container">
-
         <div class="image-container">
           <img src="https://picsum.photos/360/165" alt="test-image" width="360" height="165">
         </div>
-
         <div class="details-container">
-
           <div class="header-details-container">
             <h1>{{ stop.name }}</h1>
             <h2> {{ stop.location }}</h2>
           </div>
-
           <div class="description-details-container">
             <div class="address-container">
               <i class="pi pi-map-marker" style="font-size: 1rem; color: var(--color-primary)"></i>
-
               <h2>{{stop.address}}</h2>
             </div>
-
             <div class="reference-container">
               <i class="pi pi-question-circle" style="font-size: 1rem; color: var(--color-primary)"></i>
-
               <h2>{{ stop.reference }}</h2>
             </div>
           </div>
-
           <pb-Button class="ubicacion-button" label="Ver Ubicacion"/>
-
         </div>
-
-        <div class="main-button-frame">
-          <edit-stop-pop-up :stop="stop" @updated="$emit('updated', $event)"/>
-          <delete-stop-pop-up :stop-id="stop.id" @deleted="$emit('deleted', $event)"/>
-        </div>
-
-
       </div>
-
-    </template>
-  </pb-Card>
+      <div class="main-button-frame">
+        <edit-stop-pop-up :stop="stop" @updated="$emit('updated', $event)"/>
+        <delete-stop-pop-up :stop-id="stop.id" @deleted="$emit('deleted', $event)"/>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-.stop-card { /*Por no decir todos, toda esta configuracion fue traida desde el figma pero de manera manual*/
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
+.stop-card { /*Por no decir todos, toda esta configuracion fue traida desde el figma pero de manera manual*/
   /*Dimensiones*/
   width: 100%;
-  height: 215px;
-
   /*Padding*/
-  padding: 20px 0;
+  padding: 20px;
 
   /*Borders*/
   border-color: var(--color-off);
   border-style: solid;
   border-width: 1px;
   border-radius: 8px;
-
+  display: flex;
   /*Background Color*/
   background-color: var(--color-white);
 }
+.stop-card-content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
 
 .test-container {
   display: flex;
   flex-direction: row;
-
-  width: 60vw;
-
   /**/
   gap: 20px;
+  flex: 1;
 }
 
 .image-container {
@@ -106,15 +92,10 @@ export default {
 }
 
 .details-container {
-  /**/
   display: flex;
   flex-direction: column;
-  /**/
   gap: 10px;
-  /**/
-  width: 627px;
-  /**/
-  font-family: Poppins, sans-serif;
+  flex: 1;
 }
 
 .header-details-container {
@@ -163,7 +144,7 @@ export default {
   justify-content: center;
 
   /*Button en si*/
-  background-color: #7A78FF;
+  background-color: var(--color-primary);
 
   border: none;
   border-radius: 5px;
@@ -176,7 +157,6 @@ export default {
   width: max-content;
   /*Text Format*/
   font-size: 14px;
-  font-family: Poppins, sans-serif;
   color: white;
 }
 .ubicacion-button.p-button:hover{
@@ -189,10 +169,8 @@ export default {
 .main-button-frame {
   display: flex;
   flex-direction: row;
-
-  justify-content: center;
+  justify-content: end;
   align-items: start;
-
   gap: 13px;
 }
 

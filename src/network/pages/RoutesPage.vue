@@ -1,9 +1,9 @@
 <script>
-import RouteCardComponent from '../components/route-card/route-card.component.vue';
-import {RouteService} from '@/routes/services/route.service.js';
-import PopUpCreateRouteComponent from "@/routes/components/routes-popUps/pop-up-create-route.component.vue";
-import RoutesHeaderTitle from "@/routes/components/routes-header-title.component.vue";
-import RoutesList from "@/routes/components/routes-list.component.vue";
+import RouteCardComponent from '../components/route-card.component.vue';
+import {RouteService} from '@/network/services/route.service.js';
+import PopUpCreateRouteComponent from "@/network/components/routes-popUps/pop-up-create-route.component.vue";
+import RoutesHeaderTitle from "@/network/components/routes-header-title.component.vue";
+import RoutesList from "@/network/components/routes-list.component.vue";
 
 export default {
   name: 'RoutesPage',

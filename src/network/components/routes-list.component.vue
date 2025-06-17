@@ -1,5 +1,5 @@
 <script>
-import routeCard from "./route-card/route-card.component.vue";
+import routeCard from "./route-card.component.vue";
 
 
 export default {

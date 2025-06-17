@@ -2,9 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/access-and-identity/components/Login.vue'
 import RegisterView from '@/access-and-identity/components/Register.vue'
 import CompanyRegisterView from '@/transport-company/pages/CompanyRegister.vue'
-import RoutesPage from '@/routes/pages/RoutesPage.vue'
+import RoutesPage from '@/network/pages/RoutesPage.vue'
 import RouteCompleteDetailsComponent from "@/discovery/pages/route-complete-details.component.vue";
-import StopsPage from "@/stops/pages/StopsPage.vue";
+import StopsPage from "@/network/pages/StopsPage.vue";
 import HomePage from "@/transport-company/pages/HomePage.vue";
 import CompanyLayout from "@/shared/components/CompanyLayout.vue";
 import RoutesList from "@/discovery/components/routes-list/routes-list.vue"

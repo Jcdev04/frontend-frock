@@ -1,6 +1,6 @@
 <script>
 import { useConfirm } from 'primevue/useconfirm';
-import { StopService } from '@/stops/services/stop.service.js';
+import { StopService } from '@/network/services/stop.service.js';
 import { useToast } from 'primevue/usetoast';
 
 export default {

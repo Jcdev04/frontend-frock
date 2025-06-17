@@ -1,7 +1,7 @@
 <script>
 
-import deleteStopPopUp from "../stop-popUps/deleteStop-popup.component.vue"
-import editStopPopUp from "../stop-popUps/editStop-popup.component.vue"
+import deleteStopPopUp from "@/network/components/stop-popUps/deleteStop-popup.component.vue"
+import editStopPopUp from "@/network/components/stop-popUps/editStop-popup.component.vue"
 
 export default {
   name: "stopCard",

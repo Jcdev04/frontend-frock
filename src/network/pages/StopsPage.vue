@@ -1,8 +1,8 @@
 <script>
 //imports
-import StopsHeaderTitle from "@/stops/components/stops-page-components/stops-header-title.component.vue";
-import stopsList from "@/stops/components/stops-page-components/stops-list.component.vue";
-import { StopService } from "@/stops/services/stop.service.js";
+import StopsHeaderTitle from "@/network/components/stops-header-title.component.vue";
+import stopsList from "@/network/components/stops-list.component.vue";
+import { StopService } from "@/network/services/stop.service.js";
 import {ref} from "vue";
 
 //rest of the script

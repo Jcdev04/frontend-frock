@@ -1,5 +1,5 @@
 <script>
-import stopCard from "./stop-card/stop-card.component.vue";
+import stopCard from "./stop-card.component.vue";
 
 
 export default {

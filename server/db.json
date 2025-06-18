@@ -149,13 +149,13 @@
     {
       "id": "comp-1",
       "name": "primera empresa",
-      "fk_id_manager": "user-1",
+      "fk_id_manager": null,
       "logo_url": "https://images-platform.99static.com/Tx5HU2yFRWJOhxGekV6aSsrh740=/0x0:1667x1667/500x500/top/smart/99designs-contests-attachments/94/94613/attachment_94613553",
-      "ruc": null,
-      "phone": null,
-      "email": null,
-      "address": null,
-      "description": null
+      "ruc": "20123456789",
+      "phone": "123456789",
+      "email": "asdasd@gmail.com",
+      "address": "asdasda",
+      "description": "nionguno"
     }
   ],
   "schedules": [

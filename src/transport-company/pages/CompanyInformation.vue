@@ -6,7 +6,6 @@
 
       <div class="form-section">
         <h2 class="section-title">Datos Generales</h2>
-
         <form @submit.prevent="saveCompanyInformation" class="company-form">
           <!-- Company Name -->
           <div class="form-group">
@@ -98,41 +97,6 @@
             ></textarea>
           </div>
 
-          <!-- Operating Hours -->
-          <div class="form-group">
-            <h3 class="subsection-title">Horarios de Operación</h3>
-
-            <div class="time-group">
-              <label for="startTime" class="form-label">
-                Hora de Inicio
-              </label>
-              <div class="time-input-wrapper">
-                <input
-                    id="startTime"
-                    v-model="companyInfo.operatingHours.start"
-                    type="time"
-                    class="form-input time-input"
-                />
-                <i class="pi pi-clock time-icon"></i>
-              </div>
-            </div>
-
-            <div class="time-group">
-              <label for="endTime" class="form-label">
-                Hora de Fin
-              </label>
-              <div class="time-input-wrapper">
-                <input
-                    id="endTime"
-                    v-model="companyInfo.operatingHours.end"
-                    type="time"
-                    class="form-input time-input"
-                />
-                <i class="pi pi-clock time-icon"></i>
-              </div>
-            </div>
-          </div>
-
           <!-- Action Buttons -->
           <div class="form-actions">
             <button
@@ -167,114 +131,81 @@
 </template>
 
 <script setup>
-// Importar useRouter al inicio del script setup
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import {TransportCompany} from "@/transport-company/models/transport-company.entity.js";
+import {TransportCompanyService} from "@/transport-company/services/transport-company.service.js";
+import {TransportCompanyValidator} from "@/transport-company/services/TransportCompanyValidator.js";
 
-// Agregar la instancia del router después de las importaciones
-const router = useRouter()
+const transportCompanyService = new TransportCompanyService();
+const router = useRouter();
 
-// Domain Models (DDD)
-class CompanyInformation {
-  constructor(data = {}) {
-    this.name = data.name || ''
-    this.ruc = data.ruc || ''
-    this.phone = data.phone || ''
-    this.email = data.email || ''
-    this.address = data.address || ''
-    this.description = data.description || ''
-    this.operatingHours = {
-      start: data.operatingHours?.start || '',
-      end: data.operatingHours?.end || ''
-    }
-    this.lastUpdated = data.lastUpdated || new Date()
-  }
-
-  validate() {
-    const errors = []
-    if (!this.name.trim()) errors.push('El nombre de la empresa es requerido')
-    if (!this.ruc.trim()) errors.push('El RUC es requerido')
-    if (this.ruc.length !== 11) errors.push('El RUC debe tener 11 dígitos')
-    if (!this.phone.trim()) errors.push('El teléfono es requerido')
-    if (!this.email.trim()) errors.push('El email es requerido')
-    if (!this.address.trim()) errors.push('La dirección es requerida')
-    return errors
-  }
-}
-
-// Domain Service
-class CompanyInformationService {
-  static async save(companyInfo) {
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        localStorage.setItem('companyInformation', JSON.stringify(companyInfo))
-        resolve(companyInfo)
-      }, 1000)
-    })
-  }
-
-  static async load() {
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const saved = localStorage.getItem('companyInformation')
-        resolve(saved ? JSON.parse(saved) : null)
-      }, 500)
-    })
-  }
-}
-
+const emit = defineEmits(['success', 'error', 'cancel']);
 // Reactive state
-const companyInfo = reactive(new CompanyInformation())
+const companyInfo = reactive(new TransportCompany({}))
+
 const isLoading = ref(false)
 const showSuccessMessage = ref(false)
 
 // Modificar la función saveCompanyInformation para redirigir después de guardar
 const saveCompanyInformation = async () => {
-  const errors = companyInfo.validate()
+  // 1. Validación mejorada
+  const errors = TransportCompanyValidator.validate(companyInfo);
+
   if (errors.length > 0) {
-    alert('Por favor, corrija los siguientes errores:\n' + errors.join('\n'))
-    return
+    // Mostrar todos los errores en un solo alert con formato mejorado
+    const errorList = errors.map((error, index) =>
+        `• ${error}${index < errors.length - 1 ? '\n' : ''}`
+    ).join('');
+
+    alert(`❌ Error en el formulario ❌\n\nPor favor corrija los siguientes problemas:\n\n${errorList}`);
+    return;
   }
-
-  isLoading.value = true
-
   try {
-    const companyData = new CompanyInformation({
+    isLoading.value = true;
+    // 2. Creación de entidad con validación
+    const companyData = new TransportCompany({
       ...companyInfo,
-      lastUpdated: new Date()
-    })
+      id: "comp-1" // Mejor práctica: ID debería venir del estado o props
+    });
 
-    await CompanyInformationService.save(companyData)
+    // 3. Llamada al servicio con manejo de errores específico
+    await transportCompanyService.updateTransportCompany("comp-1", companyData);
 
-    showSuccessMessage.value = true
+    // 4. Feedback al usuario mejorado
+    showSuccessMessage.value = true;
 
-    // Esperar un momento para mostrar el mensaje de éxito antes de redirigir
-    setTimeout(() => {
-      showSuccessMessage.value = false
-      // Redirigir a la página principal de la empresa
-      router.push('/company/home')
-    }, 1500)
   } catch (error) {
-    alert('Error al guardar la información: ' + error.message)
+    console.log(error);
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
-}
+};
 
+// Resetear formulario
 const resetForm = () => {
-  Object.assign(companyInfo, new CompanyInformation())
-}
+  loadCompanyInformation();
+  emit('cancel');
+};
 
+//cargar la informacion en el formulario
 const loadCompanyInformation = async () => {
   try {
-    const saved = await CompanyInformationService.load()
-    if (saved) {
-      Object.assign(companyInfo, saved)
-    }
+    const companyData = await transportCompanyService.getTransportCompanyById("comp-1");
+    // Actualizar el estado reactivo
+    Object.assign(companyInfo, {
+      name: companyData.name,
+      logo_url: companyData.logo_url,
+      ruc: companyData.ruc,
+      phone: companyData.phone,
+      email: companyData.email,
+      address: companyData.address,
+      description: companyData.description
+    });
   } catch (error) {
     console.error('Error al cargar la información:', error)
+  }finally {
+    isLoading.value = false
   }
 }
 
@@ -282,62 +213,16 @@ const loadCompanyInformation = async () => {
 onMounted(() => {
   loadCompanyInformation()
 })
+
+
 </script>
 
 <style scoped>
 /* Base Styles */
 .company-information-container {
-  font-family: Arial, sans-serif;
   color: #333;
   background-color: #f5f5f5;
   min-height: 100vh;
-}
-
-/* Header */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  background-color: white;
-  border-bottom: 1px solid #e0e0e0;
-  height: 60px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.main-nav {
-  display: flex;
-  gap: 2rem;
-}
-
-.nav-link {
-  color: #666;
-  text-decoration: none;
-  font-size: 0.9rem;
-  padding: 0.5rem 0;
-  transition: color 0.2s;
-}
-
-.nav-link:hover, .nav-link.router-link-active {
-  color: #0066cc;
-}
-
-.profile {
-  display: flex;
-  align-items: center;
-}
-
-.profile-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #333;
-  text-decoration: none;
-  font-size: 0.9rem;
 }
 
 /* Main Content */
@@ -347,45 +232,7 @@ onMounted(() => {
   padding: 1rem 2rem;
 }
 
-/* Breadcrumbs */
-.breadcrumbs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  font-size: 0.8rem;
-}
 
-.breadcrumb-link {
-  color: #0066cc;
-  text-decoration: none;
-}
-
-.breadcrumb-link:after {
-  content: '>';
-  margin-left: 0.5rem;
-  color: #999;
-}
-
-.breadcrumb-current {
-  color: #666;
-}
-
-/* User Info */
-.user-info {
-  margin-bottom: 1.5rem;
-}
-
-.user-avatar {
-  width: 30px;
-  height: 30px;
-  background-color: #ff9800;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
 
 /* Page Title */
 .page-title {
@@ -413,13 +260,6 @@ onMounted(() => {
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
-  color: #333;
-}
-
-.subsection-title {
-  font-size: 1rem;
-  font-weight: bold;
-  margin: 1.5rem 0 1rem;
   color: #333;
 }
 
@@ -464,26 +304,6 @@ onMounted(() => {
   min-height: 80px;
 }
 
-/* Time Inputs */
-.time-group {
-  margin-bottom: 1rem;
-}
-
-.time-input-wrapper {
-  position: relative;
-}
-
-.time-input {
-  padding-right: 2.5rem;
-}
-
-.time-icon {
-  position: absolute;
-  right: 0.8rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #666;
-}
 
 /* Form Actions */
 .form-actions {

@@ -1,8 +1,8 @@
 export class TransportCompany {
     constructor({
-                    id,
-                    fk_id_manager,
-                    name,
+                    id = null,
+                    fk_id_manager=null,
+                    name = null,
                     logo_url = null,
                     ruc = null,
                     phone = null,
@@ -34,13 +34,5 @@ export class TransportCompany {
         }
 
         this.logo_url = url;
-    }
-
-    _validateEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    _validateRUC(ruc) {
-        return /^[0-9]{11}$/.test(ruc);
     }
 }

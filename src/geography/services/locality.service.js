@@ -7,7 +7,7 @@ export class LocalityService extends BaseService {
     }
 
     async getByDistrict(districtId) {
-        const data = await this.http.get(`${this.resourcePath()}?districtId=${districtId}`);
+        const data = await this.http.get(`${this.resourcePath()}?fk_id_district=${districtId}`);
         return data.map(item => new Locality(item));
     }
 }

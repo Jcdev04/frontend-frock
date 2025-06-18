@@ -7,7 +7,7 @@ export class DistrictService extends BaseService {
     }
 
     async getByProvince(provinceId) {
-        const data = await this.http.get(`${this.resourcePath()}?provinceId=${provinceId}`);
+        const data = await this.http.get(`${this.resourcePath()}?fk_id_province=${provinceId}`);
         return data.map(item => new District(item));
     }
 }

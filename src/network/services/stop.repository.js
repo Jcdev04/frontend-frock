@@ -21,7 +21,6 @@ export class StopRepository {
             throw new Error(`Failed to fetch stops: ${error.message}`);
         }
     }
-
     async createStop(data) {
         try {
             const { data: created } = await http.post('/stops', {
@@ -94,49 +93,12 @@ export class StopRepository {
         }
     }
 
-
     async getCompanies() {
         try {
             const { data } = await http.get('/companies');
             return data;
         } catch (error) {
             throw new Error(`Failed to fetch companies: ${error.message}`);
-        }
-    }
-
-    async getLocalities() {
-        try {
-            const { data } = await http.get('/localities');
-            return data;
-        } catch (error) {
-            throw new Error(`Failed to fetch localities: ${error.message}`);
-        }
-    }
-
-    async getDistricts() {
-        try {
-            const { data } = await http.get('/districts');
-            return data;
-        } catch (error) {
-            throw new Error(`Failed to fetch districts: ${error.message}`);
-        }
-    }
-
-    async getProvinces() {
-        try {
-            const { data } = await http.get('/provinces');
-            return data;
-        } catch (error) {
-            throw new Error(`Failed to fetch provinces: ${error.message}`);
-        }
-    }
-
-    async getRegions() {
-        try {
-            const { data } = await http.get('/regions');
-            return data;
-        } catch (error) {
-            throw new Error(`Failed to fetch regions: ${error.message}`);
         }
     }
 }

@@ -36,15 +36,24 @@ export default {
   </pb-Message>
 
   <section class="container-paraderos">
-    <stop-card
-        v-for="stop in stops"
-        :key="stop.id"
-        :stop="stop"
-        @updated="$emit('updated', $event)"
-        @deleted="$emit('deleted', $event)"
-    />
+    <template v-if="stops.length>0">
+      <stop-card
+          v-for="stop in stops"
+          :key="stop.id"
+          :stop="stop"
+          @updated="$emit('updated', $event)"
+          @deleted="$emit('deleted', $event)"
+      />
+    </template>
+    <template v-else>
+      <pb-Message severity="info" :closable="false">
+        <template #icon>
+          <i class="pi pi-info-circle"></i>
+        </template>
+        No tienes paraderos registrados aún
+      </pb-Message>
+    </template>
   </section>
-
   <pb-ConfirmDialog/>
 
 </template>

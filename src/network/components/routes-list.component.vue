@@ -1,5 +1,6 @@
 <script>
 import routeCard from "./route-card.component.vue";
+import stopCard from "@/network/components/stop-card.component.vue";
 
 
 export default {
@@ -21,6 +22,7 @@ export default {
       default: null
     }
   },
+  emits: ['updated', 'deleted'],
 }
 
 </script>
@@ -32,11 +34,23 @@ export default {
     {{ error }}
   </pb-Message>
   <section class="rutas-grid">
-    <routeCard
-        v-for="route in routes"
-        :key="route.id"
-        :ruta="route"
-    />
+    <template v-if="routes.length>0">
+      <routeCard
+          v-for="route in routes"
+          :key="route.id"
+          :ruta="route"
+          @updated="$emit('updated', $event)"
+          @deleted="$emit('deleted', $event)"
+      />
+    </template>
+    <template v-else>
+      <pb-Message severity="info" :closable="false">
+        <template #icon>
+          <i class="pi pi-info-circle"></i>
+        </template>
+        No tienes rutas registradas aún
+      </pb-Message>
+    </template>
   </section>
 
   <pb-ConfirmDialog/>

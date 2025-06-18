@@ -2,6 +2,7 @@
 import { ref } from "vue"; //principalmente lo usamos para el atributo visible del button
 import { StopService } from '@/network/services/stop.service.js';
 import { useToast } from 'primevue/usetoast';
+import {GeographyService} from "@/geography/services/geography.service.js";
 
 export default {
   name: "popUpEditStop",
@@ -29,11 +30,9 @@ export default {
         phone: '',
         address: '',
         reference: '',
-        fk_id_company: '',
         fk_id_locality: ''
       },
       initialParadero: null,
-      companies: [],
       locationHierarchy: [],
       selectedLocality: null,
       submitted: false
@@ -55,9 +54,8 @@ export default {
   methods: {
     async loadDropdowns() {
       try {
-        const service = new StopService();
-        this.companies = await service.getCompanies();
-        this.locationHierarchy = await service.getLocationHierarchy();
+        const service = new GeographyService();
+        this.locationHierarchy = await service.getFullHierarchy();
       } catch (err) {
         this.toast.add({
           severity: 'error',
@@ -163,7 +161,7 @@ export default {
         </pb-IftaLabel>
 
         <pb-IftaLabel class="labelSelectField">
-          <pb-CascadeSelect class="cascade-field" inputId="locality" v-model="paradero.fk_id_locality" :options="locationHierarchy" option-label="name" option-value="code" option-group-label="name" :option-group-children="['provinces', 'districts', 'localities']"  placeholder="Selecciona la ubicación"/>
+          <pb-CascadeSelect class="cascade-field" inputId="locality" v-model="paradero.fk_id_locality" :options="locationHierarchy" option-label="name" option-value="id" option-group-label="name" :option-group-children="['provinces', 'districts', 'localities']"  placeholder="Selecciona la ubicación"/>
           <label for="locality">Localidad</label>
         </pb-IftaLabel>
 

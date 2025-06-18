@@ -16,7 +16,6 @@ export default {
     const routeService = new RouteService();
     try {
       const response = await routeService.getRouteLinks();
-      console.log(response);
       this.routes = response; // Asigna las rutas obtenidas
     } catch (err) {
       this.error = "Failed to load routes.";

@@ -10,7 +10,6 @@ export class GeographyService {
         this.districtService = new DistrictService();
         this.localityService = new LocalityService();
     }
-
     /**
      * Obtiene la jerarquía completa de ubicaciones
      * @returns {Promise<Array>} Jerarquía completa de regiones, provincias, distritos y localidades
@@ -52,10 +51,6 @@ export class GeographyService {
             if (!province) return this._getDefaultLocation();
 
             const region = await this.regionService.getById(province.fk_id_region);
-            console.log(locality);
-            console.log(district);
-            console.log(province);
-            console.log(region);
             return {
                 locality: locality?.name || 'Desconocido',
                 district: district?.name || 'Desconocido',

@@ -154,7 +154,7 @@
       "ruc": "20123456789",
       "phone": "123456789",
       "email": "asdasd@gmail.com",
-      "address": "asdasda",
+      "address": "hola 123",
       "description": "nionguno"
     }
   ],
@@ -198,28 +198,6 @@
   ],
   "stops": [
     {
-      "id": "stop-1",
-      "name": "Paradero A",
-      "phone": "+51312123132",
-      "address": "Av. 123",
-      "reference": "Frente a la Catedra",
-      "google_maps_url": "https://goo.gl/maps/aaa111",
-      "image_url": "https://www.enelx.com/content/dam/local-chile/enel-x---content-manager/1_ParaderosInteligenteso_4tonivel_1440x768.png",
-      "fk_id_company": "comp-1",
-      "fk_id_locality": "loc-2"
-    },
-    {
-      "id": "stop-2",
-      "name": "Paradero B",
-      "google_maps_url": "https://goo.gl/maps/bbb222",
-      "image_url": "https://portal.andina.pe/EDPfotografia2/Thumbnail/2012/06/19/000185417W.jpg",
-      "phone": "+56900000002",
-      "fk_id_company": "comp-1",
-      "fk_id_locality": "loc-2",
-      "address": "Av. Nose PRO",
-      "reference": "Cerca de Patio Bellavista"
-    },
-    {
       "id": "stop-3",
       "name": "Paradero C",
       "google_maps_url": "https://goo.gl/maps/ccc333",
@@ -229,6 +207,17 @@
       "fk_id_locality": "loc-3",
       "address": "Av. El GOAT",
       "reference": "Mirador Paseo Yugoslavo"
+    },
+    {
+      "id": "stop-1750261926130",
+      "name": "asdasd",
+      "google_maps_url": null,
+      "image_url": null,
+      "phone": "asdasd",
+      "fk_id_company": "comp-1",
+      "fk_id_locality": "loc-3",
+      "address": "asdasd",
+      "reference": "asdas"
     }
   ],
   "stops_routes": [

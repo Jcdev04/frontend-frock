@@ -4,13 +4,13 @@ export class RouteService {
     constructor() {
     }
 
-    getAllRoutes() {
+    async getAllRoutes() {
     }
 
-    obtenerRuta(id) {
+    async obtenerRuta(id) {
     }
 
-    crearRuta(rutaData) {
+    async crearRuta(rutaData) {
         const nuevaRuta = new RouteEntity(
             null, // El ID se generará en el repositorio
             rutaData.origenId,
@@ -24,9 +24,9 @@ export class RouteService {
 
     }
 
-    actualizarRuta(ruta) {
+    async actualizarRuta(ruta) {
     }
 
-    eliminarRuta(id) {
+    async eliminarRuta(id) {
     }
 }

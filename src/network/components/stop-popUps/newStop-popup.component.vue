@@ -1,6 +1,7 @@
 <script>
 import { ref } from "vue"; //principalmente lo usamos para el atributo visible del button
 import { StopService } from '@/network/services/stop.service.js';
+import {GeographyService} from "@/geography/services/geography.service.js";
 
 export default {
   name: "popUpNewStop",
@@ -20,10 +21,8 @@ export default {
         phone: '',
         address: '',
         reference: '',
-        fk_id_company: '',
         fk_id_locality: ''
       },
-      companies: [],
       locationHierarchy: [],
       submitted: false
     };
@@ -42,9 +41,8 @@ export default {
   methods: {
     async loadDropdowns() {
       try {
-        const service = new StopService();
-        this.companies = await service.getCompanies();
-        this.locationHierarchy = await service.getLocationHierarchy();
+        const service = new GeographyService();
+        this.locationHierarchy = await service.getFullHierarchy();
       } catch (err) {
         this.$toast.add({
           severity: 'error',
@@ -68,7 +66,7 @@ export default {
       }
       try {
         const service = new StopService();
-        const created = await service.createStop(this.paradero);
+        const created = await service.createStop({...this.paradero, fk_id_company: "comp-1"});
         this.$emit('created', created);
         this.$toast.add({
           severity: 'success',
@@ -138,7 +136,7 @@ export default {
         </pb-IftaLabel>
 
         <pb-IftaLabel class="labelSelectField">
-          <pb-CascadeSelect class="cascade-field" inputId="locality" v-model="paradero.fk_id_locality" :options="locationHierarchy" option-label="name" option-value="code" option-group-label="name" :option-group-children="['provinces', 'districts', 'localities']"  placeholder="Selecciona la ubicación"/>
+          <pb-CascadeSelect class="cascade-field" inputId="locality" v-model="paradero.fk_id_locality" :options="locationHierarchy" option-label="name" option-value="id" option-group-label="name" :option-group-children="['provinces', 'districts', 'localities']"  placeholder="Selecciona la ubicación"/>
           <label for="locality">Localidad</label>
         </pb-IftaLabel>
 

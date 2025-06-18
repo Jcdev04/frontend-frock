@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '@/access-and-identity/components/Login.vue'
-import RegisterView from '@/access-and-identity/components/Register.vue'
+import LoginView from '@/access-and-identity/pages/Login.vue'
+import RegisterView from '@/access-and-identity/pages/Register.vue'
 import CompanyRegisterView from '@/transport-company/pages/CompanyRegister.vue'
 import RoutesPage from '@/network/pages/RoutesPage.vue'
 import RouteCompleteDetailsComponent from "@/discovery/pages/route-complete-details.component.vue";

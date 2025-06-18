@@ -6,7 +6,7 @@ export class TransportCompanyAssembler {
      * @param {TransportCompany} company - Instancia de la entidad.
      * @returns {Object} Objeto compatible con la API.
      */
-    static fromEntitytoResponse(company) {
+    static fromEntityToResponse(company) {
         if (!(company instanceof TransportCompany)) {
             throw new Error('Se requiere una instancia válida de TransportCompany');
         }
@@ -14,6 +14,7 @@ export class TransportCompanyAssembler {
         return {
             id: company.id, // Siempre incluir el ID
             name: company.name,
+            fk_id_manager: company.fk_id_manager,
             logo_url: company.logo_url,
             ruc: company.ruc,
             phone: company.phone,
@@ -30,7 +31,7 @@ export class TransportCompanyAssembler {
      * @param {Object} apiData - Datos crudos de la API (ej: response.data).
      * @returns {TransportCompany} Nueva instancia de la entidad.
      */
-    static fromResponsetoEntity(apiData) {
+    static fromResponseToEntity(apiData) {
         if (!apiData?.id) {
             throw new Error('Los datos de la API deben incluir un ID');
         }
@@ -38,6 +39,7 @@ export class TransportCompanyAssembler {
         return new TransportCompany({
             id: apiData.id,
             name: apiData.name,
+            fk_id_manager: apiData.fk_id_manager,
             logo_url: apiData.logo_url || null, // Defaults por si la API no envía el campo
             ruc: apiData.ruc || null,
             phone: apiData.phone || null,

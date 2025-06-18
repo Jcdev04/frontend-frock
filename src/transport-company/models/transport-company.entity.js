@@ -1,6 +1,7 @@
 export class TransportCompany {
     constructor({
                     id,
+                    fk_id_manager,
                     name,
                     logo_url = null,
                     ruc = null,
@@ -10,6 +11,7 @@ export class TransportCompany {
                     description = null
                 }) {
         this.id = id || this._generateId();
+        this.fk_id_manager = fk_id_manager;
         this.name = name;
         this.logo_url = logo_url;
         this.ruc = ruc;

@@ -136,16 +136,26 @@
   ],
   "companies": [
     {
-      "id": "comp-1",
-      "name": "Turismo Andino",
-      "logo_url": "https://example.com/logos/turismo-andino.png",
-      "fk_user_id": "user-2"
+      "id": "comp-2",
+      "name": "segunda empresa",
+      "fk_id_manager": "user-2",
+      "logo_url": "https://images-platform.99static.com/Tx5HU2yFRWJOhxGekV6aSsrh740=/0x0:1667x1667/500x500/top/smart/99designs-contests-attachments/94/94613/attachment_94613553",
+      "ruc": null,
+      "phone": null,
+      "email": null,
+      "address": null,
+      "description": null
     },
     {
-      "id": "comp-2",
-      "name": "Rutas del Pacífico",
-      "logo_url": "https://example.com/logos/rutas-pacifico.png",
-      "fk_user_id": "user-1"
+      "id": "comp-1",
+      "name": "primera empresa",
+      "fk_id_manager": "user-1",
+      "logo_url": "https://images-platform.99static.com/Tx5HU2yFRWJOhxGekV6aSsrh740=/0x0:1667x1667/500x500/top/smart/99designs-contests-attachments/94/94613/attachment_94613553",
+      "ruc": null,
+      "phone": null,
+      "email": null,
+      "address": null,
+      "description": null
     }
   ],
   "schedules": [

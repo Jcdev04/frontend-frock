@@ -45,6 +45,10 @@
 </template>
 
 <script>
+import {APP_ROUTES} from "@/shared/services/routes.js";
+import {TransportCompanyService} from "@/transport-company/services/transport-company.service.js";
+import {TransportCompany} from "@/transport-company/models/transport-company.entity.js";
+
 export default {
   name: 'CompanyRegisterView',
   data() {
@@ -77,31 +81,21 @@ export default {
       this.error = null;
 
       try {
-        // Aquí iría la lógica real para guardar la información de la empresa
-        // Por ahora, simulamos un proceso exitoso
+        const transportCompany = new TransportCompany(
+            { name: this.companyName,
+              logo_url: "https://images-platform.99static.com/Tx5HU2yFRWJOhxGekV6aSsrh740=/0x0:1667x1667/500x500/top/smart/99designs-contests-attachments/94/94613/attachment_94613553",
+              //tomar de la sesión
+              fk_id_manager: "user-3"
+            });
 
-        // Simulación de una llamada a API (reemplazar con tu lógica real)
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        // Guardar información de la empresa (simulado)
-        const companyInfo = {
-          name: this.companyName,
-          logoUrl: this.previewImage // En una implementación real, esto sería la URL del logo subido al servidor
-        };
-
-        // Guardar en localStorage para simular persistencia
-        localStorage.setItem('company_info', JSON.stringify(companyInfo));
-
-        // Asegurarse de que el token de autenticación esté establecido
-        if (!localStorage.getItem('auth_token')) {
-          localStorage.setItem('auth_token', 'ejemplo_token_jwt');
-        }
+        const transportCompanyService = new TransportCompanyService();
+        await transportCompanyService.createTransportCompany(transportCompany);
 
         // Emitir evento de registro exitoso
         this.$emit('register-success');
 
         // Redireccionar a la página principal donde se muestra el toolbar
-        this.$router.push('/rutas');
+        this.$router.push(APP_ROUTES.COMPANY.HOME);
       } catch (error) {
         console.error('Error al registrar empresa:', error);
         this.error = 'Ocurrió un error al registrar la empresa';

@@ -4,12 +4,11 @@ import { TransportCompany } from '../models/transport-company.entity';
 
 export class TransportCompanyService extends BaseService {
     /**
-     * @param {string} baseUrl
      * @param {Object} options
      * @param {Object} httpClient
      */
-    constructor(baseUrl, options = {}, httpClient) {
-        super(baseUrl, '/companies', options, httpClient);
+    constructor( options = {}, httpClient) {
+        super( '/companies', options, httpClient);
     }
 
     /**
@@ -17,16 +16,16 @@ export class TransportCompanyService extends BaseService {
      * @param {Object} company
      * @returns {Promise<TransportCompany>}
      */
-    async create(company) {
+    async createTransportCompany(company) {
         if (!(company instanceof TransportCompany)) {
             throw new Error('Invalid TransportCompany instance');
         }
 
         try {
             const response = await super.create(
-                TransportCompanyAssembler.fromEntitytoResponse(company)
+                TransportCompanyAssembler.fromEntityToResponse(company)
             );
-            return TransportCompanyAssembler.fromResponsetoEntity(response);
+            return TransportCompanyAssembler.fromResponseToEntity(response);
         } catch (error) {
             console.error('Create failed:', error);
             throw error;
@@ -39,16 +38,16 @@ export class TransportCompanyService extends BaseService {
      * @param {Object} company
      * @returns {Promise<TransportCompany>}
      */
-    async update(id, company) {
+    async updateTransportCompany(id, company) {
         if (!(company instanceof TransportCompany)) {
             throw new Error('Invalid TransportCompany instance');
         }
         try {
             const response = await super.update(
                 id,
-                TransportCompanyAssembler.fromEntitytoResponse(company)
+                TransportCompanyAssembler.fromEntityToResponse(company)
             );
-            return TransportCompanyAssembler.fromResponsetoEntity(response);
+            return TransportCompanyAssembler.fromResponseToEntity(response);
         } catch (error) {
             console.error('Update failed:', error);
             throw error;
@@ -60,10 +59,10 @@ export class TransportCompanyService extends BaseService {
      * @param {string} id
      * @returns {Promise<TransportCompany>}
      */
-    async getById(id) {
+    async getTransportCompanyById(id) {
         try {
             const response = await super.getById(id);
-            return TransportCompanyAssembler.fromResponsetoEntity(response);
+            return TransportCompanyAssembler.fromResponseToEntity(response);
         } catch (error) {
             console.error('Get by ID failed:', error);
             throw error;

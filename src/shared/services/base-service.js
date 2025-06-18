@@ -7,7 +7,7 @@ export class BaseService {
      * @param {Object} httpClient - HTTP client instance (default: axios)
      */
     constructor( resourceEndpoint = '/resources', options = {}, httpClient = axios) {
-        this.serverBaseUrl = "";
+        this.serverBaseUrl = import.meta.env.VITE_API_BASE_URL;
         this.resourceEndpoint = resourceEndpoint;
         this.http = httpClient;
         this.retries = options.retries || 2;

@@ -42,6 +42,30 @@ export class StopService extends BaseService {
         }
     }
     /**
+     * Obtiene paraderos formateados para uso en componentes de selección (Dropdown/Select)
+     * @param {string} companyId - ID de la compañía
+     * @returns {Promise<Array<{label: string, value: string}>>}
+     */
+    async getStopsForSelect(companyId) {
+        try {
+            if (!companyId || typeof companyId !== 'string') {
+                throw new Error('ID de compañía inválido');
+            }
+
+            // Solo obtenemos los datos básicos necesarios
+            const stops = await this.getAll();
+            const companyStops = stops.filter(stop => stop.fk_id_company === companyId);
+            // Formateamos para PrimeVue Select
+            return companyStops.map(stop => ({
+                label: stop.name, // Lo que se mostrará en el select
+                value: stop.id,   // El valor que se guardará
+            }));
+        } catch (error) {
+            throw this._enhanceError(error);
+        }
+    }
+
+    /**
      * Elimina un paradero
      * @param {string} id - ID del paradero
      * @returns {Promise<void>}

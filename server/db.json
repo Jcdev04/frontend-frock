@@ -218,6 +218,17 @@
       "fk_id_locality": "loc-3",
       "address": "asdasd",
       "reference": "asdas"
+    },
+    {
+      "id": "stop-1750290022513",
+      "name": "paradero B",
+      "google_maps_url": null,
+      "image_url": null,
+      "phone": "123123",
+      "fk_id_company": "comp-1",
+      "fk_id_locality": "loc-3",
+      "address": "asdasd",
+      "reference": "asdasd"
     }
   ],
   "stops_routes": [

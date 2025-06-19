@@ -1,10 +1,10 @@
 <script>
-import popUpNewStop from "@/network/components/stop-popUps/newStop-popup.component.vue";
+import NewStopPopupComponent from "@/network/components/stop-popUps/new-stop-popup.component.vue";
 
 export default {
   name: 'stopsHeaderTitle',
   components: {
-    popUpNewStop
+    popUpNewStop: NewStopPopupComponent
   },
   emits: ['created'],
 }

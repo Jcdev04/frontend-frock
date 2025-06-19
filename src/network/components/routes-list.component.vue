@@ -30,29 +30,28 @@ export default {
 <template>
   <pb-Toast/>
   <pb-ProgressSpinner v-if="isLoading" />
-  <pb-Message v-if="error" severity="error" :closable="false">
+  <pb-Message v-else-if="error" severity="error" :closable="false">
     {{ error }}
   </pb-Message>
-  <section class="rutas-grid">
-    <template v-if="routes.length>0">
-      <routeCard
-          v-for="route in routes"
-          :key="route.id"
-          :ruta="route"
-          @updated="$emit('updated', $event)"
-          @deleted="$emit('deleted', $event)"
-      />
-    </template>
-    <template v-else>
-      <pb-Message severity="info" :closable="false">
-        <template #icon>
-          <i class="pi pi-info-circle"></i>
-        </template>
-        No tienes rutas registradas aún
-      </pb-Message>
-    </template>
-  </section>
-
+  <template v-else-if="routes.length>0">
+    <section class="rutas-grid">
+        <routeCard
+            v-for="route in routes"
+            :key="route.id"
+            :ruta="route"
+            @updated="$emit('updated', $event)"
+            @deleted="$emit('deleted', $event)"
+        />
+    </section>
+  </template>
+  <template v-else>
+    <pb-Message severity="info" :closable="false">
+      <template #icon>
+        <i class="pi pi-info-circle"></i>
+      </template>
+      No tienes rutas registradas aún
+    </pb-Message>
+  </template>
   <pb-ConfirmDialog/>
 
 </template>

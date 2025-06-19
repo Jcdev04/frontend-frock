@@ -1,27 +1,22 @@
 import { RouteEntity } from '../models/route.entity.js';
+import {BaseService} from "@/shared/services/base-service.js";
+import {StopService} from "@/network/services/stop.service.js";
 
-export class RouteService {
+export class RouteService extends BaseService{
     constructor() {
+        super('/routes');
+        this.stopsService = new StopService()
     }
 
-    async getAllRoutes() {
+    async getAllRoutesByCompanyId(companyId) {
+
     }
 
-    async obtenerRuta(id) {
+    async getRouteById(id) {
+
     }
 
-    async crearRuta(rutaData) {
-        const nuevaRuta = new RouteEntity(
-            null, // El ID se generará en el repositorio
-            rutaData.origenId,
-            rutaData.destinoId,
-            rutaData.duracion,
-            rutaData.tarifa,
-            rutaData.frecuencia,
-            rutaData.origenNombre,
-            rutaData.destinoNombre
-        );
-
+    async createRoute(rutaData) {
     }
 
     async actualizarRuta(ruta) {

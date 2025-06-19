@@ -31,12 +31,11 @@ export default {
 <template>
   <pb-Toast/>
   <pb-ProgressSpinner v-if="isLoading" />
-  <pb-Message v-if="error" severity="error" :closable="false">
+  <pb-Message v-else-if="error" severity="error" :closable="false">
     {{ error }}
   </pb-Message>
-
+  <template v-else-if="stops.length>0">
   <section class="container-paraderos">
-    <template v-if="stops.length>0">
       <stop-card
           v-for="stop in stops"
           :key="stop.id"
@@ -44,16 +43,17 @@ export default {
           @updated="$emit('updated', $event)"
           @deleted="$emit('deleted', $event)"
       />
-    </template>
-    <template v-else>
-      <pb-Message severity="info" :closable="false">
-        <template #icon>
-          <i class="pi pi-info-circle"></i>
-        </template>
-        No tienes paraderos registrados aún
-      </pb-Message>
-    </template>
+
   </section>
+  </template>
+  <template v-else>
+    <pb-Message severity="info" :closable="false">
+      <template #icon>
+        <i class="pi pi-info-circle"></i>
+      </template>
+      No tienes paraderos registrados aún
+    </pb-Message>
+  </template>
   <pb-ConfirmDialog/>
 
 </template>

@@ -1,25 +1,14 @@
-<script>
+<script setup>
+import NewRoutePopupComponent from "@/network/components/routes-popUps/new-route-popup.component.vue";
 
-import PopUpCreateRoute from "@/network/components/routes-popUps/pop-up-create-route.component.vue";
-
-export default {
-  name: 'routesHeaderTitle',
-  components: {PopUpCreateRoute},
-
- /* components: {
-    popUpNewStop
-  },
-*/
-  emits: ['created'],
-}
+const emit = defineEmits(["created"])
 </script>
 
 <template>
   <div class="container">
     <h1>Rutas</h1>
-    <pop-up-create-route
-        @created="$emit('created', $event)"
-    />
+    <new-route-popup-component
+        @created="$emit('created')"/>
   </div>
 </template>
 

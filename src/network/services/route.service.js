@@ -11,17 +11,4 @@ export class RouteService extends BaseService{
     async getAllRoutesByCompanyId(companyId) {
 
     }
-
-    async getRouteById(id) {
-
-    }
-
-    async createRoute(rutaData) {
-    }
-
-    async actualizarRuta(ruta) {
-    }
-
-    async eliminarRuta(id) {
-    }
 }

@@ -160,28 +160,60 @@
   ],
   "schedules": [
     {
-      "id": "sched-1",
-      "day": "Lunes",
-      "time_from": "09:00",
-      "time_to": "18:00",
-      "is_available": true,
-      "fk_id_route": "route-1"
+      "routeId": 1,
+      "dayOfWeek": "Lunes",
+      "startTime": "10:00",
+      "endTime": "17:00",
+      "enabled": true,
+      "id": 1
     },
     {
-      "id": "sched-2",
-      "day": "Martes",
-      "time_from": "10:00",
-      "time_to": "17:00",
-      "is_available": true,
-      "fk_id_route": "route-2"
+      "routeId": 1,
+      "dayOfWeek": "Martes",
+      "startTime": "10:00",
+      "endTime": "17:00",
+      "enabled": true,
+      "id": 2
     },
     {
-      "id": "sched-3",
-      "day": "Miércoles",
-      "time_from": "08:30",
-      "time_to": "19:00",
-      "is_available": false,
-      "fk_id_route": "route-3"
+      "routeId": 1,
+      "dayOfWeek": "Miércoles",
+      "startTime": "10:00",
+      "endTime": "17:00",
+      "enabled": true,
+      "id": 3
+    },
+    {
+      "routeId": 1,
+      "dayOfWeek": "Jueves",
+      "startTime": "",
+      "endTime": "",
+      "enabled": false,
+      "id": 4
+    },
+    {
+      "routeId": 1,
+      "dayOfWeek": "Viernes",
+      "startTime": "",
+      "endTime": "",
+      "enabled": false,
+      "id": 5
+    },
+    {
+      "routeId": 1,
+      "dayOfWeek": "Sábado",
+      "startTime": "",
+      "endTime": "",
+      "enabled": false,
+      "id": 6
+    },
+    {
+      "routeId": 1,
+      "dayOfWeek": "Domingo",
+      "startTime": "10:00",
+      "endTime": "17:00",
+      "enabled": true,
+      "id": 7
     }
   ],
   "itineraries": [
@@ -198,86 +230,46 @@
   ],
   "stops": [
     {
-      "id": "stop-3",
-      "name": "Paradero C",
-      "google_maps_url": "https://goo.gl/maps/ccc333",
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/SG_bus_stop_2.JPG/1200px-SG_bus_stop_2.JPG",
-      "phone": "+56900000003",
-      "fk_id_company": "comp-2",
-      "fk_id_locality": "loc-3",
-      "address": "Av. El GOAT",
-      "reference": "Mirador Paseo Yugoslavo"
-    },
-    {
-      "id": "stop-1750261926130",
-      "name": "asdasd",
+      "id": "stop-1750366557836",
+      "name": "Paradero5",
       "google_maps_url": null,
       "image_url": null,
-      "phone": "asdasd",
+      "phone": "123",
       "fk_id_company": "comp-1",
-      "fk_id_locality": "loc-3",
-      "address": "asdasd",
-      "reference": "asdas"
+      "fk_id_locality": "loc-1",
+      "address": "asda",
+      "reference": "asdasd"
     },
     {
-      "id": "stop-1750290022513",
-      "name": "paradero B",
+      "id": "stop-1750366585331",
+      "name": "Paradero2",
       "google_maps_url": null,
       "image_url": null,
-      "phone": "123123",
+      "phone": "91292",
       "fk_id_company": "comp-1",
-      "fk_id_locality": "loc-3",
+      "fk_id_locality": "loc-2",
       "address": "asdasd",
       "reference": "asdasd"
     }
   ],
-  "stops_routes": [
+  "route_stops": [
     {
-      "id": "sr-A1",
-      "fk_id_route": "route-1",
-      "fk_id_stop": "stop-1"
+      "fk_id_stop": "stop-1750366557836",
+      "fk_id_route": 1,
+      "id": 1
     },
     {
-      "id": "sr-A2",
-      "fk_id_route": "route-1",
-      "fk_id_stop": "stop-2"
-    },
-    {
-      "id": "sr-B1",
-      "fk_id_route": "route-2",
-      "fk_id_stop": "stop-1"
-    },
-    {
-      "id": "sr-B2",
-      "fk_id_route": "route-2",
-      "fk_id_stop": "stop-3"
-    },
-    {
-      "id": "sr-C1",
-      "fk_id_route": "route-3",
-      "fk_id_stop": "stop-2"
-    },
-    {
-      "id": "sr-C2",
-      "fk_id_route": "route-3",
-      "fk_id_stop": "stop-3"
+      "fk_id_stop": "stop-1750366585331",
+      "fk_id_route": 1,
+      "id": 2
     }
   ],
   "routes": [
     {
-      "id": "route-1",
-      "price": 15000.5,
-      "duration_min": 60
-    },
-    {
-      "id": "route-2",
-      "price": 12000,
-      "duration_min": 45
-    },
-    {
-      "id": "route-3",
-      "price": 18000.75,
-      "duration_min": 75
+      "duracion": 12,
+      "tarifa": 12,
+      "frecuencia": 12,
+      "id": 1
     }
   ],
   "itineraries_routes": [

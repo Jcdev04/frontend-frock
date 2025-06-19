@@ -18,7 +18,6 @@ const loadRoutes = async () => {
   error.value = null
 
   try {
-    console.log("Intentando crear RouteService") // Debug 4
     const routeService = new RouteService();
 
     routes.value = [

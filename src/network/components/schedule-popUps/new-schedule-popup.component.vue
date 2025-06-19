@@ -5,6 +5,7 @@ import Message from 'primevue/message'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 import ScheduleDayCard from "@/network/components/schedule-popUps/schedule-day-card.component.vue";
+import {RouteAppService} from "@/network/services/route-app-service.js";
 
 const {routeInfo} = defineProps({
   routeInfo: { type: Object },
@@ -101,30 +102,33 @@ const showToast = (severity, summary, detail) => {
 
 const updateDaySchedule = (dayKey, schedule) => {
   scheduleData[dayKey] = { ...schedule }
-  console.log('Horarios actualizados:', scheduleData)
   setTimeout(() => {
     validateGlobalSchedule()
   }, 100)
 }
 
 const handleSave = () => {
-  console.log("La data", routeInfo)
   if (!validateGlobalSchedule()) {
     showToast('error', 'Error', 'Por favor corrija los errores antes de continuar')
     return
   }
-
   if (!isFormValid.value) {
     showToast('error', 'Error', 'Formulario inválido')
     return
   }
 
-  console.log('Datos del formulario válidos:', scheduleData)
-  showToast('success', 'Éxito', 'Horarios configurados correctamente')
+  // 2. Creación completa de la ruta
+  try {
+    const appRouteService = new RouteAppService();
+    appRouteService.createFullRoute(routeInfo, scheduleData)
+    showToast('success', 'Éxito', 'Se ha creado una nueva ruta')
+    } catch (err) {
+      showToast({ severity: 'error', summary: 'Error', detail: 'No se pudo crear la ruta' })
+      return
+    }
 
-  setTimeout(() => {
-    alert('Horarios configurados correctamente')
-  }, 1000)
+  // 3. Cerrar el popup
+  emit('update:visibleSchedule', false)
 }
 
 onMounted(() => {

@@ -38,7 +38,7 @@ export default {
         <routeCard
             v-for="route in routes"
             :key="route.id"
-            :ruta="route"
+            :route="route"
             @updated="$emit('updated', $event)"
             @deleted="$emit('deleted', $event)"
         />

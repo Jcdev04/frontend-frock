@@ -154,6 +154,7 @@ onMounted(()=>{
     :routeInfo = "routeForm"
     v-model:visibleSchedule="visiblePopupSchedule"
     @handle-back='handleBack'
+    @created="emit('created')"
   />
 </template>
 

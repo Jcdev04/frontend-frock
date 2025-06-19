@@ -1,10 +1,32 @@
+<script>
+import Button from 'primevue/button'
+import editStopPopUp from "@/network/components/stop-popUps/edit-stop-popup.component.vue";
+import deleteStopPopUp from "@/network/components/stop-popUps/delete-stop-popup.component.vue";
+
+export default {
+  name: 'RutaCard',
+  props: {
+    route: {
+      type: Object,
+      required: true
+    }
+  },
+  components: {
+    deleteStopPopUp,
+    editStopPopUp,
+    Button
+  },
+  emits: ['updated', 'deleted'],
+}
+</script>
+
 <template>
   <div class="route-card">
     <div class="route-stops">
       <div class="stop">
         <div class="stop-image" />
-        <div class="stop-name">Paradero A</div>
-        <div class="stop-address">Jr. EverGreen 123</div>
+        <div class="stop-name">{{route.stopStart.name}}</div>
+        <div class="stop-address">{{route.stopStart.address}}</div>
       </div>
 
       <div class="swap-icon">
@@ -13,8 +35,8 @@
 
       <div class="stop">
         <div class="stop-image" />
-        <div class="stop-name">Paradero B</div>
-        <div class="stop-address">Jr. EL INCA 220</div>
+        <div class="stop-name">{{route.stopEnd.name}}</div>
+        <div class="stop-address">{{route.stopEnd.address}}</div>
       </div>
     </div>
 
@@ -22,39 +44,26 @@
       <div class="info-block">
         <i class="pi pi-clock info-icon blue" />
         <div class="info-label">Duración</div>
-        <div class="info-value">20 min</div>
+        <div class="info-value">{{ route.duration }}min</div>
+      </div>
+      <div class="info-block">
+        <i class="pi pi-car info-icon green" />
+        <div class="info-label">Frencuencia de salida</div>
+        <div class="info-value">{{ route.frequency }}min</div>
       </div>
       <div class="info-block">
         <i class="pi pi-dollar info-icon green" />
         <div class="info-label">Tarifa</div>
-        <div class="info-value">S/. 8.00</div>
+        <div class="info-value">{{ route.price }}</div>
       </div>
     </div>
 
     <section class="route-buttons">
-      <Button label="Editar" icon="pi pi-pencil" class="edit-btn" />
-      <Button label="Borrar" icon="pi pi-trash" class="delete-btn" />
+      <Button label="Editar" :route="route" @updated="$emit('updated', $event)" icon="pi pi-pencil" class="edit-btn" />
+      <Button label="Borrar" :route-id="route.id" @deleted="$emit('deleted', $event)" icon="pi pi-trash" class="delete-btn" />
     </section>
   </div>
 </template>
-
-<script>
-import Button from 'primevue/button'
-
-export default {
-  name: 'RutaCard',
-  props: {
-    ruta: {
-      type: Object,
-      required: true
-    }
-  },
-  components: {
-    Button
-
-  }
-}
-</script>
 
 <style scoped>
 

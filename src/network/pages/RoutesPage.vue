@@ -5,6 +5,7 @@ import Toast from 'primevue/toast' // Import explícito
 import { RouteService } from '@/network/services/route.service.js'
 import RoutesHeaderTitle from "@/network/components/routes-header-title.component.vue"
 import RoutesList from "@/network/components/routes-list.component.vue"
+import {RouteAppService} from "@/network/services/route-app-service.js";
 
 
 const toast = useToast()
@@ -18,11 +19,8 @@ const loadRoutes = async () => {
   error.value = null
 
   try {
-    const routeService = new RouteService();
-
-    routes.value = [
-      { id: 1, name: 'Ruta de ejemplo' }
-    ]
+    const routeAppService = new RouteAppService();
+    routes.value = await routeAppService.loadRoutesByCompany("comp-1")
   } catch (err) {
     console.error("Error capturado:", err) // Debug 7
     error.value = `Error al cargar rutas: ${err.message}`
@@ -49,5 +47,7 @@ onMounted(() => {
       :routes="routes"
       :isLoading="isLoading"
       :error="error"
+      @updated="loadRoutes"
+      @deleted="loadRoutes"
   />
 </template>

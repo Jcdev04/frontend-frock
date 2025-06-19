@@ -12,7 +12,7 @@ const {routeInfo} = defineProps({
   visibleSchedule:  Boolean,
 })
 
-const emit = defineEmits(['update:visibleSchedule', 'handleBack'])
+const emit = defineEmits(['update:visibleSchedule', 'handleBack', "created"])
 
 const toast = useToast()
 
@@ -108,7 +108,7 @@ const updateDaySchedule = (dayKey, schedule) => {
 }
 
 const handleSave = () => {
-  if (!validateGlobalSchedule()) {
+ if (!validateGlobalSchedule()) {
     showToast('error', 'Error', 'Por favor corrija los errores antes de continuar')
     return
   }
@@ -127,8 +127,13 @@ const handleSave = () => {
       return
     }
 
-  // 3. Cerrar el popup
+  //TODO resetear
+  //---
+  //---
+  //---
+  // 4. Cerrar el popup
   emit('update:visibleSchedule', false)
+  emit("created")
 }
 
 onMounted(() => {

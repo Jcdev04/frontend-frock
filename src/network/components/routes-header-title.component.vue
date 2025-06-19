@@ -2,13 +2,15 @@
 import NewRoutePopupComponent from "@/network/components/routes-popUps/new-route-popup.component.vue";
 
 const emit = defineEmits(["created"])
+
 </script>
 
 <template>
   <div class="container">
     <h1>Rutas</h1>
     <new-route-popup-component
-        @created="$emit('created')"/>
+        @created="emit('created')"
+    />
   </div>
 </template>
 

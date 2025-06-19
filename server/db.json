@@ -214,6 +214,62 @@
       "endTime": "17:00",
       "enabled": true,
       "id": 7
+    },
+    {
+      "routeId": 2,
+      "dayOfWeek": "Lunes",
+      "startTime": "10:00",
+      "endTime": "17:00",
+      "enabled": true,
+      "id": 8
+    },
+    {
+      "routeId": 2,
+      "dayOfWeek": "Martes",
+      "startTime": "10:00",
+      "endTime": "17:00",
+      "enabled": true,
+      "id": 9
+    },
+    {
+      "routeId": 2,
+      "dayOfWeek": "Miércoles",
+      "startTime": "",
+      "endTime": "",
+      "enabled": false,
+      "id": 10
+    },
+    {
+      "routeId": 2,
+      "dayOfWeek": "Jueves",
+      "startTime": "",
+      "endTime": "",
+      "enabled": false,
+      "id": 11
+    },
+    {
+      "routeId": 2,
+      "dayOfWeek": "Viernes",
+      "startTime": "",
+      "endTime": "",
+      "enabled": false,
+      "id": 12
+    },
+    {
+      "routeId": 2,
+      "dayOfWeek": "Sábado",
+      "startTime": "",
+      "endTime": "",
+      "enabled": false,
+      "id": 13
+    },
+    {
+      "routeId": 2,
+      "dayOfWeek": "Domingo",
+      "startTime": "10:00",
+      "endTime": "17:00",
+      "enabled": true,
+      "id": 14
     }
   ],
   "itineraries": [
@@ -250,6 +306,17 @@
       "fk_id_locality": "loc-2",
       "address": "asdasd",
       "reference": "asdasd"
+    },
+    {
+      "id": "stop-1750369207160",
+      "name": "Paradero las estrellas",
+      "google_maps_url": null,
+      "image_url": null,
+      "phone": "12",
+      "fk_id_company": "comp-1",
+      "fk_id_locality": "loc-3",
+      "address": "av 12",
+      "reference": "asd"
     }
   ],
   "route_stops": [
@@ -262,6 +329,16 @@
       "fk_id_stop": "stop-1750366585331",
       "fk_id_route": 1,
       "id": 2
+    },
+    {
+      "fk_id_stop": "stop-1750369207160",
+      "fk_id_route": 2,
+      "id": 3
+    },
+    {
+      "fk_id_stop": "stop-1750366585331",
+      "fk_id_route": 2,
+      "id": 4
     }
   ],
   "routes": [
@@ -270,6 +347,12 @@
       "tarifa": 12,
       "frecuencia": 12,
       "id": 1
+    },
+    {
+      "duracion": 12,
+      "tarifa": 12,
+      "frecuencia": 12,
+      "id": 2
     }
   ],
   "itineraries_routes": [

@@ -5,7 +5,7 @@ import {StopService} from "@/network/services/stop.service.js";
 export class RouteService extends BaseService{
     constructor() {
         super('/routes');
-        this.stopsService = new StopService()
+        this.stopsService = new StopService();
     }
 
     async getAllRoutesByCompanyId(companyId) {

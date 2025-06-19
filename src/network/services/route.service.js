@@ -7,8 +7,4 @@ export class RouteService extends BaseService{
         super('/routes');
         this.stopsService = new StopService();
     }
-
-    async getAllRoutesByCompanyId(companyId) {
-
-    }
 }

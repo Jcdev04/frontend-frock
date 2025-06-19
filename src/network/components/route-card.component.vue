@@ -2,6 +2,7 @@
 import Button from 'primevue/button'
 import editStopPopUp from "@/network/components/stop-popUps/edit-stop-popup.component.vue";
 import deleteStopPopUp from "@/network/components/stop-popUps/delete-stop-popup.component.vue";
+import DeleteRoutePopUp from "@/network/components/routes-popUps/delete-route-popup.component.vue";
 
 export default {
   name: 'RutaCard',
@@ -12,6 +13,7 @@ export default {
     }
   },
   components: {
+    DeleteRoutePopUp,
     deleteStopPopUp,
     editStopPopUp,
     Button
@@ -59,8 +61,8 @@ export default {
     </div>
 
     <section class="route-buttons">
-      <Button label="Editar" :route="route" @updated="$emit('updated', $event)" icon="pi pi-pencil" class="edit-btn" />
-      <Button label="Borrar" :route-id="route.id" @deleted="$emit('deleted', $event)" icon="pi pi-trash" class="delete-btn" />
+<!--     <Button label="Editar" :route="route" @updated="$emit('updated', $event)" icon="pi pi-pencil" class="edit-btn" />
+      --><delete-route-pop-up label="Borrar" :route-id="route.id" @deleted="$emit('deleted', $event)" icon="pi pi-trash" class="delete-btn" />
     </section>
   </div>
 </template>

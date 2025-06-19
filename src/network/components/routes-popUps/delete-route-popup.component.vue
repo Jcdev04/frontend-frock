@@ -1,13 +1,13 @@
 <script>
 import { useConfirm } from 'primevue/useconfirm';
-import { StopService } from '@/network/services/stop.service.js';
+import { RouteService } from '@/network/services/route.service.js';
 import { useToast } from 'primevue/usetoast';
 
 export default {
-  name: 'deleteStopPopUp',
+  name: 'deleteRoutePopUp',
 
   props: {
-    stopId: {
+    routeId: {
       type: String,
       required: true
     }
@@ -19,30 +19,30 @@ export default {
   setup(props, {emit}) {
     const confirm = useConfirm();
     const toast = useToast();
-    const service = new StopService();
+    const service = new RouteService();
 
     const confirmDelete = () => {
       confirm.require({
-        message: '¿Estás seguro de que quieres eliminar este paradero?',
+        message: '¿Estás seguro de que quieres eliminar esta ruta?',
         header: 'Confirmar Eliminación',
         icon: 'pi pi-exclamation-triangle',
         acceptLabel: 'Sí',
         rejectLabel: 'No',
         accept: async () => {
           try {
-            await service.deleteStop(props.stopId);
+            await service.delete(props.routeId);
             emit('deleted');
             toast.add({
               severity: 'success',
               summary: 'Éxito',
-              detail: 'Paradero eliminado',
+              detail: 'Ruta eliminado',
               life: 3000
             });
           } catch (error) {
             toast.add({
               severity: 'error',
               summary: 'Error',
-              detail: `Error al eliminar paradero: ${error.message}`,
+              detail: `Error al eliminar ruta: ${error.message}`,
               life: 3000
             });
           }
@@ -63,13 +63,4 @@ export default {
 </template>
 
 <style scoped>
-.delete-button{
-  background-color: #FF2C2C;
-  border-color: transparent;
-}
-
-.delete-button.p-button:hover {
-  background-color: lightcoral;
-  border-color: transparent;
-}
 </style>

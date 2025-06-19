@@ -82,4 +82,8 @@ export class RouteAppService{
             };
         });
     }
+    async deleteRoute(idRoute){
+        await this.routeService.delete(idRoute);
+
+    }
 }

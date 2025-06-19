@@ -7,16 +7,16 @@
     </div>
 
     <!-- Navegación centrada -->
-    <nav class="nav-links">
+<!--    <nav class="nav-links">
       <router-link to="/" exact>Inicio</router-link>
       <router-link to="/routes">Ver mis colecciones</router-link>
-    </nav>
+    </nav>-->
 
     <!-- Botón de perfil -->
     <div class="profile">
-      <router-link to="/auth/profile">
+      <router-link :to="`${APP_ROUTES.AUTH.ROOT}/${APP_ROUTES.AUTH.LOGIN}`">
         <button class="profile-btn">
-          Mi perfil
+          ¿Gestionas colectivos?
         </button>
       </router-link>
     </div>
@@ -27,8 +27,15 @@
 </template>
 
 <script>
+import {APP_ROUTES} from "@/shared/services/routes.js";
+
 export default {
-  name: 'AppHeader'
+  name: 'AppHeader',
+  computed: {
+    APP_ROUTES() {
+      return APP_ROUTES
+    }
+  }
 }
 </script>
 

@@ -3,7 +3,7 @@ import { District } from '../models/district.entity.js';
 
 export class DistrictService extends BaseService {
     constructor() {
-        super('/districts');
+        super('geographic/districts');
     }
 
     async getByProvince(provinceId) {

@@ -3,7 +3,7 @@ import { Locality } from '../models/locality.entity.js';
 
 export class LocalityService extends BaseService {
     constructor() {
-        super('/localities');
+        super('geographic/localities');
     }
 
     async getByDistrict(districtId) {

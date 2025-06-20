@@ -44,13 +44,13 @@ export class GeographyService {
             const locality = await this.localityService.getById(localityId);
             if (!locality) return this._getDefaultLocation();
 
-            const district = await this.districtService.getById(locality.fk_id_district);
+            const district = await this.districtService.getById(locality.fkIdDistrict);
             if (!district) return this._getDefaultLocation();
 
-            const province = await this.provinceService.getById(district.fk_id_province);
+            const province = await this.provinceService.getById(district.fkIdProvince);
             if (!province) return this._getDefaultLocation();
 
-            const region = await this.regionService.getById(province.fk_id_region);
+            const region = await this.regionService.getById(province.fkIdRegion);
             return {
                 locality: locality?.name || 'Desconocido',
                 district: district?.name || 'Desconocido',
@@ -69,15 +69,15 @@ export class GeographyService {
         return regions.map(region => ({
             ...region,
             provinces: provinces
-                .filter(province => province.fk_id_region === region.id)
+                .filter(province => province.fkIdRegion === region.id) //esto no esta mal, esta con los atributos del json q envia el backend
                 .map(province => ({
                     ...province,
                     districts: districts
-                        .filter(district => district.fk_id_province === province.id)
+                        .filter(district => district.fkIdProvince === province.id)
                         .map(district => ({
                             ...district,
                             localities: localities
-                                .filter(locality => locality.fk_id_district === district.id)
+                                .filter(locality => locality.fkIdDistrict === district.id)
                                 .map(locality => locality)
                         }))
                 }))

@@ -66,7 +66,7 @@ export default {
       }
       try {
         const service = new StopService();
-        const created = await service.createStop({...this.paradero, fk_id_company: "comp-1"});
+        const created = await service.createStop({...this.paradero, fk_id_company: 2});
         this.$emit('created', created);
         this.$toast.add({
           severity: 'success',
@@ -83,7 +83,7 @@ export default {
           phone: '',
           address: '',
           reference: '',
-          fk_id_company: 'comp-1',
+          fk_id_company: 2,
           fk_id_locality: ''
         };
         this.submitted = false;

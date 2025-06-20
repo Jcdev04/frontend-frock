@@ -250,6 +250,42 @@
       "fk_id_locality": "loc-2",
       "address": "asdsad",
       "reference": "asdasd"
+    },
+    {
+      "id": "stop-1750302910098",
+      "name": "asd",
+      "google_maps_url": null,
+      "image_url": null,
+      "phone": "asda",
+      "fk_id_company": "comp-1",
+      "fk_id_locality": "loc-1",
+      "address": "sadas",
+      "reference": "asdas",
+      "apiId": "v1"
+    },
+    {
+      "id": "stop-1750302924264",
+      "name": "asd",
+      "google_maps_url": null,
+      "image_url": null,
+      "phone": "asdasd",
+      "fk_id_company": "comp-1",
+      "fk_id_locality": "loc-3",
+      "address": "asda",
+      "reference": "asdas",
+      "apiId": "v1"
+    },
+    {
+      "id": "stop-1750383089446",
+      "name": "Amir",
+      "google_maps_url": null,
+      "image_url": null,
+      "phone": "947379321",
+      "fk_id_company": "comp-1",
+      "fk_id_locality": "loc-1",
+      "address": "asd",
+      "reference": "al lado de mi jato",
+      "apiId": "v1"
     }
   ],
   "route_stops": [

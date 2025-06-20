@@ -18,7 +18,7 @@ export class StopService extends BaseService {
         try {
 
             // Usar el endpoint específico en lugar de obtener todos y filtrar
-            const response = await this.http.get(`${this.resourcePath()}/company/${companyId}`);
+            const response = await this.http.get(`${this.resourcePath()}/company/${companyId}`); //el endpoint para obtner stops por companyId /api/stops/company/:companyId
             const stops = response.data;
 
             // Obtener la jerarquía para enriquecer los datos
@@ -52,8 +52,23 @@ export class StopService extends BaseService {
             }
 
             // Solo obtenemos los datos básicos necesarios
-            const stops = await this.getAll();
-            const companyStops = stops.filter(stop => stop.fk_id_company === companyId);
+
+            //Amir modified: Voy a ajustarlo para usar el endpoint específico que ya existe en el backend para obtener los paraderos de una compañía
+            //Para que ya no uses filtrado en el frontend
+
+            //No borrare lo antiguo por si acaso
+            //const stops = await this.getAll();
+            // companyStops = stops.filter(stop => stop.fk_id_company === companyId);
+
+            //nuevo:
+            const response = await this.http.get(`${this.resourcePath()}/company/${companyId}`);
+            const companyStops = response.data;
+
+            //NOTA EXTRA:
+            //Siempre revisar los atributos que se reciben del backend, por lo general parece ser distinto a la estuctura del modelo del front
+            //Ej: puede que exista fk_id_company en el frontEnd pero en el modelo del Backend este como fkIdCompany
+            //Por eso es importante usar Console Logs
+
             // Formateamos para PrimeVue Select
             return companyStops.map(stop => ({
                 label: stop.name, // Lo que se mostrará en el select
@@ -66,12 +81,15 @@ export class StopService extends BaseService {
 
     /**
      * Elimina un paradero
-     * @param {string} id - ID del paradero
+     * @param {int} id - ID del paradero
      * @returns {Promise<void>}
      */
     async deleteStop(id) {
         try {
-            if (!id || typeof id !== 'string') {
+            // Validaciones
+            if (!id || typeof id !== 'number' ||
+                !Number.isInteger(id) ||
+                id < 0) {
                 throw new Error('ID de paradero inválido');
             }
             await super.delete(id);
@@ -82,34 +100,53 @@ export class StopService extends BaseService {
 
     /**
      * Actualiza un paradero
-     * @param {string} id - ID del paradero
+     * @param {int} id - ID del paradero
      * @param {Object} updateData - Datos a actualizar
      * @returns {Promise<StopEntity>}
      */
     async updateStop(id, updateData) {
         try {
             // Validaciones
-            if (!id || typeof id !== 'string') {
+            if (!id || typeof id !== 'number' ||
+                !Number.isInteger(id) ||
+                id < 0) {
                 throw new Error('ID de paradero inválido');
             }
             this._validateStopData(updateData);
 
             // Obtener datos actuales primero
             const current = await super.getById(id);
-            const updatedData = { ...current, ...updateData };
+
+            //REDEFINIR EL OBJETO PARA QUE COINCIDA CON EL MODELO DEL BACKEND
+
+            const updatedData = { //asegurarse de que los campos coincidan con el modelo del backend
+                id: current.id, //se mantiene el id actual
+                name: updateData.name, //update
+                googleMapsUrl: current.googleMapsUrl,
+                imageUrl: current.imageUrl,
+                phone: updateData.phone, //update
+                fkIdCompany: current.fkIdCompany,
+                address: updateData.address, //update
+                reference: updateData.reference, //update
+                fkIdLocality: updateData.fk_id_locality //update
+
+                //hay una gran diferencia entre el modelo del front y el del backend, por lo que se debe tener cuidado con los campos que se actualizan
+                //es bueno aclarar que para current se obtiene el objeto completo del backend, mientras que para updateData se obtienen solo los campos que se desean actualizar y esos atributos tienen nombres diferentes
+            };
+
 
             // Actualizar
             const response = await super.update(id, updatedData);
             return new StopEntity(
                 response.id,
                 response.name,
-                response.google_maps_url,
-                response.image_url,
+                response.googleMapsUrl,
+                response.imageUrl,
                 response.phone,
-                response.fk_id_company,
-                response.fk_id_locality,
+                response.fkIdCompany,
+                response.fkIdLocality,
                 response.address,
-                response.reference
+                response.reference,
             );
         } catch (error) {
             throw this._enhanceError(error);

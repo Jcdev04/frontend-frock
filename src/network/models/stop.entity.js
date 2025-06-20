@@ -1,14 +1,14 @@
 export class StopEntity {
     constructor(id, name, google_maps_url, image_url, phone, fk_id_company, fk_id_locality, address, reference) {
         //opcional verificar errores
-        if (!id || typeof id !== 'string') {
+        if (!id || typeof id !== 'number' || !Number.isInteger(id) || id <= 0) {
             throw new Error('ID is required and must be a non-empty string');
         }
         if (!name || typeof name !== 'string') {
             throw new Error('Name is required and must be a non-empty string');
         }
-        if (!fk_id_company || typeof fk_id_company !== 'string') {
-            throw new Error('Company ID is required and must be a non-empty string');
+        if (!fk_id_company || typeof fk_id_company !== 'number' || !Number.isInteger(fk_id_company)) {
+            throw new Error('Company ID is required and must be a non-empty int');
         }
         if (!fk_id_locality || typeof fk_id_locality !== 'string') {
             throw new Error('fk_id_locality ID is required and must be a non-empty string');

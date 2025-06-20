@@ -25,7 +25,7 @@ export default {
       this.error = null;
       try {
         const service = new StopService();
-        this.stops = await service.getStopsByCompanyId("comp-1");
+        this.stops = await service.getStopsByCompanyId(2); //dato hardcodeado para pruebas
       } catch (err) {
         this.error = `Error al cargar paraderos: ${err.message}`;
         // Mostrar toast

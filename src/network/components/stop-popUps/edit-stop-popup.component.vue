@@ -106,9 +106,9 @@ export default {
         phone: this.stop.phone || '',
         address: this.stop.address || '',
         reference: this.stop.reference || '',
+        fk_id_locality: this.stop.fk_id_locality || '',
         //temporal, el company se debería obtener de la sesión
-        fk_id_company: this.stop.fk_id_company || 'comp-1',
-        fk_id_locality: this.stop.fk_id_locality || ''
+        fk_id_company: this.stop.fk_id_company || 2, //dato hardcodeado para pruebas
       };
       this.initialParadero = { ...this.paradero };
     }

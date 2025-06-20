@@ -1,39 +1,37 @@
 import { BaseService } from '@/shared/services/base-service.js';
 import { StopEntity } from '../models/stop.entity';
-import {GeographyService} from "@/geography/services/geography.service.js";
+import { GeographyService } from "@/geography/services/geography.service.js";
 
 export class StopService extends BaseService {
     constructor() {
-        super('/stops');
+        super('stops');
         this.geographyService = new GeographyService();
-        this.companyService = new BaseService('/companies');
+        this.companyService = new BaseService('companies');
     }
 
     /**
      * Obtiene paraderos por ID de compañía con información enriquecida
-     * @param {string} companyId - ID de la compañía
+     * @param {int} companyId - ID de la compañía
      * @returns {Promise<Array>} Lista de paraderos con datos completos
      */
     async getStopsByCompanyId(companyId) {
         try {
-            if (!companyId || typeof companyId !== 'string') {
-                throw new Error('ID de compañía inválido');
-            }
 
-            const [stops, hierarchy] = await Promise.all([
-                this.getAll(),
-                this.geographyService.getFullHierarchy()
-            ]);
+            // Usar el endpoint específico en lugar de obtener todos y filtrar
+            const response = await this.http.get(`${this.resourcePath()}/company/${companyId}`);
+            const stops = response.data;
 
-            const companyStops = stops.filter(stop => stop.fk_id_company === companyId);
+            // Obtener la jerarquía para enriquecer los datos
+            const hierarchy = await this.geographyService.getFullHierarchy();
 
+            // Enriquecer cada paradero con información adicional
             return Promise.all(
-                companyStops.map(async stop => {
-                    const locationDetails = await this.geographyService.getLocationDetails(stop.fk_id_locality);
+                stops.map(async stop => {
+                    const locationDetails = await this.geographyService.getLocationDetails(stop.fkIdLocality);
                     return {
                         ...stop,
                         location: locationDetails.fullPath,
-                        companyName: await this._getCompanyName(stop.fk_id_company)
+                        companyName: await this._getCompanyName(stop.fkIdCompany)
                     };
                 })
             );
@@ -41,6 +39,7 @@ export class StopService extends BaseService {
             throw this._enhanceError(error);
         }
     }
+
     /**
      * Obtiene paraderos formateados para uso en componentes de selección (Dropdown/Select)
      * @param {string} companyId - ID de la compañía
@@ -128,29 +127,28 @@ export class StopService extends BaseService {
             this._validateStopData(stopData);
 
             // Crear paradero
-            const response = await super.create({
-                id: stopData.id || `stop-${Date.now()}`,
+            const response = await super.create({ // se ordena segun el post del backend
                 name: stopData.name,
-                google_maps_url: stopData.google_maps_url || null,
-                image_url: stopData.image_url || null,
+                googleMapsUrl: stopData.google_maps_url || 'null',
+                imageUrl: stopData.image_url || 'null',
                 phone: stopData.phone,
-                fk_id_company: stopData.fk_id_company,
-                fk_id_locality: stopData.fk_id_locality,
+                fkIdCompany: stopData.fk_id_company,
                 address: stopData.address,
-                reference: stopData.reference
+                reference: stopData.reference,
+                fkIdLocality: stopData.fk_id_locality
             });
 
-            return new StopEntity(
+            return new StopEntity( //el modelo del stopentity del front pero sacaremos los datos del nuevo response del backend
                 response.id,
                 response.name,
-                response.google_maps_url,
-                response.image_url,
+                response.googleMapsUrl,
+                response.imageUrl,
                 response.phone,
-                response.fk_id_company,
-                response.fk_id_locality,
+                response.fkIdCompany,
+                response.fkIdLocality,
                 response.address,
-                response.reference
-            );
+                response.reference,
+        );
         } catch (error) {
             throw this._enhanceError(error);
         }
@@ -170,7 +168,6 @@ export class StopService extends BaseService {
         const requiredFields = {
             name: 'string',
             phone: 'string',
-            fk_id_company: 'string',
             fk_id_locality: 'string',
             address: 'string',
             reference: 'string'
@@ -181,5 +178,13 @@ export class StopService extends BaseService {
                 throw new Error(`Campo requerido: ${field} (debe ser ${type})`);
             }
         });
+
+        // Validación específica para fk_id_company como número entero
+        if (!data.fk_id_company ||
+            typeof data.fk_id_company !== 'number' ||
+            !Number.isInteger(data.fk_id_company) ||
+            data.fk_id_company < 0) {
+            throw new Error('El campo fk_id_company debe ser un número entero positivo');
+        }
     }
 }

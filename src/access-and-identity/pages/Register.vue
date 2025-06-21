@@ -47,8 +47,8 @@
         <div class="form-group">
           <select v-model="role" required>
             <option disabled value="">Registrarse como</option>
-            <option value="conductor">Conductor</option>
-            <option value="gestor">Gestor de empresa de transporte</option>
+            <option value=0>Conductor</option>
+            <option value=1>Gestor de empresa de transporte</option>
           </select>
         </div>
 
@@ -71,6 +71,7 @@
 
 <script>
 import { APP_ROUTES } from '@/shared/services/routes.js';
+import { AuthService } from '@/access-and-identity/services/auth.service.js';
 
 export default {
   name: 'RegisterView',
@@ -94,26 +95,39 @@ export default {
     async handleSubmit() {
       this.isLoading = true;
       this.message = null;
+
       try {
-        // Simula petición al servidor
-        await new Promise(r => setTimeout(r, 1000));
-        // Simula éxito
-        const user = {
-          firstName: this.firstName,
-          lastName: this.lastName,
+        const credentials = {
+          username: `${this.firstName} ${this.lastName}`.trim(), // Creamos username combinando firstName y lastName
           email: this.email,
           password: this.password,
           role: this.role
         };
-        localStorage.setItem('registeredUser', JSON.stringify(user));
-        // Marca que es un usuario nuevo
-        localStorage.setItem('isNewUser', 'true');
+
+        // Instanciar el servicio y llamar al metodo register
+        const authService = new AuthService();
+        const response = await authService.register(credentials);
+
+        // Manejar la respuesta exitosa
         this.message = 'Registro exitoso 🎉';
+
+        // Opcional: guardar información relevante del usuario
+        localStorage.setItem('registeredUser', JSON.stringify({
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          role: this.role
+        }));
+
+        // Redirigir al login después de un breve retraso
         setTimeout(() => {
           this.$router.push(this.APP_ROUTES.AUTH.LOGIN);
         }, 800);
-      } catch {
-        this.message = 'Ocurrió un error, intenta de nuevo.';
+
+      } catch (error) {
+        // Manejar errores
+        console.error('Error en registro:', error);
+        this.message = error.message || 'Ocurrió un error, intenta de nuevo.';
       } finally {
         this.isLoading = false;
       }

@@ -72,18 +72,25 @@ export default {
       this.error = null;
 
       try {
-        // Simula delay de API
         await new Promise(resolve => setTimeout(resolve, 1000));
-
-        // Simula éxito si hay email y password
-        if (this.email && this.password) {
+        const user = JSON.parse(localStorage.getItem('registeredUser'));
+        const isNewUser = localStorage.getItem('isNewUser');
+        if (user && user.email === this.email && user.password === this.password) {
           this.$emit('login-success');
-          this.$router.push("/"+APP_ROUTES.COMPANY.ROOT+"/"+APP_ROUTES.COMPANY.HOME);
+          if (user.role === 'gestor') {
+            if (isNewUser === 'true') {
+              localStorage.removeItem('isNewUser');
+              this.$router.push('/company/onboarding');
+            } else {
+              this.$router.push('/company/home');
+            }
+          } else {
+            this.$router.push('/home');
+          }
         } else {
           this.error = 'Correo o contraseña incorrectos';
         }
       } catch (err) {
-        console.error(err);
         this.error = 'Ocurrió un error al intentar iniciar sesión';
       } finally {
         this.isLoading = false;

@@ -98,10 +98,19 @@ export default {
         // Simula petición al servidor
         await new Promise(r => setTimeout(r, 1000));
         // Simula éxito
+        const user = {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password,
+          role: this.role
+        };
+        localStorage.setItem('registeredUser', JSON.stringify(user));
+        // Marca que es un usuario nuevo
+        localStorage.setItem('isNewUser', 'true');
         this.message = 'Registro exitoso 🎉';
-        // Opcional: redirige después de un momento
         setTimeout(() => {
-          this.$router.push(APP_ROUTES.AUTH.LOGIN);
+          this.$router.push(this.APP_ROUTES.AUTH.LOGIN);
         }, 800);
       } catch {
         this.message = 'Ocurrió un error, intenta de nuevo.';

@@ -25,7 +25,10 @@ export default {
       this.error = null;
       try {
         const service = new StopService();
-        this.stops = await service.getStopsByCompanyId(2); //dato hardcodeado para pruebas
+        //companId from localStorage
+        const companyId = JSON.parse(localStorage.getItem("user")).companyId;
+        // Get stops by companyId
+        this.stops = await service.getStopsByCompanyId(companyId);
       } catch (err) {
         this.error = `Error al cargar paraderos: ${err.message}`;
         // Mostrar toast

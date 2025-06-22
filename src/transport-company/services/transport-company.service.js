@@ -1,71 +1,32 @@
 import { BaseService } from '@/shared/services/base-service.js';
-import { TransportCompanyAssembler } from './transport-company.assembler';
-import { TransportCompany } from '../models/transport-company.entity';
 
 export class TransportCompanyService extends BaseService {
-    /**
-     * @param {Object} options
-     * @param {Object} httpClient
-     */
-    constructor( options = {}, httpClient) {
-        super( '/companies', options, httpClient);
-    }
+    constructor() {
+        super('companies');
+    };
 
-    /**
-     * Creates a transport company
-     * @param {Object} company
-     * @returns {Promise<TransportCompany>}
-     */
-    async createTransportCompany(company) {
-        if (!(company instanceof TransportCompany)) {
-            throw new Error('Invalid TransportCompany instance');
-        }
-
+    async getCompanyByFkUserId(userId) {
         try {
-            const response = await super.create(
-                TransportCompanyAssembler.fromEntityToResponse(company)
-            );
-            return TransportCompanyAssembler.fromResponseToEntity(response);
+            const response = await this.http.get(`${this.resourcePath()}/user/${userId}`);
+
+
+            return response.data;
         } catch (error) {
-            console.error('Create failed:', error);
-            throw error;
+            throw this._enhanceError(error);
         }
     }
 
-    /**
-     * Updates a transport company
-     * @param {string} id
-     * @param {Object} company
-     * @returns {Promise<TransportCompany>}
-     */
-    async updateTransportCompany(id, company) {
-        if (!(company instanceof TransportCompany)) {
-            throw new Error('Invalid TransportCompany instance');
-        }
+    async createCompany(company) {
         try {
-            const response = await super.update(
-                id,
-                TransportCompanyAssembler.fromEntityToResponse(company)
-            );
-            return TransportCompanyAssembler.fromResponseToEntity(response);
-        } catch (error) {
-            console.error('Update failed:', error);
-            throw error;
-        }
-    }
+            const response = await this.http.post(this.resourcePath(), {
+                name: company.name,
+                logoUrl: company.logo_url,
+                fkIdUser: Number(company.fkIdUser)
+            });
 
-    /**
-     * Gets company by ID
-     * @param {string} id
-     * @returns {Promise<TransportCompany>}
-     */
-    async getTransportCompanyById(id) {
-        try {
-            const response = await super.getById(id);
-            return TransportCompanyAssembler.fromResponseToEntity(response);
+            return response.data;
         } catch (error) {
-            console.error('Get by ID failed:', error);
-            throw error;
+            throw this._enhanceError(error);
         }
     }
 }

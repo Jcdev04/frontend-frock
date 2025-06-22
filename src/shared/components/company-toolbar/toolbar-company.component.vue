@@ -22,7 +22,7 @@ export default {
       localStorage.removeItem('auth_token');
 
       // Redireccionar a la página de login
-      this.$router.push('/login');
+      this.$router.push('/auth/login');
     }
   }
 }

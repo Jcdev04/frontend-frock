@@ -12,8 +12,6 @@ export class AuthService extends BaseService {
             //if (!credentials.username || !credentials.email || !credentials.password) {
             //    throw new Error('Datos de registro incompletos');
             //}
-
-
             const response = await this.http.post(`${this.resourcePath()}/sign-up`, {
                 username: credentials.username,
                 email: credentials.email,
@@ -23,11 +21,27 @@ export class AuthService extends BaseService {
 
             console.log('credentials', credentials);
 
-
             return response.data;
-
         } catch (error) {
             throw this._enhanceError(error);
         }
     }
+
+    async login(credentials) {
+        try {
+            // Validación básica antes de enviar
+            //if (!credentials.email || !credentials.password) {
+            //    throw new Error('Datos de inicio de sesión incompletos');
+            //}
+            const response = await this.http.post(`${this.resourcePath()}/sign-in`, {
+                email: credentials.email,
+                password: credentials.password
+            });
+            return response.data;
+        } catch (error) {
+            throw this._enhanceError(error);
+        }
+    }
+
+
 }

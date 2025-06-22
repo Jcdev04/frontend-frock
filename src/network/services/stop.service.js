@@ -106,6 +106,7 @@ export class StopService extends BaseService {
      */
     async updateStop(id, updateData) {
         try {
+
             // Validaciones
             if (!id || typeof id !== 'number' ||
                 !Number.isInteger(id) ||
@@ -114,18 +115,20 @@ export class StopService extends BaseService {
             }
             this._validateStopData(updateData);
 
+            const companyId = this._getCompanyIdFromLocalStorage();
+
             // Obtener datos actuales primero
             const current = await super.getById(id);
 
             //REDEFINIR EL OBJETO PARA QUE COINCIDA CON EL MODELO DEL BACKEND
 
             const updatedData = { //asegurarse de que los campos coincidan con el modelo del backend
-                id: current.id, //se mantiene el id actual
+                id: Number(current.id), //se mantiene el id actual
                 name: updateData.name, //update
                 googleMapsUrl: current.googleMapsUrl,
                 imageUrl: current.imageUrl,
                 phone: updateData.phone, //update
-                fkIdCompany: current.fkIdCompany,
+                fkIdCompany: Number(companyId),
                 address: updateData.address, //update
                 reference: updateData.reference, //update
                 fkIdLocality: updateData.fk_id_locality //update
@@ -137,6 +140,9 @@ export class StopService extends BaseService {
 
             // Actualizar
             const response = await super.update(id, updatedData);
+
+
+            //retorno del objeto creado del backend
             return new StopEntity(
                 response.id,
                 response.name,
@@ -163,18 +169,26 @@ export class StopService extends BaseService {
             // Validaciones
             this._validateStopData(stopData);
 
+
+            const companyId = this._getCompanyIdFromLocalStorage();
+
+
             // Crear paradero
             const response = await super.create({ // se ordena segun el post del backend
                 name: stopData.name,
                 googleMapsUrl: stopData.google_maps_url || 'null',
                 imageUrl: stopData.image_url || 'null',
                 phone: stopData.phone,
-                fkIdCompany: stopData.fk_id_company,
+                fkIdCompany: Number(companyId),
                 address: stopData.address,
                 reference: stopData.reference,
                 fkIdLocality: stopData.fk_id_locality
             });
 
+            console.log("Paradero", response);
+
+
+            //EXTRA
             return new StopEntity( //el modelo del stopentity del front pero sacaremos los datos del nuevo response del backend
                 response.id,
                 response.name,
@@ -222,6 +236,19 @@ export class StopService extends BaseService {
             !Number.isInteger(data.fk_id_company) ||
             data.fk_id_company < 0) {
             throw new Error('El campo fk_id_company debe ser un número entero positivo');
+        }
+    }
+
+    _getCompanyIdFromLocalStorage() {
+        try {
+            const userData = JSON.parse(localStorage.getItem('user'));
+            if (!userData || !userData.companyId) {
+                throw new Error('No se encontró ID de compañía en el usuario autenticado');
+            }
+            return Number(userData.companyId);
+        } catch (error) {
+            console.error('Error al obtener companyId del localStorage:', error);
+            throw new Error('No se pudo obtener el ID de la compañía');
         }
     }
 }

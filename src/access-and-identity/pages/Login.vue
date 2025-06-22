@@ -50,6 +50,8 @@
 
 <script>
 import { APP_ROUTES } from '@/shared/services/routes.js';
+import { AuthService } from '@/access-and-identity/services/auth.service.js';
+import { TransportCompanyService} from "@/transport-company/services/transport-company.service.js";
 
 export default {
   name: 'LoginView',
@@ -72,26 +74,62 @@ export default {
       this.error = null;
 
       try {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const user = JSON.parse(localStorage.getItem('registeredUser'));
-        const isNewUser = localStorage.getItem('isNewUser');
-        if (user && user.email === this.email && user.password === this.password) {
-          this.$emit('login-success');
-          if (user.role === 'gestor') {
-            if (isNewUser === 'true') {
-              localStorage.removeItem('isNewUser');
-              this.$router.push('/company/onboarding');
-            } else {
-              this.$router.push('/company/home');
-            }
-          } else {
-            this.$router.push('/home');
-          }
-        } else {
-          this.error = 'Correo o contraseña incorrectos';
+        const credentials = {
+          email: this.email,
+          password: this.password
+        };
+
+        // Llamar al servicio de autenticación
+        const authService = new AuthService();
+        const response = await authService.login(credentials);
+
+        // Guardar el token y datos del usuario en localStorage
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify({
+          id: response.id,
+          username: response.username,
+          role: response.role
+        }));
+
+        // Redireccionar según el rol (ejemplo)
+        if (response.role === 0) {
+          this.$router.push(''); //redirecciona al usuario tipo viajero a la página de inicio
         }
-      } catch (err) {
-        this.error = 'Ocurrió un error al intentar iniciar sesión';
+
+        //aqui tenemos que verificar si el usuario tipo conductor es nuevo o no
+        //usaremos la funcion de getCompanyByFkUserId, si no existe una compañia asociada,
+        //con esto sabremos que es un usuario nuevo y lo redireccionamos a la pagina de onboarding
+        //si no es neuvo, lo redireccionamos a la pagina de inicio /company/home
+        if (response.role === 1) {
+          try {
+            // Verificar si el conductor ya tiene una compañía asociada
+            const transportCompanyService = new TransportCompanyService();
+            const companyData = await transportCompanyService.getCompanyByFkUserId(response.id);
+
+            localStorage.setItem('user', JSON.stringify({
+              id: response.id,
+              username: response.username,
+              role: response.role,
+              companyId: companyData.id
+            }));
+
+            console.log('Datos de usuario guardados:', JSON.parse(localStorage.getItem('user')));
+
+            // Si llega aquí es porque existe una compañía asociada
+            this.$router.push('/company/home');
+
+          } catch (error) {
+            // Si hay error (404) significa que no existe compañía, es un usuario nuevo
+            console.log('Usuario conductor nuevo, redirigiendo a onboarding');
+            this.$router.push('/company/onboarding');
+          }
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+      } catch (error) {
+        console.error('Error en login:', error);
+        this.errorMessage = 'Credenciales incorrectas. Intente nuevamente.';
       } finally {
         this.isLoading = false;
       }

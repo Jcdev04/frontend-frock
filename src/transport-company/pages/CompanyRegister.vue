@@ -81,24 +81,43 @@ export default {
       this.error = null;
 
       try {
-        const transportCompany = new TransportCompany(
-            { name: this.companyName,
-              logo_url: "https://images-platform.99static.com/Tx5HU2yFRWJOhxGekV6aSsrh740=/0x0:1667x1667/500x500/top/smart/99designs-contests-attachments/94/94613/attachment_94613553",
-              //tomar de la sesión
-              fk_id_manager: "user-3"
-            });
+        // Obtener datos del usuario desde localStorage
+        const userData = JSON.parse(localStorage.getItem('user'));
+
+        if (!userData || !userData.id) {
+          this.error = 'No se pudo obtener información del usuario';
+          return;
+        }
+
+        const company = {
+          name: this.companyName,
+          logo_url: "https://images-platform.99static.com/Tx5HU2yFRWJOhxGekV6aSsrh740=/0x0:1667x1667/500x500/top/smart/99designs-contests-attachments/94/94613/attachment_94613553",
+          fkIdUser: userData.id // Usar el ID del usuario actual
+        }
 
         const transportCompanyService = new TransportCompanyService();
-        await transportCompanyService.createTransportCompany(transportCompany);
+        // Llamar al metodo correcto del servicio para crear la empresa
+
+        const response = await transportCompanyService.createCompany(company);
+        localStorage.setItem('user', JSON.stringify({
+          ...userData,
+          companyId: response.id
+        }));
+
+        console.log('Datos de usuario guardados:', response);
+        console.log('User', JSON.parse(localStorage.getItem('user')));
 
         // Emitir evento de registro exitoso
         this.$emit('register-success');
 
         // Redireccionar a la página principal donde se muestra el toolbar
         this.$router.push(APP_ROUTES.COMPANY.HOME);
+
+
       } catch (error) {
         console.error('Error al registrar empresa:', error);
         this.error = 'Ocurrió un error al registrar la empresa';
+
       } finally {
         this.isLoading = false;
       }

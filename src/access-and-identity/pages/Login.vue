@@ -93,7 +93,7 @@ export default {
 
         // Redireccionar según el rol (ejemplo)
         if (response.role === 0) {
-          this.$router.push(''); //redirecciona al usuario tipo viajero a la página de inicio
+          this.$router.push('/'); //redirecciona al usuario tipo viajero a la página de inicio
         }
 
         //aqui tenemos que verificar si el usuario tipo conductor es nuevo o no

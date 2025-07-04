@@ -27,6 +27,11 @@ const routes = [
                 name: "route-detail",
                 component: RouteCompleteDetailsComponent,
                 props: true
+            },
+            {
+              path: "/test",
+              name: "test",
+                component: () => import('@/discovery/pages/routes-alpha-dashboard.vue')
             }
         ]
     },

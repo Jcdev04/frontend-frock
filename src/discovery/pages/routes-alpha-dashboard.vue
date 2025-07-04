@@ -2,7 +2,6 @@
 import RoutesAlphaList from "@/discovery/components/routes-alpha/routes-alpha-list.component.vue";
 import RoutesAlphaFilter from "@/discovery/components/routes-alpha/routes-alpha-filter.component.vue";
 import { routeAlphaService } from "@/discovery/services/route-alpha.service.js";
-import {ref} from "vue";
 
 export default {
   name: "routes-alpha-dashboard",

@@ -5,7 +5,20 @@ export class RouteAlphaService extends BaseService {
         super('routes');
     }
 
+    async getRoutesByDistrictId(districtId) {
+        try {
+            if (!districtId || typeof districtId !== 'string') {
+                throw new Error('ID de distrito inválido');
+            }
 
+            // Usar el endpoint específico para obtener rutas por ID de distrito
+            const response = await this.http.get(`${this.resourcePath()}/district/${districtId}`);
+            return response.data;
+        }
+        catch (error) {
+            throw this._enhanceError(error);
+        }
+    }
 
     // No es necesario definir getAll() aquí, ya que se hereda de BaseService.
 }

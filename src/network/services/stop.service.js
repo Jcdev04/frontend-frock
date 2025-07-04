@@ -27,7 +27,7 @@ export class StopService extends BaseService {
             // Enriquecer cada paradero con información adicional
             return Promise.all(
                 stops.map(async stop => {
-                    const locationDetails = await this.geographyService.getLocationDetails(stop.fkIdLocality);
+                    const locationDetails = await this.geographyService.getLocationDetails(stop.fkIdDistrict);
                     return {
                         ...stop,
                         location: locationDetails.fullPath,
@@ -131,7 +131,7 @@ export class StopService extends BaseService {
                 fkIdCompany: Number(companyId),
                 address: updateData.address, //update
                 reference: updateData.reference, //update
-                fkIdLocality: updateData.fk_id_locality //update
+                fkIdDistrict: updateData.fk_id_district //update
 
                 //hay una gran diferencia entre el modelo del front y el del backend, por lo que se debe tener cuidado con los campos que se actualizan
                 //es bueno aclarar que para current se obtiene el objeto completo del backend, mientras que para updateData se obtienen solo los campos que se desean actualizar y esos atributos tienen nombres diferentes
@@ -150,7 +150,7 @@ export class StopService extends BaseService {
                 response.imageUrl,
                 response.phone,
                 response.fkIdCompany,
-                response.fkIdLocality,
+                response.fkIdDistrict,
                 response.address,
                 response.reference,
             );
@@ -182,7 +182,7 @@ export class StopService extends BaseService {
                 fkIdCompany: Number(companyId),
                 address: stopData.address,
                 reference: stopData.reference,
-                fkIdLocality: stopData.fk_id_locality
+                fkIdDistrict: stopData.fk_id_district
             });
 
             console.log("Paradero", response);
@@ -196,7 +196,7 @@ export class StopService extends BaseService {
                 response.imageUrl,
                 response.phone,
                 response.fkIdCompany,
-                response.fkIdLocality,
+                response.fkIdDistrict,
                 response.address,
                 response.reference,
         );
@@ -219,7 +219,7 @@ export class StopService extends BaseService {
         const requiredFields = {
             name: 'string',
             phone: 'string',
-            fk_id_locality: 'string',
+            fk_id_district: 'string',
             address: 'string',
             reference: 'string'
         };

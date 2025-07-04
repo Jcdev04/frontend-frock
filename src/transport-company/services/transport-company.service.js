@@ -29,4 +29,13 @@ export class TransportCompanyService extends BaseService {
             throw this._enhanceError(error);
         }
     }
+
+    async getCompanyById(companyId) {
+        try {
+            const response = await this.http.get(`${this.resourcePath()}/${companyId}`);
+            return response.data;
+        } catch (error) {
+            throw this._enhanceError(error);
+        }
+    }
 }

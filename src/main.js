@@ -2,7 +2,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-//I18n falta
+//I18n
+import { i18n } from "../public/i18n/i18n.js";
 
 //PRIMEVUE
 import PrimeVue from 'primevue/config';
@@ -65,6 +66,9 @@ app.use(PrimeVue,{
         }
     },
 });
+
+// i18n
+app.use(i18n);
 
 //router for page view
 app.use(router)

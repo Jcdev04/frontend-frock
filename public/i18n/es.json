@@ -1,0 +1,35 @@
+{
+  "login": {
+    "title": "Iniciar Sesión",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "Ingrese su correo electrónico",
+    "invalidEmail": "Correo no válido",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Ingrese su contraseña",
+    "requiredPassword": "Contraseña requerida",
+    "button": "Ingresar",
+    "loading": "Verificando...",
+    "noAccount": "¿No tienes una cuenta?",
+    "register": "Crear Cuenta",
+    "error": "Credenciales incorrectas. Intente nuevamente."
+  },
+"register": {
+    "title": "Regístrate",
+    "firstNamePlaceholder": "Nombres",
+    "lastNamePlaceholder": "Apellidos",
+    "emailPlaceholder": "Correo electrónico",
+    "passwordPlaceholder": "Contraseña",
+    "selectRole": "Registrarse como",
+    "driver": "Conductor",
+    "manager": "Gestor de empresa de transporte",
+    "selectRequired": "Seleccione un rol",
+    "required": "Campo requerido",
+    "invalidEmail": "Correo no válido",
+    "button": "Registrarse",
+    "processing": "Procesando...",
+    "success": "Registro exitoso 🎉",
+    "error": "Ocurrió un error, intenta de nuevo.",
+    "hasAccount": "¿Ya tienes una cuenta?",
+    "loginLink": "Inicia Sesión"
+  }
+}

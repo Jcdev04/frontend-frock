@@ -21,7 +21,7 @@ export default {
         phone: '',
         address: '',
         reference: '',
-        fk_id_locality: ''
+        fk_id_district: ''
       },
       locationHierarchy: [],
       submitted: false
@@ -34,7 +34,7 @@ export default {
           this.paradero.phone &&
           this.paradero.address &&
           this.paradero.reference &&
-          this.paradero.fk_id_locality;
+          this.paradero.fk_id_district;
     },
   },
 
@@ -65,8 +65,12 @@ export default {
         return;
       }
       try {
+        // Obtener companyId del localStorage
+        const user = JSON.parse(localStorage.getItem('user'));
+        this.paradero.fk_id_company = user?.companyId || '';
+
         const service = new StopService();
-        const created = await service.createStop({...this.paradero, fk_id_company: 2});
+        const created = await service.createStop({...this.paradero});
         this.$emit('created', created);
         this.$toast.add({
           severity: 'success',
@@ -83,8 +87,8 @@ export default {
           phone: '',
           address: '',
           reference: '',
-          fk_id_company: 2,
-          fk_id_locality: ''
+          fk_id_company: '',
+          fk_id_district: ''
         };
         this.submitted = false;
       } catch (err) {
@@ -136,8 +140,8 @@ export default {
         </pb-IftaLabel>
 
         <pb-IftaLabel class="labelSelectField">
-          <pb-CascadeSelect class="cascade-field" inputId="locality" v-model="paradero.fk_id_locality" :options="locationHierarchy" option-label="name" option-value="id" option-group-label="name" :option-group-children="['provinces', 'districts', 'localities']"  placeholder="Selecciona la ubicación"/>
-          <label for="locality">Localidad</label>
+          <pb-CascadeSelect class="cascade-field" inputId="district" v-model="paradero.fk_id_district" :options="locationHierarchy" option-label="name" option-value="id" option-group-label="name" :option-group-children="['provinces', 'districts']"  placeholder="Selecciona la ubicación"/>
+          <label for="district">Distrito</label>
         </pb-IftaLabel>
 
 <!--        <div class="p-field">

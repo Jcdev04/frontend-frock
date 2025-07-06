@@ -30,7 +30,7 @@ export default {
         phone: '',
         address: '',
         reference: '',
-        fk_id_locality: ''
+        fk_id_district: ''
       },
       initialParadero: null,
       locationHierarchy: [],
@@ -44,7 +44,7 @@ export default {
           this.paradero.phone &&
           this.paradero.address &&
           this.paradero.reference &&
-          this.paradero.fk_id_locality;
+          this.paradero.fk_id_district;
     },
     hasChanges() {
       if (!this.initialParadero) return false;
@@ -78,6 +78,10 @@ export default {
         return;
       }
       try {
+        // Obtener companyId del localStorage y setearlo en paradero
+        const user = JSON.parse(localStorage.getItem('user'));
+        this.paradero.fk_id_company = user?.companyId || '';
+
         const service = new StopService();
         const updated = await service.updateStop(this.paradero.id, this.paradero);
         this.$emit('updated', updated);
@@ -106,9 +110,8 @@ export default {
         phone: this.stop.phone || '',
         address: this.stop.address || '',
         reference: this.stop.reference || '',
-        fk_id_locality: this.stop.fk_id_locality || '',
-        //temporal, el company se debería obtener de la sesión
-        fk_id_company: this.stop.fk_id_company || 2, //dato hardcodeado para pruebas
+        fk_id_district: this.stop.fk_id_district || '',
+        fk_id_company: this.stop.fk_id_company || '',
       };
       this.initialParadero = { ...this.paradero };
     }
@@ -161,8 +164,8 @@ export default {
         </pb-IftaLabel>
 
         <pb-IftaLabel class="labelSelectField">
-          <pb-CascadeSelect class="cascade-field" inputId="locality" v-model="paradero.fk_id_locality" :options="locationHierarchy" option-label="name" option-value="id" option-group-label="name" :option-group-children="['provinces', 'districts', 'localities']"  placeholder="Selecciona la ubicación"/>
-          <label for="locality">Localidad</label>
+          <pb-CascadeSelect class="cascade-field" inputId="district" v-model="paradero.fk_id_district" :options="locationHierarchy" option-label="name" option-value="id" option-group-label="name" :option-group-children="['provinces', 'districts']"  placeholder="Selecciona la ubicación"/>
+          <label for="district">Distrito</label>
         </pb-IftaLabel>
 
 <!--

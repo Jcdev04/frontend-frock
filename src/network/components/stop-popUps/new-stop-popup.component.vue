@@ -88,7 +88,7 @@ export default {
           address: '',
           reference: '',
           fk_id_company: '',
-          fk_id_district: ''
+          fk_id_district: 0
         };
         this.submitted = false;
       } catch (err) {

@@ -10,8 +10,8 @@ export class StopEntity {
         if (!fk_id_company || typeof fk_id_company !== 'number' || !Number.isInteger(fk_id_company)) {
             throw new Error('Company ID is required and must be a non-empty int');
         }
-        if (!fk_id_district || typeof fk_id_district !== 'string') {
-            throw new Error('fk_id_district ID is required and must be a non-empty string');
+        if (!fk_id_district || typeof fk_id_district !== 'number' || !Number.isInteger(fk_id_district)) {
+            throw new Error('fk_id_district ID is required and must be a non-empty int');
         }
         if (phone && typeof phone !== 'string') {
             throw new Error('Phone must be a string if provided');

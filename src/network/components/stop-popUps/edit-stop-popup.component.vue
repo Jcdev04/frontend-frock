@@ -30,7 +30,7 @@ export default {
         phone: '',
         address: '',
         reference: '',
-        fk_id_district: ''
+        fk_id_district: 0
       },
       initialParadero: null,
       locationHierarchy: [],

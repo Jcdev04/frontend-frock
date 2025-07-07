@@ -131,7 +131,7 @@ export class StopService extends BaseService {
                 fkIdCompany: Number(companyId),
                 address: updateData.address, //update
                 reference: updateData.reference, //update
-                fkIdDistrict: updateData.fk_id_district //update
+                fkIdDistrict: Number(updateData.fk_id_district) //update
 
                 //hay una gran diferencia entre el modelo del front y el del backend, por lo que se debe tener cuidado con los campos que se actualizan
                 //es bueno aclarar que para current se obtiene el objeto completo del backend, mientras que para updateData se obtienen solo los campos que se desean actualizar y esos atributos tienen nombres diferentes
@@ -182,7 +182,7 @@ export class StopService extends BaseService {
                 fkIdCompany: Number(companyId),
                 address: stopData.address,
                 reference: stopData.reference,
-                fkIdDistrict: stopData.fk_id_district
+                fkIdDistrict: Number(stopData.fk_id_district)
             });
 
             console.log("Paradero", response);
@@ -219,7 +219,6 @@ export class StopService extends BaseService {
         const requiredFields = {
             name: 'string',
             phone: 'string',
-            fk_id_district: 'string',
             address: 'string',
             reference: 'string'
         };
@@ -229,6 +228,11 @@ export class StopService extends BaseService {
                 throw new Error(`Campo requerido: ${field} (debe ser ${type})`);
             }
         });
+
+        // Se añade una validación específica para fk_id_district como número
+        if (data.fk_id_district === undefined || data.fk_id_district === null || typeof data.fk_id_district !== 'number') {
+            throw new Error('Campo requerido: fk_id_district (debe ser un número)');
+        }
 
         // Validación específica para fk_id_company como número entero
         if (!data.fk_id_company ||

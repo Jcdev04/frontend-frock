@@ -16,23 +16,29 @@ export class StopService extends BaseService {
      */
     async getStopsByCompanyId(companyId) {
         try {
-
-            // Usar el endpoint específico en lugar de obtener todos y filtrar
-            const response = await this.http.get(`${this.resourcePath()}/company/${companyId}`); //el endpoint para obtner stops por companyId /api/stops/company/:companyId
+            const response = await this.http.get(`${this.resourcePath()}/company/${companyId}`);
             const stops = response.data;
-
-            // Obtener la jerarquía para enriquecer los datos
-            const hierarchy = await this.geographyService.getFullHierarchy();
 
             // Enriquecer cada paradero con información adicional
             return Promise.all(
                 stops.map(async stop => {
-                    const locationDetails = await this.geographyService.getLocationDetails(stop.fkIdDistrict);
-                    return {
-                        ...stop,
-                        location: locationDetails.fullPath,
-                        companyName: await this._getCompanyName(stop.fkIdCompany)
-                    };
+                    try {
+                        const locationDetails = await this.geographyService.getLocationDetails(stop.fkIdDistrict);
+                        const companyName = await this._getCompanyName(stop.fkIdCompany);
+
+                        return {
+                            ...stop,
+                            location: locationDetails?.fullPath || 'Ubicación no disponible',
+                            companyName: companyName || 'Empresa no disponible'
+                        };
+                    } catch (error) {
+                        console.warn(`Error enriqueciendo datos del paradero ${stop.id}:`, error);
+                        return {
+                            ...stop,
+                            location: 'Ubicación no disponible',
+                            companyName: 'Empresa no disponible'
+                        };
+                    }
                 })
             );
         } catch (error) {
@@ -51,28 +57,12 @@ export class StopService extends BaseService {
                 throw new Error('ID de compañía inválido');
             }
 
-            // Solo obtenemos los datos básicos necesarios
-
-            //Amir modified: Voy a ajustarlo para usar el endpoint específico que ya existe en el backend para obtener los paraderos de una compañía
-            //Para que ya no uses filtrado en el frontend
-
-            //No borrare lo antiguo por si acaso
-            //const stops = await this.getAll();
-            // companyStops = stops.filter(stop => stop.fk_id_company === companyId);
-
-            //nuevo:
             const response = await this.http.get(`${this.resourcePath()}/company/${companyId}`);
             const companyStops = response.data;
 
-            //NOTA EXTRA:
-            //Siempre revisar los atributos que se reciben del backend, por lo general parece ser distinto a la estuctura del modelo del front
-            //Ej: puede que exista fk_id_company en el frontEnd pero en el modelo del Backend este como fkIdCompany
-            //Por eso es importante usar Console Logs
-
-            // Formateamos para PrimeVue Select
             return companyStops.map(stop => ({
-                label: stop.name, // Lo que se mostrará en el select
-                value: stop.id,   // El valor que se guardará
+                label: stop.name,
+                value: stop.id,
             }));
         } catch (error) {
             throw this._enhanceError(error);
@@ -86,7 +76,6 @@ export class StopService extends BaseService {
      */
     async deleteStop(id) {
         try {
-            // Validaciones
             if (!id || typeof id !== 'number' ||
                 !Number.isInteger(id) ||
                 id < 0) {
@@ -106,8 +95,6 @@ export class StopService extends BaseService {
      */
     async updateStop(id, updateData) {
         try {
-
-            // Validaciones
             if (!id || typeof id !== 'number' ||
                 !Number.isInteger(id) ||
                 id < 0) {
@@ -116,33 +103,22 @@ export class StopService extends BaseService {
             this._validateStopData(updateData);
 
             const companyId = this._getCompanyIdFromLocalStorage();
-
-            // Obtener datos actuales primero
             const current = await super.getById(id);
 
-            //REDEFINIR EL OBJETO PARA QUE COINCIDA CON EL MODELO DEL BACKEND
-
-            const updatedData = { //asegurarse de que los campos coincidan con el modelo del backend
-                id: Number(current.id), //se mantiene el id actual
-                name: updateData.name, //update
+            const updatedData = {
+                id: Number(current.id),
+                name: updateData.name,
                 googleMapsUrl: current.googleMapsUrl,
                 imageUrl: current.imageUrl,
-                phone: updateData.phone, //update
+                phone: updateData.phone,
                 fkIdCompany: Number(companyId),
-                address: updateData.address, //update
-                reference: updateData.reference, //update
-                fkIdDistrict: updateData.fk_id_district //update
-
-                //hay una gran diferencia entre el modelo del front y el del backend, por lo que se debe tener cuidado con los campos que se actualizan
-                //es bueno aclarar que para current se obtiene el objeto completo del backend, mientras que para updateData se obtienen solo los campos que se desean actualizar y esos atributos tienen nombres diferentes
+                address: updateData.address,
+                reference: updateData.reference,
+                fkIdDistrict: updateData.fk_id_district
             };
 
-
-            // Actualizar
             const response = await super.update(id, updatedData);
 
-
-            //retorno del objeto creado del backend
             return new StopEntity(
                 response.id,
                 response.name,
@@ -160,7 +136,7 @@ export class StopService extends BaseService {
     }
 
     /**
-     * Crea un nuevo paradero
+     * Crea un nuevo paradero con soporte para archivos
      * @param {Object} stopData - Datos del paradero
      * @returns {Promise<StopEntity>}
      */
@@ -169,42 +145,60 @@ export class StopService extends BaseService {
             // Validaciones
             this._validateStopData(stopData);
 
-
             const companyId = this._getCompanyIdFromLocalStorage();
 
+            // Crear FormData para enviar archivos
+            const formData = new FormData();
 
-            // Crear paradero
-            const response = await super.create({ // se ordena segun el post del backend
+            // Agregar campos de texto
+            formData.append('Name', stopData.name);
+            formData.append('Phone', stopData.phone);
+            formData.append('Address', stopData.address);
+            formData.append('Reference', stopData.reference);
+            formData.append('FkIdCompany', companyId.toString());
+            formData.append('FkIdDistrict', stopData.fk_id_district);
+            formData.append('GoogleMapsUrl', stopData.google_maps_url || '');
+
+            // Agregar archivo si existe
+            if (stopData.imageFile) {
+                formData.append('ImageFile', stopData.imageFile);
+            }
+
+            // Log para debugging
+            console.log('Enviando datos del paradero:', {
                 name: stopData.name,
-                googleMapsUrl: stopData.google_maps_url || 'null',
-                imageUrl: stopData.image_url || 'null',
                 phone: stopData.phone,
-                fkIdCompany: Number(companyId),
                 address: stopData.address,
                 reference: stopData.reference,
-                fkIdDistrict: stopData.fk_id_district
+                companyId: companyId,
+                district: stopData.fk_id_district,
+                hasImage: !!stopData.imageFile
             });
 
-            console.log("Paradero", response);
+            const response = await this.http.post(this.resourcePath(), formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
 
+            console.log("Paradero creado exitosamente:", response.data);
 
-            //EXTRA
-            return new StopEntity( //el modelo del stopentity del front pero sacaremos los datos del nuevo response del backend
-                response.id,
-                response.name,
-                response.googleMapsUrl,
-                response.imageUrl,
-                response.phone,
-                response.fkIdCompany,
-                response.fkIdDistrict,
-                response.address,
-                response.reference,
-        );
+            return new StopEntity(
+                response.data.id,
+                response.data.name,
+                response.data.googleMapsUrl,
+                response.data.imageUrl,
+                response.data.phone,
+                response.data.fkIdCompany,
+                response.data.fkIdDistrict,
+                response.data.address,
+                response.data.reference,
+            );
         } catch (error) {
+            console.error('Error al crear paradero:', error);
             throw this._enhanceError(error);
         }
     }
-
 
     async _getCompanyName(companyId) {
         try {
@@ -229,14 +223,6 @@ export class StopService extends BaseService {
                 throw new Error(`Campo requerido: ${field} (debe ser ${type})`);
             }
         });
-
-        // Validación específica para fk_id_company como número entero
-        if (!data.fk_id_company ||
-            typeof data.fk_id_company !== 'number' ||
-            !Number.isInteger(data.fk_id_company) ||
-            data.fk_id_company < 0) {
-            throw new Error('El campo fk_id_company debe ser un número entero positivo');
-        }
     }
 
     _getCompanyIdFromLocalStorage() {
@@ -250,5 +236,33 @@ export class StopService extends BaseService {
             console.error('Error al obtener companyId del localStorage:', error);
             throw new Error('No se pudo obtener el ID de la compañía');
         }
+    }
+
+    _enhanceError(error) {
+        if (error.response) {
+            const status = error.response.status;
+            const message = error.response.data?.message || error.message;
+
+            switch (status) {
+                case 400:
+                    return new Error(`Datos inválidos: ${message}`);
+                case 401:
+                    return new Error('No autorizado. Por favor, inicia sesión nuevamente.');
+                case 403:
+                    return new Error('No tienes permisos para realizar esta acción.');
+                case 404:
+                    return new Error('Recurso no encontrado.');
+                case 500:
+                    return new Error('Error interno del servidor. Intenta nuevamente.');
+                default:
+                    return new Error(`Error ${status}: ${message}`);
+            }
+        }
+
+        if (error.request) {
+            return new Error('Error de conexión. Verifica tu conexión a internet.');
+        }
+
+        return error;
     }
 }

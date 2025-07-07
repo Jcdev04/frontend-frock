@@ -160,7 +160,9 @@ export default {
 
         // Redireccionar después de un breve delay
         setTimeout(() => {
-          this.$router.push(APP_ROUTES.COMPANY.HOME);
+          // Construye la ruta absoluta para evitar ambigüedades
+          const homePath = `/${APP_ROUTES.COMPANY.ROOT}/${APP_ROUTES.COMPANY.HOME}`;
+          this.$router.push(homePath); // Esto resultará en '/company/home'
         }, 1500);
 
       } catch (error) {

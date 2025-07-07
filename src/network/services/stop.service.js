@@ -213,7 +213,6 @@ export class StopService extends BaseService {
         const requiredFields = {
             name: 'string',
             phone: 'string',
-            fk_id_district: 'string',
             address: 'string',
             reference: 'string'
         };

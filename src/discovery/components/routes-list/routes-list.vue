@@ -2,6 +2,9 @@
 import { RouteService } from "../../services/routes-api.service.js";
 import RouteCard from "@/discovery/components/routes-list/route-card.vue";
 
+import { routeAlphaService } from "@/discovery/services/route-alpha.service.js";
+
+
 export default {
   name: "route-component",
   components: {RouteCard},
@@ -36,6 +39,18 @@ export default {
       this.$router.push({name: 'route-detail', params: {routeId}});
     }
   },
+
+  mounted() {
+    routeAlphaService.getAll()
+        .then(response => {
+          // 'response' aquí ya es el array de datos, porque BaseService.getAll() devuelve response.data
+          console.log('Conexión exitosa con routes:', response);
+        })
+        .catch(error => {
+          console.error('Error al conectar con routes:', error);
+        });
+  }
+
 };
 </script>
 

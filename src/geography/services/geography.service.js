@@ -1,14 +1,12 @@
 import {RegionService} from "@/geography/services/region.service.js";
 import {ProvinceService} from "@/geography/services/province.service.js";
 import {DistrictService} from "@/geography/services/district.service.js";
-import {LocalityService} from "@/geography/services/locality.service.js";
 
 export class GeographyService {
     constructor() {
         this.regionService = new RegionService();
         this.provinceService = new ProvinceService();
         this.districtService = new DistrictService();
-        this.localityService = new LocalityService();
     }
     /**
      * Obtiene la jerarquía completa de ubicaciones
@@ -16,14 +14,13 @@ export class GeographyService {
      */
     async getFullHierarchy() {
         try {
-            const [regions, provinces, districts, localities] = await Promise.all([
+            const [regions, provinces, districts] = await Promise.all([
                 this.regionService.getAll(),
                 this.provinceService.getAll(),
                 this.districtService.getAll(),
-                this.localityService.getAll()
             ]);
 
-            return this._buildHierarchy(regions, provinces, districts, localities);
+            return this._buildHierarchy(regions, provinces, districts);
         } catch (error) {
             console.error('Error loading location hierarchy:', error);
             throw new Error('Failed to load location hierarchy');
@@ -31,20 +28,17 @@ export class GeographyService {
     }
 
     /**
-     * Obtiene los detalles completos de una localidad específica
-     * @param {string} localityId - ID de la localidad
+     * Obtiene los detalles completos de un distrito específico
+     * @param {string} districtId - ID del distrito
      * @returns {Promise<Object>} Objeto con detalles completos de la ubicación
      */
-    async getLocationDetails(localityId) {
-        if (!localityId) {
+    async getLocationDetails(districtId) {
+        if (!districtId) {
             return this._getDefaultLocation();
         }
 
         try {
-            const locality = await this.localityService.getById(localityId);
-            if (!locality) return this._getDefaultLocation();
-
-            const district = await this.districtService.getById(locality.fkIdDistrict);
+            const district = await this.districtService.getById(districtId);
             if (!district) return this._getDefaultLocation();
 
             const province = await this.provinceService.getById(district.fkIdProvince);
@@ -52,11 +46,10 @@ export class GeographyService {
 
             const region = await this.regionService.getById(province.fkIdRegion);
             return {
-                locality: locality?.name || 'Desconocido',
                 district: district?.name || 'Desconocido',
                 province: province?.name || 'Desconocido',
                 region: region?.name || 'Desconocido',
-                fullPath: this._buildFullPath(locality, district, province, region)
+                fullPath: this._buildFullPath(district, province, region)
             };
         } catch (error) {
             console.error('Error getting location details:', error);
@@ -65,7 +58,7 @@ export class GeographyService {
     }
 
     // Métodos privados auxiliares
-    _buildHierarchy(regions, provinces, districts, localities) {
+    _buildHierarchy(regions, provinces, districts) {
         return regions.map(region => ({
             ...region,
             provinces: provinces
@@ -74,19 +67,13 @@ export class GeographyService {
                     ...province,
                     districts: districts
                         .filter(district => district.fkIdProvince === province.id)
-                        .map(district => ({
-                            ...district,
-                            localities: localities
-                                .filter(locality => locality.fkIdDistrict === district.id)
-                                .map(locality => locality)
+                        .map(district => district)
                         }))
-                }))
-        }));
+                }));
     }
 
-    _buildFullPath(locality, district, province, region) {
+    _buildFullPath(district, province, region) {
         const parts = [
-            locality?.name,
             district?.name,
             province?.name,
             region?.name
@@ -97,7 +84,6 @@ export class GeographyService {
 
     _getDefaultLocation() {
         return {
-            locality: 'Desconocido',
             district: 'Desconocido',
             province: 'Desconocido',
             region: 'Desconocido',

@@ -6,19 +6,56 @@ export default {
 
   data() {
     return {
+      selectedRegion: null,
+      selectedProvince: null,
       selectedDistrict: null,
     };
   },
 
   props: {
+    regions: {
+      type: Array,
+      required: true
+    },
+    provinces: {
+      type: Array,
+      required: true
+    },
     districts: {
       type: Array,
       required: true
     }
   },
 
+  computed: {
+    filteredProvinces() {
+      if (!this.selectedRegion) {
+        return [];
+      }
+      return this.provinces.filter(p => p.fkIdRegion === this.selectedRegion.id);
+    },
+    filteredDistricts() {
+      if (!this.selectedProvince) {
+        return [];
+      }
+      return this.districts.filter(d => d.fkIdProvince === this.selectedProvince.id);
+    }
+  },
+
+  watch: {
+    selectedRegion() {
+      this.selectedProvince = null;
+      this.selectedDistrict = null;
+    },
+    selectedProvince() {
+      this.selectedDistrict = null;
+    }
+  },
+
   methods: {
     clearFilter() {
+      this.selectedRegion = null;
+      this.selectedProvince = null;
       this.selectedDistrict = null;
     },
 
@@ -27,13 +64,14 @@ export default {
     },
 
     emitBuscar() {
-      this.$emit('buscar', this.selectedDistrict.id);
-      this.clearFilter();
+      if (this.selectedDistrict) {
+        this.$emit('buscar', this.selectedDistrict.id);
+      }
     },
 
     emitBorrar() {
-      this.$emit('borrar');
       this.clearFilter();
+      this.$emit('borrar');
     }
   }
 }
@@ -41,8 +79,21 @@ export default {
 
 <template>
   <div class="form-filter">
+    <!-- Region Select -->
     <pb-IftaLabel style="--p-iftalabel-color: #B4B4B4; --p-iftalabel-focus-color:#B4B4B4">
-      <pb-Select class="lol" v-model="selectedDistrict" :options="districts" optionLabel="name" placeholder="Seleccione un distrito" inputId="district" />
+      <pb-Select class="lol" v-model="selectedRegion" :options="regions" optionLabel="name" placeholder="Seleccione una región" inputId="region" />
+      <label for="region">Región</label>
+    </pb-IftaLabel>
+
+    <!-- Province Select -->
+    <pb-IftaLabel style="--p-iftalabel-color: #B4B4B4; --p-iftalabel-focus-color:#B4B4B4">
+      <pb-Select class="lol" v-model="selectedProvince" :options="filteredProvinces" optionLabel="name" placeholder="Seleccione una provincia" inputId="province" :disabled="!selectedRegion" />
+      <label for="province">Provincia</label>
+    </pb-IftaLabel>
+
+    <!-- District Select -->
+    <pb-IftaLabel style="--p-iftalabel-color: #B4B4B4; --p-iftalabel-focus-color:#B4B4B4">
+      <pb-Select class="lol" v-model="selectedDistrict" :options="filteredDistricts" optionLabel="name" placeholder="Seleccione un distrito" inputId="district" :disabled="!selectedProvince" />
       <label for="district">Distrito</label>
     </pb-IftaLabel>
 

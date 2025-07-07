@@ -4,6 +4,8 @@ import RoutesAlphaFilter from "@/discovery/components/routes-alpha/routes-alpha-
 import { routeAlphaService } from "@/discovery/services/route-alpha.service.js";
 
 import { DistrictService }  from "@/geography/services/district.service.js";
+import { RegionService } from "@/geography/services/region.service.js";
+import { ProvinceService } from "@/geography/services/province.service.js";
 
 export default {
   name: "routes-alpha-dashboard",
@@ -14,6 +16,8 @@ export default {
 
   data() {
     return {
+      regions: [],
+      provinces: [],
       districts: [],
       routes: [],
       isLoading: false,
@@ -45,17 +49,30 @@ export default {
       }
     },
 
-    async loadDistricts() {
+    async loadGeographicData() {
       try {
+        const regionService = new RegionService();
+        const provinceService = new ProvinceService();
         const districtService = new DistrictService();
-        this.districts = await districtService.getAll();
+
+        // Fetch all data in parallel
+        const [regions, provinces, districts] = await Promise.all([
+          regionService.getAll(),
+          provinceService.getAll(),
+          districtService.getAll()
+        ]);
+
+        this.regions = regions;
+        this.provinces = provinces;
+        this.districts = districts;
+
       } catch (err) {
-        this.error = `Error loading districts: ${err.message}`;
-        // Show toast
+        this.error = `Error loading geographic data: ${err.message}`;
         this.$toast.add({
           severity: 'error',
-          summary: 'Error',
-          detail: this.error
+          summary: 'Error de Carga',
+          detail: this.error,
+          life: 3000
         });
       }
     },
@@ -98,14 +115,20 @@ export default {
   },
   mounted() {
     this.loadRoutes();
-    this.loadDistricts();
+    this.loadGeographicData();
   },
 }
 </script>
 
 <template>
   <section class="routes-alpha-dashboard">
-    <routes-alpha-filter :districts="districts" @buscar="handleBuscar" @borrar="handleBorrar"/>
+    <routes-alpha-filter
+        :regions="regions"
+        :provinces="provinces"
+        :districts="districts"
+        @buscar="handleBuscar"
+        @borrar="handleBorrar"
+    />
     <routes-alpha-list :routes="routes" :isLoading="isLoading" :error="error"/>
   </section>
 </template>

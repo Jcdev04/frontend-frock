@@ -19,7 +19,7 @@ const routes = [
         component: TravellerLayout,
         children: [
             {
-                path: APP_ROUTES.PUBLIC.ROOT,
+                path: "/test",
                 component: RoutesList,
             },
             {
@@ -29,8 +29,8 @@ const routes = [
                 props: true
             },
             {
-              path: "/test",
-              name: "test",
+              path: APP_ROUTES.PUBLIC.ROOT,
+              name: "Discovery",
                 component: () => import('@/discovery/pages/routes-alpha-dashboard.vue')
             }
         ]

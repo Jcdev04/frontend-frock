@@ -10,17 +10,43 @@ export class RouteService extends BaseService{
     }
 
     async createFullRoute(routeInfo, scheduleData) {
-        try{
-            console.log(routeInfo, scheduleData)
-        }catch (error) {
+        try {
+            const daysOfWeek = [
+                'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
+            ];
+            const schedules = daysOfWeek
+                .filter(day => scheduleData[day]) // Solo los días que existan en el objeto
+                .map(day => ({
+                    dayOfWeek: day,
+                    startTime: scheduleData[day].startTime,
+                    endTime: scheduleData[day].endTime,
+                    enabled: scheduleData[day].enabled
+                }));
+            const requestBody = {
+                frequency: routeInfo.frequency,
+                price: routeInfo.price,
+                duration: routeInfo.duration,
+                stopsIds: [
+                    routeInfo.selectedFirstStop,
+                    routeInfo.selectedSecondStop
+                ],
+                schedules
+            };
+            const response = await axios.post(`${this.resourcePath()}`, requestBody);
+            return response.data;
+        } catch (error) {
             throw this._enhanceError(error);
         }
     }
-    async loadRoutesByCompany(companyId) {
+
+
+    async loadRoutesByCompanyId(companyId) {
         try {
             const response = await this.http.get(`${this.resourcePath()}/company/${companyId}`);
+
             return response.data;
         }catch (error) {
+            console.log(error)
             throw this._enhanceError(error);
         }
     }

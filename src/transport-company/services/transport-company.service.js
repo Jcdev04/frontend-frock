@@ -68,9 +68,9 @@ export class TransportCompanyService extends BaseService {
         try {
             const response = await this.http.put(`${this.resourcePath()}/${companyId}`, {
                 id: companyId,
-                name: companyData.name,
-                logoUrl: companyData.logoUrl,
-                fkIdUser: Number(companyData.fkIdUser)
+                name: companyData.companyName,
+                logoUrl: companyData.companyImgUrl,
+                fkIdUser: Number(companyData.id)
             });
 
             return response.data;

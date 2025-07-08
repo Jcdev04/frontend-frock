@@ -1,5 +1,9 @@
 <script setup>
 import { BuildingOfficeIcon } from "@heroicons/vue/24/solid/index.js";
+
+import companyInformation from "@/transport-company/pages/CompanyInformation.vue";
+
+
 </script>
 
 <template>

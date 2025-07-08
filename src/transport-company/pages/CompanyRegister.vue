@@ -147,7 +147,9 @@ export default {
         // Actualizar localStorage con la información de la empresa
         localStorage.setItem('user', JSON.stringify({
           ...userData,
-          companyId: response.id
+          companyId: response.id,
+          companyName: response.name,
+          companyImgUrl: response.logoUrl
         }));
 
         this.success = 'Empresa registrada exitosamente';

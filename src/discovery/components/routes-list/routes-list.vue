@@ -1,7 +1,6 @@
 <script>
-import { RouteService } from "../../services/routes-api.service.js";
 import RouteCard from "@/discovery/components/routes-list/route-card.vue";
-
+import {RouteService} from "@/network/services/route.service.js";
 import { routeAlphaService } from "@/discovery/services/route-alpha.service.js";
 
 
@@ -18,8 +17,8 @@ export default {
   async created() {
     const routeService = new RouteService();
     try {
-      const response = await routeService.getRouteLinks();
-      this.routes = response; // Asigna las rutas obtenidas
+      const json = JSON.parse(localStorage.getItem('user'));
+      this.routes = await routeService.loadRoutesByCompany(json.companyId); // Asigna las rutas obtenidas
     } catch (err) {
       this.error = "Failed to load routes.";
     } finally {
@@ -67,7 +66,7 @@ export default {
       >
         <route-card :start="route.start"
                     :route-info="route.route"
-                    :end="route.end"  @click="viewRouteDetails(route.route.id)"/>
+                    :end="route.end"  @click="viewRouteDetails(route.id)"/>
       </div>
     </div>
   </div>

@@ -48,19 +48,18 @@ export class StopService extends BaseService {
 
     /**
      * Obtiene paraderos formateados para uso en componentes de selección (Dropdown/Select)
-     * @param {string} companyId - ID de la compañía
+     * @param {int} companyId - ID de la compañía
      * @returns {Promise<Array<{label: string, value: string}>>}
      */
     async getStopsForSelect(companyId) {
         try {
-            if (!companyId || typeof companyId !== 'string') {
+            if (!companyId) {
                 throw new Error('ID de compañía inválido');
             }
-
             const response = await this.http.get(`${this.resourcePath()}/company/${companyId}`);
-            const companyStops = response.data;
+            const stops = response.data;
 
-            return companyStops.map(stop => ({
+            return stops.map(stop => ({
                 label: stop.name,
                 value: stop.id,
             }));

@@ -33,9 +33,6 @@ export default {
 
         this.routes = await routeAlphaService.getAll();
 
-        // Log the results to the console
-        console.log("All routes:",this.routes);
-
       } catch (err) {
         this.error = `Error loading routes: ${err.message}`;
         // Show toast

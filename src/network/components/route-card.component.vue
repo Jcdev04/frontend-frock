@@ -23,169 +23,197 @@ export default {
 </script>
 
 <template>
-  <div class="route-card">
-    <div class="route-stops">
-      <div class="stop">
-        <div class="stop-image" />
-        <div class="stop-name">{{route.stops[0].name}}</div>
-        <div class="stop-address">{{route.stops[0].address}}</div>
+  <div class="route-card-horizontal">
+    <!-- Imágenes grandes, al inicio y al final -->
+    <div class="stop-image-large">
+      <img :src="route.stops[0].image_url" alt="Origen" />
+    </div>
+    <div class="route-info-section">
+      <div class="route-stops-names">
+        <div>
+          <div class="stop-name">{{ route.stops[0].name }}</div>
+          <div class="stop-address">{{ route.stops[0].address }}</div>
+        </div>
+        <div class="swap-icon-center">
+          <i class="pi pi-arrows-h" />
+        </div>
+        <div>
+          <div class="stop-name">{{ route.stops[1].name }}</div>
+          <div class="stop-address">{{ route.stops[1].address }}</div>
+        </div>
       </div>
-      <div class="swap-icon">
-        <i class="pi pi-arrows-h" />
-      </div>
-
-      <div class="stop">
-        <div class="stop-image" />
-        <div class="stop-name">{{route.stops[1].name}}</div>
-        <div class="stop-address">{{route.stops[1].address}}</div>
+      <div class="route-info-row">
+        <div class="info-block">
+          <i class="pi pi-clock info-icon" />
+          <div>
+            <span class="info-label">Duración</span>
+            <span class="info-value">{{ route.duration }} min</span>
+          </div>
+        </div>
+        <div class="info-block">
+          <i class="pi pi-car info-icon" />
+          <div>
+            <span class="info-label">Frecuencia</span>
+            <span class="info-value">{{ route.frequency }} min</span>
+          </div>
+        </div>
+        <div class="info-block">
+          <i class="pi pi-dollar info-icon" />
+          <div>
+            <span class="info-label">Tarifa</span>
+            <span class="info-value">S/ {{ route.price }}</span>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="route-info">
-      <div class="info-block">
-        <i class="pi pi-clock info-icon blue" />
-        <div class="info-label">Duración</div>
-        <div class="info-value">{{ route.duration }}min</div>
-      </div>
-      <div class="info-block">
-        <i class="pi pi-car info-icon green" />
-        <div class="info-label">Frencuencia de salida</div>
-        <div class="info-value">{{ route.frequency }}min</div>
-      </div>
-      <div class="info-block">
-        <i class="pi pi-dollar info-icon green" />
-        <div class="info-label">Tarifa</div>
-        <div class="info-value">{{ route.price }}</div>
-      </div>
+    <div class="stop-image-large">
+      <img :src="route.stops[1].image_url" alt="Destino" />
     </div>
-
-    <section class="route-buttons">
-<!--     <Button label="Editar" :route="route" @updated="$emit('updated', $event)" icon="pi pi-pencil" class="edit-btn" />
-      --><delete-route-pop-up label="Borrar" :route-id="route.id" @deleted="$emit('deleted', $event)" icon="pi pi-trash" class="delete-btn" />
+    <section class="route-buttons-horizontal">
+      <delete-route-pop-up
+          label="Borrar"
+          :route-id="route.id"
+          @deleted="$emit('deleted', $event)"
+          icon="pi pi-trash"
+          class="delete-btn"
+      />
     </section>
   </div>
 </template>
 
 <style scoped>
-
-.route-card {
+.route-card-horizontal {
+  width: 100%;
+  margin: 16px auto;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  padding: 1rem;
-  text-align: center;
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(80, 89, 168, 0.09), 0 1.5px 4px #e5e5f7;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem 2rem;
+  transition: box-shadow 0.2s;
 }
 
-.route-stops {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 1rem;
+.route-card-horizontal:hover {
+  box-shadow: 0 16px 48px rgba(80, 89, 168, 0.16), 0 3px 10px #e5e5f7;
 }
 
-.stop {
-  flex: 1;
-}
-
-.stop-image {
-  width: 60px;
-  height: 60px;
-  background: var(--color-slate-100);
-  border-radius: 8px;
-  margin: 0 auto 0.5rem;
-}
-
-.stop-name {
-  font-weight: bold;
-}
-
-.stop-address {
-  font-size: 0.85rem;
-  color: #6b7280;
-}
-
-.swap-icon {
-  font-size: 3rem;
-  color: var(--color-slate-500);
-  margin: 0 1rem;
-  align-self: center;
-}
-
-.route-info {
-  display: flex;
-  justify-content: space-between;
-  margin: 1rem 0;
-}
-
-.info-block {
-  flex: 1;
-  text-align: center;
-}
-
-.info-icon {
-  font-size: 1.2rem;
-  margin-bottom: 0.25rem;
-  display: block;
-}
-
-.info-icon.blue {
-  color: var(--color-info);
-}
-
-.info-icon.green {
-  color: var(--color-success);
-}
-
-.info-label {
-  font-size: 0.85rem;
-  color: var(--color-slate-500);
-}
-
-.info-value {
-  font-weight: 600;
-  margin-top: 0.25rem;
-}
-
-.route-buttons{
+.stop-image-large {
+  width: 110px;
+  height: 110px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(80,89,168,0.10);
+  background: #f5f6fa;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: 0.4rem;
+  flex-shrink: 0;
 }
 
-.edit-btn {
-  border: 1px solid var(--color-info) !important;
-  color: var(--color-info);
-  background-color: var(--color-white);
-  font-weight: 500;
-  border-radius: 6px;
+.stop-image-large img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.edit-btn:hover{
-  background-color: var(--color-info) !important;
-  color: var(--color-white);
+.route-info-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.route-stops-names {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 8px;
+}
+
+.swap-icon-center {
+  color: #8b8bbe;
+  margin: 0 14px;
+  *{
+    font-size: 34px;
+
+  }
+}
+
+
+.stop-name {
+  font-weight: 700;
+  font-size: 1.18rem;
+  color: #28287b;
+  margin-bottom: 3px;
+}
+
+.stop-address {
+  font-size: 0.98rem;
+  color: #7878a3;
+  font-weight: 400;
+}
+
+.route-info-row {
+  display: flex;
+  gap: 26px;
+}
+
+.info-block {
+  background: #f5f6fa;
+  border-radius: 12px;
+  padding: 0.9rem 1.2rem;
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 110px;
+}
+
+.info-icon {
+  font-size: 25px;
+  color: #6058ea;
+}
+
+.info-label {
+  display: block;
+  font-size: 0.93rem;
+  color: #8a8aad;
+}
+
+.info-value {
+  display: block;
+  font-weight: 600;
+  font-size: 1.10rem;
+  color: #232360;
+  margin-top: -2px;
+}
+
+.route-buttons-horizontal {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-left: 24px;
 }
 
 .delete-btn {
-  border: 1px solid var(--color-danger) !important;
-  color: var(--color-danger);
-  background-color: var(--color-white);
-  font-weight: 500;
-  border-radius: 6px;
-  width: 100%;
+  border: 1.5px solid #fa5656 !important;
+  background: #fff !important;
+  color: #fa5656 !important;
+  font-weight: 600;
+  border-radius: 10px;
+  min-width: 110px;
+  padding: 10px 0;
+  transition: background 0.15s, color 0.15s;
 }
 .delete-btn:hover {
-  color: var(--color-white) !important;
-  background-color: var(--color-danger) !important;
+  background: #fa5656 !important;
+  color: #fff !important;
 }
-@media (min-width: 600px) {
-  .edit-btn,
-  .delete-btn {
-    flex: 1;
-  }
-}
+
 
 </style>

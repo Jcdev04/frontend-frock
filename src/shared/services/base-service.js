@@ -95,6 +95,7 @@ export class BaseService {
      */
     async delete(id) {
         try {
+            console.log(`${this.resourcePath()}/${id}`)
             const response = await this.http.delete(
                 `${this.resourcePath()}/${id}`
             );

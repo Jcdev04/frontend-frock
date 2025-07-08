@@ -49,7 +49,7 @@ export default {
       <p>{{ error }}</p>
     </div>
     <div v-else>
-<!--      <RouteDetailItem :route="route" :company="companies[0]"/>
+      <RouteDetailItem :route="route" :company="companies[0]"/>
       <ScheduleDetailItem :schedules="schedules.flat()"/>-->
     </div>
   </div>

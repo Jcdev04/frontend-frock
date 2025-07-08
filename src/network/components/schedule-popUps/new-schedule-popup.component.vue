@@ -107,7 +107,7 @@ const updateDaySchedule = (dayKey, schedule) => {
   }, 100)
 }
 
-const handleSave = () => {
+const handleSave = async  () => {
  if (!validateGlobalSchedule()) {
     showToast('error', 'Error', 'Por favor corrija los errores antes de continuar')
     return
@@ -120,17 +120,12 @@ const handleSave = () => {
   // 2. Creación completa de la ruta
   try {
     const appRouteService = new RouteService();
-    appRouteService.createFullRoute(routeInfo, scheduleData)
+    await appRouteService.createFullRoute(routeInfo, scheduleData)
     showToast('success', 'Éxito', 'Se ha creado una nueva ruta')
     } catch (err) {
       showToast({ severity: 'error', summary: 'Error', detail: 'No se pudo crear la ruta' })
       return
     }
-
-  //TODO resetear
-  //---
-  //---
-  //---
   // 4. Cerrar el popup
   emit('update:visibleSchedule', false)
   emit("created")

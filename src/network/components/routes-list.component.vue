@@ -34,7 +34,7 @@ export default {
     {{ error }}
   </pb-Message>
   <template v-else-if="routes.length>0">
-    <section class="rutas-grid">
+    <section>
         <routeCard
             v-for="route in routes"
             :key="route.id"

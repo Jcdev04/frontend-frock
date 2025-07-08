@@ -7,21 +7,23 @@ import {StopCircleIcon} from "@heroicons/vue/24/solid/index.js";
 import {ClockIcon} from "@heroicons/vue/24/solid/index.js";
 import CompanyInfoCard from "@/transport-company/components/CompanyEditCard.vue";
 
+// Mostrar el usuario almacenado en localStorage
+const user = JSON.parse(localStorage.getItem('user'));
+console.log('Usuario desde localStorage:', user);
+
+// Obtener nombre de empresa de user
+const companyName = user?.companyName || "tu empresa";
 </script>
 
 <template>
   <div class="home-page-header">
-    <h1>¡Usuario, te damos la bienvenida!</h1>
+    <h1>
+      ¡<span class="company-name">{{ companyName }}</span>, te damos la bienvenida!
+    </h1>
   </div>
   <section class="kpi-container">
     <h2>Resumen General</h2>
     <div class="kpi-grid">
-      <KPICard
-          :icon="CurrencyDollarIcon"
-          value="S/ 6.50"
-          label="Tarifa promedio"
-          color="#7A78FF"
-      />
       <KPICard
           :icon="MapPinIcon"
           value=12
@@ -33,12 +35,6 @@ import CompanyInfoCard from "@/transport-company/components/CompanyEditCard.vue"
           value=12
           label="Total de rutas"
           color="#478BFF"
-      />
-      <KPICard
-          :icon="ClockIcon"
-          value="30 min"
-          label="Intervalo promedio"
-          color="#FF2C2C"
       />
     </div>
   </section>
@@ -53,6 +49,14 @@ import CompanyInfoCard from "@/transport-company/components/CompanyEditCard.vue"
 .home-page-header h1{
   font-size: 2.5rem;
   color: var(--color-slate-300);
+  letter-spacing: 2px;
+}
+
+.company-name {
+  color: var(--color-primary);
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-style: italic;
 }
 
 .kpi-container{

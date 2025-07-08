@@ -118,8 +118,14 @@ async function handleLogin() {
           id: response.id,
           username: response.username,
           role: response.role,
-          companyId: companyData.id
+          companyId: companyData.id,
+          companyName: companyData.name,
+          companyImgUrl: companyData.logoUrl
         }))
+
+        //console log
+        console.log('User (company role) data:', companyData)
+
         window.location.href = '/company/home'
       } catch {
         window.location.href = '/company/onboarding'

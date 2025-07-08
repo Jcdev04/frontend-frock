@@ -5,7 +5,8 @@ export default {
   data() {
     return {
       showDropdown: false,
-
+      companyImgUrl: '', // URL de la imagen de la empresa
+      companyName: '', // Nuevo campo para el nombre de la empresa
       items: [ //para el button
         {
           label: 'Cerrar sesión',
@@ -14,6 +15,14 @@ export default {
         }
       ]
     }
+  },
+
+  created() {
+    // Obtener el nombre de la empresa del usuario en localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.companyName = user?.companyName || 'Mi Empresa';
+    this.companyImgUrl = user?.companyImgUrl || 'https://via.placeholder.com/150'; // URL por defecto si no hay imagen
+
   },
 
   methods: {
@@ -45,7 +54,20 @@ export default {
     </template>
 
     <template #end>
-      <pb-SplitButton class="profile-button" label="Mi Perfil" icon="pi pi-user" dropdownIcon="pi pi-cog" :model="items" outlined severity="help" />
+      <pb-SplitButton
+        class="profile-button"
+        dropdownIcon="pi pi-cog"
+        :model="items"
+        size="large"
+        outlined
+        severity="help"
+      >
+       <span class="flex items-center">
+            <img :src="companyImgUrl" alt="logo" style="height: 1.5rem; width: 1.5rem; border-radius: 50%; margin-right: 0.5rem;" />
+            <span>{{ companyName }}</span>
+          </span>
+
+      </pb-SplitButton>
     </template>
   </pb-Toolbar>
 </template>

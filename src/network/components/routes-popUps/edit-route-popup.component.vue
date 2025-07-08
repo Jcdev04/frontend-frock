@@ -46,7 +46,9 @@ const addRoute = async () => {
 const loadSelects = async () => {
   try {
     loading.value = true;
-    stops_origin.value = await stopService.getStopsForSelect(2); // revisar el company Id, deber ser int, por mientras esta con 2
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+    await stopService.getStopsForSelect(user.companyId); // revisar el company Id, deber ser int, por mientras esta con 2
                                                                       //Recuerda crear un company en el swagger para que funcione
   } catch (err) {
     error.value = 'Error al cargar paraderos';
@@ -108,7 +110,7 @@ onMounted(()=>{
   <pb-Button class="nueva-ruta-button" icon="pi pi-plus" label="Nueva ruta" @click="visiblePopupRoute = true"/>
   <pb-Dialog v-model:visible="visiblePopupRoute" modal :style="{ width: '50rem' }">
       <template #header>
-        <h1 class="title">Nueva Ruta</h1>
+        <h1 class="title">Editar Ruta</h1>
       </template>
         <div class="form-container">
           <pb-IftaLabel class="labelSelectField">

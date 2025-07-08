@@ -1,8 +1,8 @@
 <script>
-import { getRouteDetails } from '../services/route-api.service.js';
+
 import RouteDetailItem from '../components/route-details/route-details-item.component.vue';
 import ScheduleDetailItem from '../components/route-details/schedule-details-item.component.vue';
-
+import {RouteService} from "@/network/services/route.service.js";
 export default {
   name: "route-complete-detail",
   components: {
@@ -28,11 +28,8 @@ export default {
   async created() {
     try {
       this.loading = true;
-      const {route, stops, schedules, companies} = await getRouteDetails(this.routeId);
-      this.route = route;
-      this.stops = stops;
-      this.schedules = schedules;
-      this.companies = companies;
+      const routeService = new RouteService();
+      const routes = await routeService.getByRouteId(this.routeId);
     } catch (error) {
       console.error('Error fetching route details:', error);
       this.error = 'Failed to load route details.';
@@ -52,8 +49,8 @@ export default {
       <p>{{ error }}</p>
     </div>
     <div v-else>
-      <RouteDetailItem :route="route" :company="companies[0]"/>
-      <ScheduleDetailItem :schedules="schedules.flat()"/>
+<!--      <RouteDetailItem :route="route" :company="companies[0]"/>
+      <ScheduleDetailItem :schedules="schedules.flat()"/>-->
     </div>
   </div>
 </template>

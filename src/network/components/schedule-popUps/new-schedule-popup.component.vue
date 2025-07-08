@@ -5,7 +5,7 @@ import Message from 'primevue/message'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 import ScheduleDayCard from "@/network/components/schedule-popUps/schedule-day-card.component.vue";
-import {RouteAppService} from "@/network/services/route-app-service.js";
+import {RouteService} from "@/network/services/route.service.js";
 
 const {routeInfo} = defineProps({
   routeInfo: { type: Object },
@@ -119,7 +119,7 @@ const handleSave = () => {
 
   // 2. Creación completa de la ruta
   try {
-    const appRouteService = new RouteAppService();
+    const appRouteService = new RouteService();
     appRouteService.createFullRoute(routeInfo, scheduleData)
     showToast('success', 'Éxito', 'Se ha creado una nueva ruta')
     } catch (err) {

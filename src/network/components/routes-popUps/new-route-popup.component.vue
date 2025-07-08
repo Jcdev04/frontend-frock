@@ -46,8 +46,9 @@ const addRoute = async () => {
 const loadSelects = async () => {
   try {
     loading.value = true;
-    stops_origin.value = await stopService.getStopsForSelect(2); // revisar el company Id, deber ser int, por mientras esta con 2
-    //Recuerda crear un company en el swagger para que funcione
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+    stops_origin.value = await stopService.getStopsForSelect(user.companyId);//Recuerda crear un company en el swagger para que funcione
   } catch (err) {
     error.value = 'Error al cargar paraderos';
   } finally {

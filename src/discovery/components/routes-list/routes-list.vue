@@ -1,31 +1,34 @@
 <script>
 import RouteCard from "@/discovery/components/routes-list/route-card.vue";
-import {RouteService} from "@/network/services/route.service.js";
-import { routeAlphaService } from "@/discovery/services/route-alpha.service.js";
-
+import { RouteService } from "@/network/services/route.service.js";
 
 export default {
   name: "route-component",
-  components: {RouteCard},
+  components: { RouteCard },
   data() {
     return {
-      routes: [], // Almacena las rutas obtenidas
-      isLoading: true, // Estado de carga
-      error: null, // Estado de error
+      routes: [],
+      isLoading: false,
+      error: null,
     };
   },
-  async created() {
-    const routeService = new RouteService();
-    try {
-      const json = JSON.parse(localStorage.getItem('user'));
-      this.routes = await routeService.loadRoutesByCompany(json.companyId); // Asigna las rutas obtenidas
-    } catch (err) {
-      this.error = "Failed to load routes.";
-    } finally {
-      this.isLoading = false;
-    }
+  created() {
+    this.fetchRoutes();
   },
   methods: {
+    async fetchRoutes() {
+      this.isLoading = true;
+      this.error = null;
+      try {
+        const json = JSON.parse(localStorage.getItem('user'));
+        const routeService = new RouteService();
+        this.routes = await routeService.loadRoutesByCompanyId(json.companyId);
+      } catch (err) {
+        this.error = "No se encontraron rutas para esta empresa.";
+      } finally {
+        this.isLoading = false;
+      }
+    },
     formatPrice(price) {
       return `S/${price.toFixed(2)}`;
     },
@@ -35,21 +38,9 @@ export default {
       return hours > 0 ? `${hours}hr ${mins > 0 ? mins + "min" : ""}` : `${mins}min`;
     },
     viewRouteDetails(routeId) {
-      this.$router.push({name: 'route-detail', params: {routeId}});
-    }
-  },
-
-  mounted() {
-    routeAlphaService.getAll()
-        .then(response => {
-          // 'response' aquí ya es el array de datos, porque BaseService.getAll() devuelve response.data
-          console.log('Conexión exitosa con routes:', response);
-        })
-        .catch(error => {
-          console.error('Error al conectar con routes:', error);
-        });
+      this.$router.push({ name: "route-detail", params: { routeId } });
+    },
   }
-
 };
 </script>
 
@@ -63,14 +54,14 @@ export default {
           v-for="route in routes"
           :key="route.id"
           class="route-card"
+          @click="viewRouteDetails(route.id)"
       >
-        <route-card :start="route.start"
-                    :route-info="route.route"
-                    :end="route.end"  @click="viewRouteDetails(route.id)"/>
+        <route-card :route-info="route" />
       </div>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .route-list-container {

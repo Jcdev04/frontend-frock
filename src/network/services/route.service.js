@@ -12,7 +12,7 @@ export class RouteService extends BaseService{
     async createFullRoute(routeInfo, scheduleData) {
         try {
             const daysOfWeek = [
-                'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
+                'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'
             ];
             const schedules = daysOfWeek
                 .filter(day => scheduleData[day]) // Solo los días que existan en el objeto
@@ -43,7 +43,6 @@ export class RouteService extends BaseService{
     async loadRoutesByCompanyId(companyId) {
         try {
             const response = await this.http.get(`${this.resourcePath()}/company/${companyId}`);
-
             return response.data;
         }catch (error) {
             console.log(error)

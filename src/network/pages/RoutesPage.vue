@@ -16,21 +16,21 @@ const error = ref(null)
 const loadRoutes = async () => {
   isLoading.value = true
   error.value = null
-
+  console.log("emitiendo")
   try {
     const json = JSON.parse(localStorage.getItem('user'));
     const routeAppService = new RouteService();
     routes.value = await routeAppService.loadRoutesByCompanyId(json.companyId);
-
   } catch (err) {
-
-
+    console.log(err)
     let message = "Error al cargar rutas";
     // Si el error es de Axios (o similar), tendrá error.response
+    routes.value = []
     if (err.value) {
       message = "No se encontraron rutas para esta empresa (404).";
     } else if (err.message) {
-      if (err.message.includes('404')) {
+      console.log(err.message);
+      if (err.message.includes('404') || err.message.includes('encontrado')) {
         return ;
       }
       message = `Error al cargar rutas: ${err.message}`;

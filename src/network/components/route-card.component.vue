@@ -27,18 +27,17 @@ export default {
     <div class="route-stops">
       <div class="stop">
         <div class="stop-image" />
-        <div class="stop-name">{{route.stopStart.name}}</div>
-        <div class="stop-address">{{route.stopStart.address}}</div>
+        <div class="stop-name">{{route.stops[0].name}}</div>
+        <div class="stop-address">{{route.stops[0].address}}</div>
       </div>
-
       <div class="swap-icon">
         <i class="pi pi-arrows-h" />
       </div>
 
       <div class="stop">
         <div class="stop-image" />
-        <div class="stop-name">{{route.stopEnd.name}}</div>
-        <div class="stop-address">{{route.stopEnd.address}}</div>
+        <div class="stop-name">{{route.stops[1].name}}</div>
+        <div class="stop-address">{{route.stops[1].address}}</div>
       </div>
     </div>
 

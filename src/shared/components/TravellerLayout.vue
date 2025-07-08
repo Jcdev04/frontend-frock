@@ -15,9 +15,9 @@
     <!-- Botón de perfil -->
     <div class="profile">
       <router-link :to="`${APP_ROUTES.AUTH.ROOT}/${APP_ROUTES.AUTH.LOGIN}`">
-        <button class="profile-btn">
+        <pb-Button class="profile-btn">
           ¿Gestionas colectivos?
-        </button>
+        </pb-Button>
       </router-link>
     </div>
   </header>
@@ -81,11 +81,19 @@ export default {
   gap: 0.5rem;
   background: transparent;
   border: 1px solid #6b63ff;
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 0.5rem 1rem;
   color: #6b63ff;
   font-weight: 500;
   cursor: pointer;
+
+  transition: background-color 0.3s, border-color 0.3s;
+
+  --p-button-primary-hover-background: #6b63ff;
+  --p-button-primary-active-background: #e0e7ff;
+
+  --p-button-primary-hover-border-color: #6b63ff;
+  --p-button-primary-active-border-color: #6b63ff;
 }
 
 .profile-btn .icon {

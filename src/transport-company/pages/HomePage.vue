@@ -1,18 +1,43 @@
 <script setup>
-
+import { ref, onMounted } from 'vue';
 import KPICard from "@/transport-company/components/KPICard.vue";
 import {CurrencyDollarIcon} from "@heroicons/vue/24/solid/index.js";
 import {MapPinIcon} from "@heroicons/vue/24/solid/index.js";
 import {StopCircleIcon} from "@heroicons/vue/24/solid/index.js";
 import {ClockIcon} from "@heroicons/vue/24/solid/index.js";
 import CompanyInfoCard from "@/transport-company/components/CompanyEditCard.vue";
+import { StopService } from "@/network/services/stop.service.js";
+import { RouteAlphaService } from "@/discovery/services/route-alpha.service.js";
 
-// Mostrar el usuario almacenado en localStorage
 const user = JSON.parse(localStorage.getItem('user'));
-console.log('Usuario desde localStorage:', user);
-
-// Obtener nombre de empresa de user
 const companyName = user?.companyName || "tu empresa";
+const companyId = user?.companyId;
+
+const totalStops = ref(0);
+const totalRoutes = ref(0);
+
+onMounted(async () => {
+  if (companyId) {
+    const stopService = new StopService();
+    const routeService = new RouteAlphaService();
+
+    try {
+      const stops = await stopService.getStopsByCompanyId(companyId);
+      totalStops.value = stops.length;
+    } catch (error) {
+      console.error("Error al obtener paraderos:", error);
+      totalStops.value = 0;
+    }
+
+    try {
+      const routes = await routeService.getRoutesByCompanyId(companyId);
+      totalRoutes.value = routes.length;
+    } catch (error) {
+      console.error("Error al obtener rutas:", error);
+      totalRoutes.value = 0;
+    }
+  }
+});
 </script>
 
 <template>
@@ -26,13 +51,13 @@ const companyName = user?.companyName || "tu empresa";
     <div class="kpi-grid">
       <KPICard
           :icon="MapPinIcon"
-          value=12
+          :value="totalStops"
           label="Total de paraderos"
           color="#00A652"
       />
       <KPICard
           :icon="StopCircleIcon"
-          value=12
+          :value="totalRoutes"
           label="Total de rutas"
           color="#478BFF"
       />

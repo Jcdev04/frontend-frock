@@ -7,12 +7,28 @@ export class RouteAlphaService extends BaseService {
 
     async getRoutesByDistrictId(districtId) {
         try {
-            if (!districtId || typeof districtId !== 'string') {
-                throw new Error('ID de distrito inválido');
-            }
+            //if (!districtId || typeof districtId !== 'string') {
+            //    throw new Error('ID de distrito inválido');
+            //}
 
             // Usar el endpoint específico para obtener rutas por ID de distrito
             const response = await this.http.get(`${this.resourcePath()}/district/${districtId}`);
+            return response.data;
+        }
+        catch (error) {
+            throw this._enhanceError(error);
+        }
+    }
+
+    //get routes by companyId
+    async getRoutesByCompanyId(companyId) {
+        try {
+            //if (!companyId || typeof companyId !== 'string') {
+            //    throw new Error('ID de compañía inválido');
+            //}
+
+            // Usar el endpoint específico para obtener rutas por ID de compañía
+            const response = await this.http.get(`${this.resourcePath()}/company/${companyId}`);
             return response.data;
         }
         catch (error) {

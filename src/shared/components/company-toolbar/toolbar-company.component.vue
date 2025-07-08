@@ -63,7 +63,7 @@ export default {
         severity="help"
       >
        <span class="flex items-center">
-            <img :src="companyImgUrl" alt="logo" style="height: 1.5rem; width: 1.5rem; border-radius: 50%; margin-right: 0.5rem;" />
+            <img :src="companyImgUrl" alt="logo" style="height: 1.5rem; width: 1.5rem; border-radius: 40%; margin-right: 0.5rem;" />
             <span>{{ companyName }}</span>
           </span>
 

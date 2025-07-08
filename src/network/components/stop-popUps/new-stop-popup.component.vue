@@ -1,7 +1,9 @@
 <script>
 import { ref } from "vue";
 import { StopService } from '@/network/services/stop.service.js';
-import {GeographyService} from "@/geography/services/geography.service.js";
+import { RegionService } from "@/geography/services/region.service.js";
+import { ProvinceService } from "@/geography/services/province.service.js";
+import { DistrictService } from "@/geography/services/district.service.js";
 
 export default {
   name: "popUpNewStop",
@@ -30,9 +32,15 @@ export default {
         fk_id_district: '',
         imageFile: null
       },
-      locationHierarchy: [],
       submitted: false,
-      isUploading: false
+      isUploading: false,
+
+      // Nuevos datos para selectores en cascada
+      regions: [],
+      provinces: [],
+      districts: [],
+      selectedRegion: null,
+      selectedProvince: null,
     };
   },
 
@@ -46,16 +54,35 @@ export default {
     },
   },
 
+  watch: {
+    async selectedRegion(newRegionId) {
+      this.selectedProvince = null;
+      this.provinces = [];
+      if (newRegionId) {
+        const provinceService = new ProvinceService();
+        this.provinces = await provinceService.getAll({ fkIdRegion: newRegionId });
+      }
+    },
+    async selectedProvince(newProvinceId) {
+      this.paradero.fk_id_district = null;
+      this.districts = [];
+      if (newProvinceId) {
+        const districtService = new DistrictService();
+        this.districts = await districtService.getAll({ fkIdProvince: newProvinceId });
+      }
+    }
+  },
+
   methods: {
-    async loadDropdowns() {
+    async loadRegions() {
       try {
-        const service = new GeographyService();
-        this.locationHierarchy = await service.getFullHierarchy();
+        const regionService = new RegionService();
+        this.regions = await regionService.getAll();
       } catch (err) {
         this.$toast.add({
           severity: 'error',
           summary: 'Error',
-          detail: `Error al cargar opciones: ${err.message}`,
+          detail: `Error al cargar regiones: ${err.message}`,
           life: 3000
         });
       }
@@ -157,6 +184,14 @@ export default {
       }
     },
 
+    clearLocation() {
+      this.selectedRegion = null;
+      this.selectedProvince = null;
+      this.paradero.fk_id_district = null;
+      this.provinces = [];
+      this.districts = [];
+    },
+
     resetForm() {
       this.paradero = {
         name: '',
@@ -169,6 +204,7 @@ export default {
       };
       this.submitted = false;
       this.removeImage();
+      this.clearLocation();
     },
 
     onDialogHide() {
@@ -177,7 +213,7 @@ export default {
   },
 
   mounted() {
-    this.loadDropdowns();
+    this.loadRegions();
   }
 };
 </script>
@@ -185,7 +221,7 @@ export default {
 <template>
   <pb-Button class="nuevo-paradero-button" icon="pi pi-plus" label="Nuevo Paradero" @click="visiblePop = true"/>
 
-  <pb-Dialog v-model:visible="visiblePop" modal :style="{ width: '50rem' }" @hide="onDialogHide">
+  <pb-Dialog v-model:visible="visiblePop" modal :style="{ width: '60rem' }" @hide="onDialogHide">
     <template #header>
       <h1 class="title">Nuevo Paradero</h1>
     </template>
@@ -217,21 +253,54 @@ export default {
           <pb-InputText id="reference" v-model="paradero.reference" placeholder="Ej: Frente al Teatro" class="input-field"/>
         </pb-IftaLabel>
 
-        <!-- Campo de Distrito -->
-        <pb-IftaLabel class="labelSelectField">
-          <pb-CascadeSelect
-              class="cascade-field"
-              inputId="district"
-              v-model="paradero.fk_id_district"
-              :options="locationHierarchy"
-              option-label="name"
-              option-value="id"
-              option-group-label="name"
-              :option-group-children="['provinces', 'districts']"
-              placeholder="Selecciona la ubicación"
+        <!-- Selectores de Ubicación -->
+        <div class="location-selectors-container">
+          <pb-IftaLabel class="labelSelectField flex-grow-1">
+            <pb-Select
+                v-model="selectedRegion"
+                :options="regions"
+                optionLabel="name"
+                optionValue="id"
+                placeholder="Región"
+                class="input-field"
+            />
+            <label>Región</label>
+          </pb-IftaLabel>
+
+          <pb-IftaLabel class="labelSelectField flex-grow-1">
+            <pb-Select
+                v-model="selectedProvince"
+                :options="provinces"
+                optionLabel="name"
+                optionValue="id"
+                placeholder="Provincia"
+                :disabled="!selectedRegion || provinces.length === 0"
+                class="input-field"
+            />
+            <label>Provincia</label>
+          </pb-IftaLabel>
+
+          <pb-IftaLabel class="labelSelectField flex-grow-1">
+            <pb-Select
+                v-model="paradero.fk_id_district"
+                :options="districts"
+                optionLabel="name"
+                optionValue="id"
+                placeholder="Distrito"
+                :disabled="!selectedProvince || districts.length === 0"
+                class="input-field"
+            />
+            <label>Distrito</label>
+          </pb-IftaLabel>
+
+          <pb-Button
+              icon="pi pi-trash"
+              severity="danger"
+              @click="clearLocation"
+              type="button"
+              class="clear-location-button"
           />
-          <label for="district">Distrito</label>
-        </pb-IftaLabel>
+        </div>
 
         <!-- Campo de Imagen -->
         <div class="image-upload-section">
@@ -298,6 +367,28 @@ export default {
 </template>
 
 <style scoped>
+.location-selectors-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.clear-location-button {
+  height: 42px; /* Alinea la altura con los inputs */
+  width: 42px;
+  flex-shrink: 0;
+}
+
+.input-field{
+  --p-select-border-color: #CCCCFF;
+  --p-select-hover-border-color: #9b9bfd;
+  --p-select-focus-border-color: #8282e8;
+
+  --p-select-placeholder-color: #B4B4B4;
+
+  --p-select-dropdown-color: #B4B4B4;
+}
+
 .cascade-field {
   border-color: var(--color-off);
   --p-cascadeselect-focus-border-color: var(--color-primary);
@@ -331,15 +422,24 @@ export default {
 .image-select-button {
   background-color: #f8f9fa;
   border: 2px dashed var(--color-off);
-  color: var(--color-primary);
+  color: #5a5ad7; /* Color base para el icono y texto */
   padding: 20px;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s, color 0.3s; /* Transición suave */
+  font-weight: 500;
 }
 
-.image-select-button:hover {
-  background-color: #e9ecef;
-  border-color: var(--color-primary);
+.image-select-button:hover.p-button:hover {
+  --p-button-primary-hover-background: #f0f4ff; /* Color de fondo sutil al pasar el mouse */
+  --p-button-primary-hover-color: #3c3cb7; /* Color del texto al pasar el mouse */
+  border: 2px dashed var(--color-off);
+
+  --p-button-primary-hover-border-color: var(--color-off); /* Mantiene el color del borde original */
+}
+
+.image-select-button.p-button:active {
+  background-color: #e0e7ff; /* Tono más oscuro para el estado active */
+  border: 2px dashed var(--color-off); /* Mantiene el borde igual */
 }
 
 .image-preview-container {

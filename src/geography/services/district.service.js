@@ -9,7 +9,13 @@ export class DistrictService extends BaseService {
     //el get all se incluye gracias a la herencia de BaseService
 
     async getByProvince(provinceId) {
-        const data = await this.http.get(`${this.resourcePath()}?fk_id_province=${provinceId}`);
-        return data.map(item => new District(item));
+        try {
+            const response = await this.http.get(`${this.resourcePath()}/province/${provinceId}`);
+
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching provinces by province:', error);
+            throw new Error('Failed to fetch districts by province');
+        }
     }
 }

@@ -59,16 +59,20 @@ export default {
       this.selectedProvince = null;
       this.provinces = [];
       if (newRegionId) {
+        console.log('Región seleccionada ID:', newRegionId);
         const provinceService = new ProvinceService();
-        this.provinces = await provinceService.getAll({ fkIdRegion: newRegionId });
+        this.provinces = await provinceService.getByRegion(newRegionId);
+        console.log('Provincias cargadas:', this.provinces);
       }
     },
     async selectedProvince(newProvinceId) {
       this.paradero.fk_id_district = null;
       this.districts = [];
       if (newProvinceId) {
+        console.log('Provincia seleccionada ID:', newProvinceId);
         const districtService = new DistrictService();
-        this.districts = await districtService.getAll({ fkIdProvince: newProvinceId });
+        this.districts = await districtService.getByProvince(newProvinceId);
+        console.log('Distritos cargados:', this.districts);
       }
     }
   },

@@ -37,8 +37,8 @@ export default {
         this.error = `Error loading routes: ${err.message}`;
         // Show toast
         this.$toast.add({
-          severity: 'error',
-          summary: 'Error',
+          severity: 'info',
+          summary: 'Information',
           detail: this.error
         });
       } finally {

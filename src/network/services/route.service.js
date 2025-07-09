@@ -12,7 +12,7 @@ export class RouteService extends BaseService{
     async createFullRoute(routeInfo, scheduleData) {
         try {
             const daysOfWeek = [
-                'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'
+                'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
             ];
             const schedules = daysOfWeek
                 .filter(day => scheduleData[day]) // Solo los días que existan en el objeto
@@ -32,6 +32,9 @@ export class RouteService extends BaseService{
                 ],
                 schedules
             };
+
+            console.log(schedules);
+
             const response = await axios.post(`${this.resourcePath()}`, requestBody);
             return response.data;
         } catch (error) {

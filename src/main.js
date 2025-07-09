@@ -44,6 +44,12 @@ import ConfirmationService from 'primevue/confirmationservice';
 //FORMS
 import { Form } from '@primevue/forms';
 
+import ImageCompare from 'primevue/imagecompare';
+
+import Galleria from 'primevue/galleria';
+
+
+
 
 //ROUTER
 import router from './router'
@@ -103,6 +109,13 @@ app.component('pb-ColumnGroup', ColumnGroup);
 app.component('pb-Row', Row);
 //IMAGE
 app.component('pb-Image', Image);
+app.component('pb-ImageCompare', ImageCompare);
+
+app.component('pb-Galleria', Galleria);
+
+
+
+
 
 //FORMS
 app.component('pb-Form', Form);

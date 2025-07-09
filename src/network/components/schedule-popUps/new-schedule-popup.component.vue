@@ -120,6 +120,7 @@ const handleSave = async  () => {
   // 2. Creación completa de la ruta
   try {
     const appRouteService = new RouteService();
+
     await appRouteService.createFullRoute(routeInfo, scheduleData)
     showToast('success', 'Éxito', 'Se ha creado una nueva ruta')
     } catch (err) {

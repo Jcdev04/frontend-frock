@@ -1,9 +1,18 @@
 <script>
+
+import DetailsRouteAlphaPopupComponent from "@/discovery/components/routes-alpha/details-route-alpha-popup.component.vue";
+
+
 export default {
   name: "route-alpha-card",
 
+  components: {
+    DetailsRouteAlphaPopupComponent
+  },
+
   //objeto ruta que fetchearemos desde la API
   props: ['route', 'companyName']
+
 }
 </script>
 
@@ -11,18 +20,25 @@ export default {
   <pb-Card class="route-alpha-card">
     <template #header>
       <div class="image-container">
-        <img src="https://picsum.photos/300/360" alt="test-image">
+        <pb-ImageCompare class="shadow-lg rounded-2xl">
+          <template #left>
+            <img :src="route.stops[0]?.image_url || 'https://picsum.photos/300/360'" alt="Punto de partida" class="compare-image" />
+          </template>
+          <template #right>
+            <img :src="route.stops[1]?.image_url || 'https://picsum.photos/300/361'" alt="Punto de llegada" class="compare-image" />
+          </template>
+        </pb-ImageCompare>
       </div>
     </template>
 
     <template #content>
       <div class="card-content-inner">
         <div class = "stops-name-container">
-          <p>{{ route.stops[0].name }} - {{ route.stops[1].name }}</p>
+          <p>{{ route.stops[0].name }} <-> {{ route.stops[1].name }}</p>
         </div>
 
         <div class="company-container">
-          <p>{{ companyName }}</p>
+          <p><strong>Empresa:</strong> {{ companyName }}</p>
         </div>
 
         <div class="route-details-container">
@@ -42,7 +58,13 @@ export default {
             <p>S/{{route.price}}</p>
           </div>
         </div>
+        <DetailsRouteAlphaPopupComponent :route="route"/>
+
       </div>
+
+    </template>
+
+    <template #footer>
     </template>
 
   </pb-Card>
@@ -51,8 +73,8 @@ export default {
 <style scoped>
 
 .route-alpha-card {
-  width: 300px;
-  height: 360px;
+  width: 400px;
+  height: 410px;
 
   display: flex;
   flex-direction: column;
@@ -76,17 +98,23 @@ export default {
 
 }
 
-.image-container img{
+/* Se elimina el estilo anterior para la imagen */
+
+.image-container :deep(.p-image-compare) {
+  height: 100%;
+}
+
+.image-container :deep(.compare-image) {
   width: 100%;
-  height: auto;
-  transform: scale(1.1);
+  height: 100%;
+  object-fit: cover;
 }
 
 .card-content-inner {
   display: flex;
   flex-direction: column;
   padding: 15px 20px;
-  gap: 5px;
+  gap: 10px;
 }
 
 .stops-name-container{

@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/(|test|routes/:routeId|auth(/login|/register)?|company(/onboarding|/home|/stops|/routes|/information|/profile)?|traveller(/collections|/collection/:collectionId)?)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

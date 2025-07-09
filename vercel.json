@@ -1,12 +1,20 @@
 {
   "rewrites": [
-    {
-      "source": "/(|test|routes/:routeId|auth(/login|/register)?|company(/onboarding|/home|/stops|/routes|/information|/profile)?|traveller(/collections|/collection/:collectionId)?)",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/test", "destination": "/index.html" },
+    { "source": "/routes/:routeId", "destination": "/index.html" },
+    { "source": "/auth", "destination": "/index.html" },
+    { "source": "/auth/login", "destination": "/index.html" },
+    { "source": "/auth/register", "destination": "/index.html" },
+    { "source": "/company", "destination": "/index.html" },
+    { "source": "/company/onboarding", "destination": "/index.html" },
+    { "source": "/company/home", "destination": "/index.html" },
+    { "source": "/company/stops", "destination": "/index.html" },
+    { "source": "/company/routes", "destination": "/index.html" },
+    { "source": "/company/information", "destination": "/index.html" },
+    { "source": "/company/profile", "destination": "/index.html" },
+    { "source": "/traveller/collections", "destination": "/index.html" },
+    { "source": "/traveller/collection/:collectionId", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

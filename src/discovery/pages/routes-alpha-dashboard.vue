@@ -30,12 +30,21 @@ export default {
       this.isLoading = true;
       this.error = null;
       try {
-
+        this.routes = []
         this.routes = await routeAlphaService.getAll();
 
       } catch (err) {
-        this.error = `Error loading routes: ${err.message}`;
+        let message =  `Error loading routes: ${err.message}`;
         // Show toast
+        if (err.value) {
+          this.error = "No se encontraron rutas para esta empresa (404).";
+        } else if (err.message) {
+          if (err.message.includes('404') || err.message.includes('encontrado')) {
+            return ;
+          }
+          this.error = `Error al cargar rutas: ${err.message}`;
+        }
+        this.routes = []
         this.$toast.add({
           severity: 'info',
           summary: 'Information',
@@ -48,6 +57,7 @@ export default {
 
     async loadGeographicData() {
       try {
+        this.routes = []
         const regionService = new RegionService();
         const provinceService = new ProvinceService();
         const districtService = new DistrictService();
@@ -64,7 +74,18 @@ export default {
         this.districts = districts;
 
       } catch (err) {
-        this.error = `Error loading geographic data: ${err.message}`;
+        let message = `Error loading geographic data: ${err.message}`;
+        if (err.value) {
+          message = "No se encontraron rutas para esta empresa (404).";
+        } else if (err.message) {
+          if (err.message.includes('404') || err.message.includes('encontrado')) {
+            return ;
+          }
+          message = `Error al cargar rutas: ${err.message}`;
+        }
+        this.routes = []
+
+        this.error = message
         this.$toast.add({
           severity: 'error',
           summary: 'Error de Carga',
@@ -75,14 +96,26 @@ export default {
     },
 
     async loadFilteredRoutes(districtId) {
+      this.routes = []
       this.isLoading = true;
       this.error = null;
       try {
         this.routes = await routeAlphaService.getRoutesByDistrictId(districtId);
         console.log("Filtered routes by district", this.routes);
       } catch (err) {
-        this.error = `Error loading filtered routes: ${err.message}`;
+        let message = `Error loading filtered routes: ${err.message}`;
         // Show toast
+
+        if (err.value) {
+          message = "No se encontraron rutas para esta empresa (404).";
+        } else if (err.message) {
+          if (err.message.includes('404') || err.message.includes('encontrado')) {
+            return ;
+          }
+          message = `Error al cargar rutas: ${err.message}`;
+        }
+        this.routes = []
+        this.error  = message
         this.$toast.add({
           severity: 'error',
           summary: 'Error',

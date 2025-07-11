@@ -5,6 +5,7 @@ Given('el usuario está en la página de registro', () => {
 });
 
 When('completa todos los campos requeridos con datos válidos', () => {
+    //adding
     cy.get('.form-group:nth-child(1) > input').type('Jesus');         // Nombres
     cy.get('.form-group:nth-child(2) > input').type('Castillo');      // Apellidos
     const uniqueEmail = `testuser_${Date.now()}@mail.com`

@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "json-server": "json-server --watch server/db.json --port 3000",
     "test:e2e": "cypress run",
+    "test:ordered": "cypress run --spec 'cypress/e2e/step_definitions/00_register/signup.feature'  && cypress run --spec 'cypress/e2e/step_definitions/02_add-bus-stop/add-bus-stop.feature' && cypress run --spec 'cypress/e2e/step_definitions/03_edit-name-company/edit-name.feature' && cypress run --spec 'cypress/e2e/step_definitions/04_delete-bus-stop/delete-bus-stop.feature' && cypress run --spec 'cypress/e2e/step_definitions/05_delete-route/delete-route.feature'",
     "cypress:open": "cypress open"
+
   },
   "dependencies": {
     "@heroicons/vue": "^2.2.0",

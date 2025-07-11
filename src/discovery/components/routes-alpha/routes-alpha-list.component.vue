@@ -98,11 +98,12 @@ export default {
 <style scoped>
 .container-rutas {
   /**/
-  width: 100%;
+  width: 2000px;
 
   /**/
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 
   /**/
   gap: 20px;

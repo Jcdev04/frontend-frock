@@ -23,17 +23,17 @@ When('completa el formulario de paradero con datos válidos', () => {
 });
 
 When('selecciona la región, provincia y distrito', () => {
-    cy.wait(500);
+    cy.wait(1000);
     cy.contains('label', 'Región').parent().find('.p-select-dropdown').click();
-    cy.wait(500);
+    cy.wait(1000);
     cy.get('body').contains('AREQUIPA').click();
-    cy.wait(500);
+    cy.wait(1000);
     cy.contains('label', 'Provincia').parent().find('.p-select-dropdown').click();
-    cy.wait(500);
+    cy.wait(1000);
     cy.get('body').contains('CAMANA').click();
-    cy.wait(500);
+    cy.wait(1000);
     cy.contains('label', 'Distrito').parent().find('.p-select-dropdown').click();
-    cy.wait(500);
+    cy.wait(1000);
     cy.get('body').contains('OCOÑA').click();
 });
 

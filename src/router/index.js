@@ -1,93 +1,108 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '@/views/auth/Login.vue'
-import RegisterView from '@/views/auth/Register.vue'
-import CompanyRegisterView from '@/views/auth/Company-register.vue'
-import StopsList from "@/components/stops/component/StopsList.vue";
+import LoginView from '@/access-and-identity/pages/Login.vue'
+import RegisterView from '@/access-and-identity/pages/Register.vue'
+import CompanyRegisterView from '@/transport-company/pages/CompanyRegister.vue'
+import RoutesPage from '@/network/pages/RoutesPage.vue'
+import RouteCompleteDetailsComponent from "@/discovery/pages/route-complete-details.component.vue";
+import StopsPage from "@/network/pages/StopsPage.vue";
+import HomePage from "@/transport-company/pages/HomePage.vue";
+import CompanyLayout from "@/shared/components/CompanyLayout.vue";
+import RoutesList from "@/discovery/components/routes-list/routes-list.vue"
+import TravellerLayout from "@/shared/components/TravellerLayout.vue";
+import {APP_ROUTES} from "@/shared/services/routes.js";
+import CompanyInformation from "@/transport-company/pages/CompanyInformation.vue";
 
-// Importamos un componente placeholder para las rutas que aún no están implementadas
-const PlaceholderView = {
-    template: '<div class="placeholder"><h2>Esta página está en desarrollo</h2><p>Próximamente disponible</p></div>',
-    style: `
-    .placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: calc(100vh - 60px);
-      text-align: center;
-      padding: 20px;
-    }
-    h2 {
-      margin-bottom: 10px;
-      color: #333;
-    }
-    p {
-      color: #666;
-    }
-  `
-}
-
-// Definimos las rutas
 const routes = [
+    /*ROUTES FOR PUBLIC AND TRAVELLER DASHBOARD*/
     {
-        path: '/',
-        name:"Stops-List",
-        component: StopsList
+        path: "/",
+        component: TravellerLayout,
+        children: [
+            {
+                path: "/test",
+                component: RoutesList,
+            },
+            {
+                path: APP_ROUTES.PUBLIC.ROUTES,
+                name: "route-detail",
+                component: RouteCompleteDetailsComponent,
+                props: true
+            },
+            {
+              path: APP_ROUTES.PUBLIC.ROOT,
+              name: "Discovery",
+                component: () => import('@/discovery/pages/routes-alpha-dashboard.vue')
+            }
+        ]
     },
+    /*ROUTES FOR AUTHENTICATION*/
     {
-        path: '/inicio',
-        name: 'Inicio',
-        component: PlaceholderView
+        path: APP_ROUTES.AUTH.ROOT,
+        redirect: APP_ROUTES.AUTH.ROOT +"/"+ APP_ROUTES.AUTH.LOGIN,
+        children: [
+            {
+                path: APP_ROUTES.AUTH.LOGIN,
+                name: "LoginView",
+                component: LoginView,
+            },
+            {
+                path: APP_ROUTES.AUTH.REGISTER,
+                component: RegisterView,
+            },
+        ]
     },
-    {
-        path: '/paraderos',
-        name: 'Paraderos',
-        component: PlaceholderView
+    /* ROUTES FOR COMPANY*/
+   {
+        path: "/"+APP_ROUTES.COMPANY.ROOT,
+        children: [
+            {
+                path: APP_ROUTES.COMPANY.ONBOARDING,
+                component: CompanyRegisterView,
+            },
+            {
+                path: "",
+                component: CompanyLayout,
+                children: [
+                    {
+                        path: APP_ROUTES.COMPANY.HOME,
+                        component: HomePage
+                    },
+                    {
+                        path: APP_ROUTES.COMPANY.STOPS,
+                        component: StopsPage,
+                    },
+                    {
+                        path: APP_ROUTES.COMPANY.ROUTES,
+                        component: RoutesPage,
+                    },
+                    {
+                        path: APP_ROUTES.COMPANY.INFORMATION,
+                        component: CompanyInformation,
+                    }
+                ]
+
+            }
+        ]
     },
-    {
-        path: '/rutas',
-        name: 'Rutas',
-        component: PlaceholderView
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: LoginView // Actualizado para usar el componente de login
-    },
-    {
-        path: '/register',
-        name: 'Register',
-        component: RegisterView // Nueva ruta para el registro
-    },
-    {
-        path: '/register-company',
-        name: 'RegisterCompany',
-        component: CompanyRegisterView // Nueva ruta para el registro de empresa
-    },
-    // Ruta para manejar rutas no encontradas
-    {
-        path: '/:pathMatch(.*)*',
-        redirect: '/inicio'
-    }
+
 ]
+
 const router = createRouter({
     history: createWebHistory(),
     routes
 })
-
-// Aquí puedes agregar guardias de navegación para verificar la autenticación
-// Por ejemplo:
 /*
+// Guardia de navegación para proteger rutas que requieren autenticación
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('token') !== null
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+    const isAuthenticated = localStorage.getItem('auth_token') !== null
 
-  // Si la ruta requiere autenticación y el usuario no está autenticado
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    next('/login')
-  } else {
-    next()
-  }
-})
-*/
+    // Si la ruta requiere autenticación y el usuario no está autenticado, redirigir a login
+    if (requiresAuth && !isAuthenticated) {
+        next('/login')
+    } else {
+        next()
+    }
+})*/
 
 export default router
